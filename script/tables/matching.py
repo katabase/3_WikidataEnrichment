@@ -18,6 +18,7 @@ names = {
     "aug": "auguste",
     "ch": "charles",
     "cl": "claude",
+    "dom": "dominique",
     "emm": "emmanuel",
     "ed": "edouard",
     "et": "etienne",
@@ -27,6 +28,7 @@ names = {
     "franc": "françois",
     "franç": "françois",
     "fréd": "frédéric",
+    "j ant": "jean-antoine",
     "g": "guillaume",
     "guill": "guillaume",
     "gab": "gabriel",
@@ -49,6 +51,7 @@ names = {
 comp_names = {
     "arm ch": "armand-charles",
     "ch m": "charles-marie",
+    "ch l f": "charles-louis-françois",
     "f m": "francois-marie",
     "fr emm.": "françois-emmanuel",
     "j f": "jean-francois",
@@ -63,6 +66,7 @@ comp_names = {
     "franc rené": "francois-rené",
     "m madeleine": "marie-madeleine",
     "ph h": "philippe henri",
+    "p aug": "pierre auguste",
     "p alex": "pierre alexandre",
     "p j": "pierre-jean",
     "j sylvain": "jean-sylvain",
@@ -166,7 +170,8 @@ functions = {
     "journaliste": "journalist",
     "inventeur": "inventor",
     "chimiste": "chemist",
-    "connétable": "constable"
+    "connétable": "constable",
+    "archevêque": "archbishop"
 }
 
 # messy regex to match roman numerals and their french number suffixes:

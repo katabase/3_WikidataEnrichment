@@ -169,33 +169,29 @@ def prep_query(in_data, prev):
             # full name is much simpler to extract: the format is "Last name (first name)"
             # first extract the first name from the parenthesis and try to build a full name;
             # then, extract the last name outside the parenthesis
-
-            # ################## THERE'S A BUG HERE IN THE FIRST REPLACEMENT :
-            # THE ABBREVIATED NAME IS NOT DELETED ##################
-
             else:
-                # if the string is not completely empty, try to match a complete name that might have gone unnoticed
+                # if the string is not completely empty, try to extract a name that might have gone unnoticed
                 if not re.search("^\s*(\s|d'|de|dit|,)*\s*$", inp.replace(matchstr, "")):
-                    print("&&&")
-                    if rgx_complnm(inp.replace(matchstr, "")) is not None:
-                        # rebuild the name from the remaining strings in inp: str.find()
-                        # returns the starting position of a substring in a string and
-                        # is used to get the relative position of the firstnm (rebuilt complete
-                        # name extracted from matchstr) compared to the additional
-                        # matched name (addnm)
-                        addnm = rgx_complnm(inp.replace(matchstr, ""))
+                    if len(namebuild(inp.replace(matchstr, ""))[0]) > 0:  # if we can match a name
+                        # rebuild additional names that names that have gone unnoticed:
+                        # extract a name, assign it to addnm and build fname
+                        addnm = namebuild(inp.replace(matchstr, ""))[0]  # the rebuild name; the abv and rebuilt
+                        #                                                  returned by namebuild() have aldready been
+                        #                                                  assigned when calling namebuld the 1st time
+                        # print(f"input string: {inp}")
+                        # print(f"first name : {firstnm}")
+                        # print(f"additional name: {addnm}")
                         if "père" in inp and "Dumas" in name:
                             add = "père"
                         elif "fils" in inp and "Dumas" in name:
                             add = "fils"
                         else:
                             add = ""
+
+                        # reorder the name : relative position of matchstr and addnm in inp
                         if inp.find(matchstr) < inp.find(addnm):
-                            print(1)
                             fname = re.sub("\s+", " ", f"{firstnm} {add} {addnm}").lower()
                         else:
-                            print(2)
-                            print(f"{addnm} --- {add} --- {firstnm}")
                             fname = re.sub("\s+", " ", f"{addnm} {add} {firstnm}").lower()
                 else:
                     # match alexandre dumas père / fils (quite a lot of entries on them)
@@ -315,6 +311,7 @@ def launch_query(qstr):
 
     # print results
     js = r.json()
+
     print(js)  # response in JSON
     print(js["query"]["search"][0]["title"])  # first ID
 

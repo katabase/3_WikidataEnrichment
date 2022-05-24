@@ -103,7 +103,7 @@ def rgx_complnm(nstr):
     :return:
     """
     mo = re.search(r"(^|\s)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]+"
-                   + "((\s|-)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]+)*", nstr)
+                   + "((\s|-)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]+)*($|\s)", nstr)
     if mo is not None:
         return mo[0]
     else:
@@ -139,7 +139,7 @@ def namebuild(nstr):
 
     # CASE 1 - if it is a composed abbreviated first name, try to build a full version
     if rgx_abvcomp(nstr) is not None:
-        abvcomp = rgx_abvcomp(nstr)  # try to match an abbreviated composed name
+        abvcomp = rgx_abvcomp(nstr)  # the abbreviated composed name
         matchstr = abvcomp
         # clean the composed name
         abvcomp = re.sub(r"(^\s|\s$|\.)", "", abvcomp)
@@ -148,7 +148,7 @@ def namebuild(nstr):
         # try to get the complete form from the composed name dictionary
         for k, v in comp_names.items():
             if abvcomp == k:
-                firstnm = v
+                firstnm = v  # replace add the complete version of the matched name to firstnm
                 rebuilt = True
                 abv = False  # boolean indicating wether firstnm contains abbreviations
 
@@ -175,14 +175,14 @@ def namebuild(nstr):
             # the full name is added to firstnm ; else, firstnm stays empty: initials don't give results
             # in wikidata
             for name, found in ndict.items():
-                if found is False:  # if a full version hasn't been found
+                if found is False:  # if a full version hasn't been found for an initial (name)
                     for k, v in names.items():
                         if name == k:
                             firstnm += f"{v} "  # add the full version to the name
                             found = True
                             ndict[k] = True  # indicate that the full name has been found
                             rebuilt = True
-            # check whether there are still abbreviations in the name to give a value du abv
+            # check whether there are still abbreviations in the name to give a value to abv
             if False in ndict.values():
                 abv = True
             else:
@@ -190,7 +190,7 @@ def namebuild(nstr):
 
     # CASE 2 - if it is a "simple" (non-composed) abbreviated name, try to build a full name
     elif rgx_abvsimp(nstr) is not None:
-        abvsimp = rgx_abvsimp(nstr)  # try to match an abbreviated non-composed name
+        abvsimp = rgx_abvsimp(nstr)  # the abbreviated non-composed name
         matchstr = abvsimp
         abvsimp = re.sub(r"(^\s|\s$|\.)", "", abvsimp).lower()
         # try to get the complete name from the names dictionary
@@ -212,7 +212,5 @@ def namebuild(nstr):
     # CASE 4 - if no name is matched, the string is not rebuilt
     else:
         abv = None  # neither true nor false, since there are no names
-
-    print(firstnm)
 
     return firstnm, matchstr, rebuilt, abv
