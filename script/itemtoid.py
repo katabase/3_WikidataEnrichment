@@ -3,8 +3,8 @@ import json
 import csv
 import re
 
-from tables.matching import comp_names, names, status, provinces, dpts, colonies, \
-    countries, events, other, functions, rgx_roman
+from tables.matching import status, provinces, dpts, colonies, \
+    countries, events, other, functions
 from rgx import namebuild, rgx_complnm
 
 # get a wikidata id from a full text query
@@ -36,7 +36,7 @@ def prep_query(in_data, prev):
     dates = ""  # dates of life/death of a person (in tei:trait or in tei:name for historical events)
     function = ""  # functions occupied by a person (in tei:trait)
     rebuilt = False  # wether a person's first name has been rebuilt from an abbreviation
-    abv = None  # wether a person's first name contains abbreviations
+    # abv = None  # wether a person's first name contains abbreviations
     name = in_data[0]  # tei:name
     trait = in_data[1]  # tei:trait
 
@@ -44,7 +44,8 @@ def prep_query(in_data, prev):
     parenth = re.search(r"\(.+\)?", name)  # check if there's text inside the parenthesis
     if parenth is not None:
         inp = re.sub(r"\(|\)", "", parenth[0])  # text in parenthesis
-        firstnm, matchstr, rebuilt, abv = namebuild(inp)  # try to extract the full name
+        # firstnm, matchstr, rebuilt, abv = namebuild(inp)  # try to extract the full name
+        firstnm, matchstr, rebuilt = namebuild(inp)  # try to extract the full name
     else:
         inp = ""
         matchstr = ""  # so that the case 4 condition doesn't fail
@@ -274,7 +275,7 @@ def prep_query(in_data, prev):
         "dates": dates,
         "function": function,
         "rebuilt": rebuilt,
-        "abv": abv
+        # "abv": abv
     }
     qdata_prev = qdata  # in case an entry is labeled "le même", aka the same person as the entry before
 
@@ -282,43 +283,116 @@ def prep_query(in_data, prev):
     return qdata, qdata_prev
 
 
-def launch_query(qstr):
+def request(qstr):
     """
-    get the wikipedia id from a full text query and launch the http get query
-    :param qstr: the query string (i.e., name for which we want a wikidata id)
+    run a full text search on wikidata and return the result
+    :param qstr: the query string
     :return:
     """
-
-    # IF THERE ARE SEVERAL NOBILITY TITLES, SHOULD THE QUERY BE REBUILT WITH ALL THE NOBILITY TITLES ?
-
-    # build query url
+    # build query url, define parameters and define headers :
+    # - set a user-agent, as per the api's etiquette (https://www.mediawiki.org/wiki/API:Etiquette);
+    # - accept gzip encoding (makes requests faster)
     url = "https://www.wikidata.org/w/api.php"
     headers = {
         "User-Agent": "katabot/1.0 (https://katabase.huma-num.fr/) python/requests/2.27.1",
         "Accept-Encoding": "gzip"
-    }  # set a user-agent, as per the api's etiquette (https://www.mediawiki.org/wiki/API:Etiquette);
-    #    gzip encoding makes requests faster
+    }
     params = {
         "action": "query",
         "list": "search",
-        "srsearch": qstr,
+        "srsearch": qstr.strip(),
         "srlimit": 1,
         "format": "json"
-    }  # build request parameters
+    }
 
-    # launch query
-    r = requests.get(url, params=params)
-
-    # print results
+    # launch query and return the person's wikidata id
+    r = requests.get(url, params=params, headers=headers)
     js = r.json()
+    try:
+        w_id = js["query"]["search"][0]["title"]
+    except IndexError:
+        w_id = ""
+    return w_id
 
-    print(js)  # response in JSON
-    print(js["query"]["search"][0]["title"])  # first ID
+
+def relaunch_query(qstr, qdict, avail, w_id):
+    """
+    relaunch a query for launch_query() if it fails : remove one parameter at
+    a time and relaunch the query
+    :return:
+    """
+    print("called")
+    for a in avail:
+        qstr = re.sub(r"\s+", " ", qstr.replace(qdict[a], ""))
+        w_id = request(qstr=qstr)
+        print("hi")
+        print(w_id)
+        if w_id != "":
+            break  # info has been found. stop looping
+        else:
+            qstr = re.sub(r"\s+", " ", f"{qstr} {qdict[a]}")  # add the removed parameter
+            #                                                   before looping on another param
+    return w_id
+
+
+def launch_query(qdict):
+    """
+    build a wikidata full text search from a dictionary of structured data
+    (see build_query()).
+    :param qdict: the query string (i.e., name for which we want a wikidata id)
+    :return:
+    """
+    # check which info is available and build the query string.
+    avail = []  # dictionary indicating which infos are available in qdict
+    for k, v in qdict.items():
+        if isinstance(v, str):
+            # if there is data for a key in qdict (there's a date...) ; flname and lname
+            # are not to be excluded, except if rebuilt is true (see below)
+            if not re.match(r"^\s*$", v) and not re.search("(fname|lname)", k):
+                avail.append(k)
+    print(avail)
+
+    # build query string. the first query is made with all available data
+    qstr = re.sub(r"\s+", " ", f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
+            {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}").lower()
+
+    # CHECK THE RESULTS OF DIFFERENT ORDER OF ELEMENTS IN THE ABOVE STRING
+    # ########################################################
+
+    # launch query if there is info on which to be queried
+    if not re.match(r"^\s*$", qstr):
+        w_id = request(qstr=qstr)
+
+        # extra behaviour if there's no result : delete first name if it was rebuilt,
+        # remove one of qdict parameters per query (except for lname and fname)
+        if w_id == "":
+            # relaunch the query without the rebuilt name
+            if qdict["rebuilt"] is True:
+                qstr = qstr.replace(qdict["fname"], "")
+                w_id = request(qstr=qstr)
+                if w_id == "":
+                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail, w_id=w_id)
+            else:
+                w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail, w_id=w_id)
+
+            # if all else fails, remove the first name (a french version of the name
+            # can be in the catalogs, while a foreign version only is on wikidata) and relaunch the query
+            if w_id == "" and not re.search(r"^\s*$", qdict["fname"]):
+                qstr = re.sub(r"\s+", " ", qstr.replace(qdict["fname"], ""))
+                w_id = request(qstr=qstr)
+                if w_id == "":
+                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail, w_id=w_id)
+
+    # if after all no id is found
+    else:
+        w_id = ""
+
+    return w_id
 
 
 def itemtoid():
     """
-    launch the query on all entries of wd_nametable.csv
+    launch the query on all entries of nametable_in.tsv
     :return:
     """
     with open("tables/wd_nametable.tsv", mode="r", encoding="utf-8") as fh:
@@ -327,6 +401,7 @@ def itemtoid():
         for row in reader:
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
+            launch_query(qdict)
 
 
 # ================= LAUNCH THE SCRIPT ================= #

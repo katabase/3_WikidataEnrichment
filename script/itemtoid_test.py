@@ -5,7 +5,7 @@ import csv
 import re
 import os
 
-from itemtoid import prep_query
+from itemtoid import prep_query, launch_query
 
 
 # ================= TESTING FUNCTIONS ================= #
@@ -169,12 +169,12 @@ def itemtoid_test():
     # build the test dictionaries data
     for k, v in test_base.items():
         if v["success"] != 0:
-            test_base[k]["success"] = round((v["success"] / v["total"] * 100), 2)
+            test_base[k]["success"] = round((v["success"] / v["total"] * 100), 2)  # calculate a %
         else:
-            test_base[k]["success"] = 0
+            test_base[k]["success"] = 0  # avoid divisions by 0
     for k, v in test_rebuilt.items():
         if v["success"] != 0:
-            test_rebuilt[k]["success"] = round((v["success"] / v["total"] * 100), 2)
+            test_rebuilt[k]["success"] = round((v["success"] / v["total"] * 100), 2)  # calculate a %
         else:
             test_rebuilt[k]["success"] = 0
 
@@ -189,6 +189,32 @@ def itemtoid_test():
     return None
 
 
+def second_test():
+    with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
+        reader = csv.reader(fh, delimiter="\t")
+        nrow = 0
+        prev = {}
+        test_final = {"success": 0, "total": 0}
+        trows = sum(1 for row in reader)  # total number of rows
+        fh.seek(0)
+
+        for row in tqdm(reader, desc="retrieving IDs from the wikidata API", total=trows):
+            in_data = [row[2], row[3]]  # input data on which to launch a query
+            qdict, prev = prep_query(in_data, prev)
+            # test_base, test_rebuilt = test_query(qdict, test_base, test_rebuilt, nrow)
+            w_id = launch_query(qdict)
+            if w_id == read_id(nrow):
+                test_final["success"] += 1
+            test_final["total"] += 1
+            nrow += 1
+
+    print(test_final)
+    if test_final["success"] != 0 and test_final["total"] != 0:
+        test_final["success"] = round((test_final["success"] / test_final["total"] * 100), 2)
+    print(test_final)
+
+
 # ================= LAUNCH THE SCRIPT ================= #
 if __name__ == "__main__":
-    itemtoid_test()
+    # itemtoid_test()
+    second_test()

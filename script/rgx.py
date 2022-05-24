@@ -133,7 +133,7 @@ def namebuild(nstr):
     matchstr = ""  # the matched string
     rebuilt = False  # boolean indicating wether the first name is rebuild (can be trusted)
     #                  or not
-    abv = None  # boolean indicating wether the name contains an abbreviation or not:
+    # abv = None  # boolean indicating wether the name contains an abbreviation or not:
     #             we try to rebuild a full name from abbreviation, but can't always; in
     #             that case, abv is True to indicate that the name contains an abv
 
@@ -150,7 +150,7 @@ def namebuild(nstr):
             if abvcomp == k:
                 firstnm = v  # replace add the complete version of the matched name to firstnm
                 rebuilt = True
-                abv = False  # boolean indicating wether firstnm contains abbreviations
+                # abv = False  # boolean indicating wether firstnm contains abbreviations
 
         # if no composed name is returned, try to rebuild a composed name
         # - first, try to rebuild the composed name from a smaller set of letters
@@ -166,7 +166,7 @@ def namebuild(nstr):
                     firstnm += f"{v} "  # add the full matched name
                     k = k.split()  # split the matching composed name in a list to mark the terms
                     #                list items as matched in ndict
-                    abv = False
+                    # abv = False
                     for i in k:
                         ndict[i] = True  # mark matched subnames as true
                     rebuilt = True
@@ -183,10 +183,10 @@ def namebuild(nstr):
                             ndict[k] = True  # indicate that the full name has been found
                             rebuilt = True
             # check whether there are still abbreviations in the name to give a value to abv
-            if False in ndict.values():
-                abv = True
-            else:
-                abv = False
+            # if False in ndict.values():
+            #     abv = True
+            # else:
+            #     abv = False
 
     # CASE 2 - if it is a "simple" (non-composed) abbreviated name, try to build a full name
     elif rgx_abvsimp(nstr) is not None:
@@ -198,19 +198,20 @@ def namebuild(nstr):
             if abvsimp == k:
                 firstnm = v
                 rebuilt = True
-                abv = False
-        if abv is None:
-            abv = True
+                # abv = False
+        # if abv is None:
+        #     abv = True
 
     # CASE 3 - if it is a full name, keep it that way
     elif rgx_complnm(nstr) is not None:
         complnm = rgx_complnm(nstr)  # try to match a full name
         matchstr = complnm
         firstnm = complnm.lower()
-        abv = False
+        # abv = False
 
     # CASE 4 - if no name is matched, the string is not rebuilt
-    else:
-        abv = None  # neither true nor false, since there are no names
+    # else:
+    #     abv = None  # neither true nor false, since there are no names
+    return firstnm, matchstr, rebuilt
 
-    return firstnm, matchstr, rebuilt, abv
+    # return firstnm, matchstr, rebuilt, abv
