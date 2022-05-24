@@ -77,10 +77,14 @@ def test_query(qdict, test_base, test_rebuilt, nrow):
     # queried for the whole dataset
     if idlist[0] == read_id(nrow):
         test_base["fname lname"]["success"] += 1
-    test_base["fname lname"]["total"] += 1
+        test_base["fname lname"]["total"] += 1
+    else:
+        test_base["fname lname"]["total"] += 1
     if idlist[1] == read_id(nrow):
         test_rebuilt["fname lname"]["success"] += 1
-    test_rebuilt["fname lname"]["total"] += 1
+        test_rebuilt["fname lname"]["total"] += 1
+    else:
+        test_rebuilt["fname lname"]["total"] += 1
 
     # build different srsearch params and launch queries
     qspecs = ["nobname_sts", "status", "dates", "function"]  # keys of qdict for the different queries to run
@@ -90,6 +94,7 @@ def test_query(qdict, test_base, test_rebuilt, nrow):
 
             # build the same two queries as before, depending on the value of qdict["rebuilt"]
             idlist = []
+            # for each name, retrieve an id and append it to the list
             for name in namelist:
                 qstr = re.sub(r"\s+", " ", f"{name} {qdict[q]}")
                 if not re.match(r"^\s*$", qstr):
@@ -106,22 +111,17 @@ def test_query(qdict, test_base, test_rebuilt, nrow):
                     idlist.append("")  # if there is no data to query, don't launch the query
 
             # add statistical data indicating success and number of times
-            # q has been queried for the whole dataset
-            if idlist[0] == read_id(nrow):
-                test_base["fname lname"]["success"] += 1
-            test_base["fname lname"]["total"] += 1
-            if idlist[1] == read_id(nrow):
-                test_rebuilt["fname lname"]["success"] += 1
-            test_rebuilt["fname lname"]["total"] += 1
-
-            # add statistical data indicating success and number of times this type of 
-            # data (dates, nobility titles...) has been queried
+            # data (dates, nobility titles...) has been queried and the number of times we got the right anwser
             if idlist[0] == read_id(nrow):
                 test_base[f"fname lname {q}"]["success"] += 1
-            test_base[f"fname lname {q}"]["total"] += 1
+                test_base[f"fname lname {q}"]["total"] += 1
+            else:
+                test_base[f"fname lname {q}"]["total"] += 1
             if idlist[1] == read_id(nrow):
                 test_rebuilt[f"fname lname {q}"]["success"] += 1
-            test_rebuilt[f"fname lname {q}"]["total"] += 1
+                test_rebuilt[f"fname lname {q}"]["total"] += 1
+            else:
+                test_rebuilt[f"fname lname {q}"]["total"] += 1
 
     return test_base, test_rebuilt
 
