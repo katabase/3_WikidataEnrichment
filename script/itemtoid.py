@@ -130,6 +130,39 @@ def prep_query(in_data, prev):
                         fname = "french department"
                         lname = d
 
+    # CASE 5 - it's related to an historical event
+
+    # SMH "REVOLUTION FRANCAISE" IS NOT MATCHED
+
+    elif any(e in re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower().split() for e in events):
+        # specicy that the "revolution" is the french revolution if there's no other info except dates
+        name = re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower()
+        print(name)
+        if re.search(r"^(r[eé]volution|\s|de|\d{4})*$", name):
+            print("ok")
+            fname = "french revolution"
+            if re.search(r"\d{4}", name) is not None:
+                dates = re.search(r"\d{4}", name)[0]
+            else:
+                dates = ""
+        elif re.search(r"^(guerre|\s|de|\d{4})*$", name):
+            print("ok")
+            fname = "french war"
+            if re.search(r"\d{4}", name) is not None:
+                dates = re.search(r"\d{4}", name)[0]
+            else:
+                dates = ""
+        else:
+            for k, v in events.items():
+                if k in name or name == k:
+                    fname = v
+                    if re.search(r"\d{4}", name) is not None:
+                        dates += re.search(r"\d{4}", name)[0] + " "
+
+        print(fname, lname, dates)
+        print("_________________")
+
+
     # CASE 5 - it's (considered to be) a name (yay!)
     else:
         if inp != "":
@@ -432,7 +465,7 @@ def itemtoid():
         for row in reader:
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
-            launch_query(qdict)
+            # launch_query(qdict)
 
 
 # ================= LAUNCH THE SCRIPT ================= #

@@ -323,6 +323,7 @@ dpts = [
 
 # pre-revolution french provinces
 provinces = [
+    "armagnac",
     "île-de-france",
     "berry",
     "orléanais",
@@ -439,6 +440,7 @@ countries = {
     "etats-unis d'amérique": "united states of america",
     "états-unis": "united states of america",
     "etats-unis": "united states of america",
+    "italie": "italy",
     "grèce": "greece",
     "canada": "canada",
     "chine": "china",
@@ -469,12 +471,16 @@ countries = {
 
 # events are translated to something that returns a result in wikidata
 events = {
+    "révolution française": "french revolution",
+    "revolution francaise": "french revolution",
+    "guerre de trente ans": "thirty years' war 1618 1648",
+    "guerre de cent ans": "hundred years' war 1337 1453",
     "guerre": "war",
     "insurrection": "war",
+    "siège de mayence": "siege of mainz",
     "siège": "siege",
     "commune": "commune",
     "défense": "battle",
-    "révolution française": "french revolution",
     "révolution": "revolution"
 }
 
