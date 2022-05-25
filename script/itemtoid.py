@@ -289,6 +289,10 @@ def request(qstr):
     :param qstr: the query string
     :return:
     """
+    # remove duplicate words from qstr
+    qstr = qstr.lower().split()
+    qstr_ddp = " ".join(sorted(set(qstr), key=qstr.index))
+
     # build query url, define parameters and define headers :
     # - set a user-agent, as per the api's etiquette (https://www.mediawiki.org/wiki/API:Etiquette);
     # - accept gzip encoding (makes requests faster)
@@ -300,10 +304,12 @@ def request(qstr):
     params = {
         "action": "query",
         "list": "search",
-        "srsearch": qstr.strip(),
+        "srsearch": qstr_ddp.strip(),
         "srlimit": 1,
         "format": "json"
     }
+
+    print(qstr_ddp)
 
     # launch query and return the person's wikidata id
     r = requests.get(url, params=params, headers=headers)
@@ -312,21 +318,27 @@ def request(qstr):
         w_id = js["query"]["search"][0]["title"]
     except IndexError:
         w_id = ""
+    except KeyError:
+        w_id = ""
     return w_id
 
 
-def relaunch_query(qstr, qdict, avail, w_id):
+def relaunch_query(qstr, qdict, avail):
     """
     relaunch a query for launch_query() if it fails : remove one parameter at
     a time and relaunch the query
     :return:
     """
-    print("called")
+    if len(list(qdict["dates"].split())) == 2:
+        dates = list(qdict["dates"].split())
+        qstr_dates = re.sub(r"\s+", " ", qstr.replace(dates[0], ""))
+        w_id = request(qstr_dates)
+        if w_id == "":
+            qstr_dates = re.sub(r"\s+", " ", qstr.replace(dates[1], ""))
+            w_id = request(qstr_dates)
     for a in avail:
         qstr = re.sub(r"\s+", " ", qstr.replace(qdict[a], ""))
         w_id = request(qstr=qstr)
-        print("hi")
-        print(w_id)
         if w_id != "":
             break  # info has been found. stop looping
         else:
@@ -350,7 +362,6 @@ def launch_query(qdict):
             # are not to be excluded, except if rebuilt is true (see below)
             if not re.match(r"^\s*$", v) and not re.search("(fname|lname)", k):
                 avail.append(k)
-    print(avail)
 
     # build query string. the first query is made with all available data
     qstr = re.sub(r"\s+", " ", f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
@@ -366,22 +377,42 @@ def launch_query(qdict):
         # extra behaviour if there's no result : delete first name if it was rebuilt,
         # remove one of qdict parameters per query (except for lname and fname)
         if w_id == "":
+            # if there's a nobility name, try to remove the fname or lname or both (conditions 1, 2, 3)
+            # if all else fails, relaunch_query without fname or lname
+            if qdict["nobname_sts"] != "":
+                if qdict["fname"] != "":
+                    qstr = qstr.replace(qdict["fname"], "")
+                    w_id = request(qstr=qstr)
+                if w_id == "" and qdict["lname"] != "":
+                    qstr = qstr.replace(qdict["lname"], "")
+                    if not re.match(r"^\s*?", qdict["fname"]):
+                        qstr = qstr + f" {qdict['fname']} "
+                    w_id = request(qstr=qstr)
+                if w_id == "" and qdict["fname"] != "" and qdict["lname"] != "":
+                    qstr = qstr.replace(qdict["fname"], "")
+                    qstr = qstr.replace(qdict["lname"], "")
+                    w_id = request(qstr=qstr)
+                if w_id != "":
+                    relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+
+            # remove a parameter and relaunch the query
+            elif len(avail) >= 1:
+                w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+
             # relaunch the query without the rebuilt name
-            if qdict["rebuilt"] is True:
+            elif qdict["rebuilt"] is True:
                 qstr = qstr.replace(qdict["fname"], "")
                 w_id = request(qstr=qstr)
-                if w_id == "":
-                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail, w_id=w_id)
-            else:
-                w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail, w_id=w_id)
+                if w_id == "" and len(avail) >= 1:
+                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
 
             # if all else fails, remove the first name (a french version of the name
             # can be in the catalogs, while a foreign version only is on wikidata) and relaunch the query
             if w_id == "" and not re.search(r"^\s*$", qdict["fname"]):
                 qstr = re.sub(r"\s+", " ", qstr.replace(qdict["fname"], ""))
                 w_id = request(qstr=qstr)
-                if w_id == "":
-                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail, w_id=w_id)
+                if w_id == "" and len(avail) >= 1:
+                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
 
     # if after all no id is found
     else:

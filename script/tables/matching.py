@@ -150,6 +150,7 @@ functions = {
     "orateur": "politician",
     "député": "politician",
     "secrétaire d'état": "politician",
+    "sénateur": "politician",
     "écrivain": "writer",
     "auteur": "writer",
     "romancier": "writer",
@@ -171,7 +172,10 @@ functions = {
     "inventeur": "inventor",
     "chimiste": "chemist",
     "connétable": "constable",
-    "archevêque": "archbishop"
+    "archevêque": "archbishop",
+    "évêque": "bishop",
+    "docteur": "physicist",
+    "médecin": "physicist"
 }
 
 # messy regex to match roman numerals and their french number suffixes:

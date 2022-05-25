@@ -1,5 +1,6 @@
-import requests
+from itertools import combinations, permutations
 from tqdm import tqdm
+import requests
 import json
 import csv
 import re
@@ -212,6 +213,35 @@ def second_test():
     if test_final["success"] != 0 and test_final["total"] != 0:
         test_final["success"] = round((test_final["success"] / test_final["total"] * 100), 2)
     print(test_final)
+
+
+def count_empty():
+    """
+    count number of empty cells in test and complete dictionary to ensure that
+    the test dataset represents well the whole dataset
+    :return:
+    """
+    statdict = {"test": {"percent empty": 0, "empty rows": 0, "total rows": 0},
+                "real": {"percent empty": 0, "empty rows": 0, "total rows": 0}}
+    with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
+        reader = csv.reader(fh, delimiter="\t")
+        for r in reader:
+            if re.match(r"^\s*$", r[3]):
+                statdict["test"]["empty rows"] += 1
+            statdict["test"]["total rows"] += 1
+    with open("tables/nametable_in.tsv", mode="r", encoding="utf-8") as fh:
+        reader = csv.reader(fh, delimiter="\t")
+        for r in reader:
+            if re.match(r"^\s*$", r[3]):
+                statdict["real"]["empty rows"] += 1
+            statdict["real"]["total rows"] += 1
+    for k in statdict.keys():
+        statdict[k]["percent empty"] = round(statdict[k]["empty rows"] / statdict[k]["total rows"] * 100, 2)
+    descs_to_add = round(statdict["test"]["empty rows"] -
+                         (statdict["test"]["total rows"] * (statdict["real"]["percent empty"] / 100)), 1)
+    print(statdict)
+    print(f"Number of descriptions to add to the test dataset: {descs_to_add}")
+    return statdict
 
 
 # ================= LAUNCH THE SCRIPT ================= #
