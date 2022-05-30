@@ -139,7 +139,6 @@ def test_final():
         total_silence = 0  # total number of empty wikidata ids in the test dataset
         # calculate the total number of wikidata ids found
         for row in reader:
-            print(row)
             if row[1] != "":
                 total_ids += 1
             else:
@@ -155,6 +154,8 @@ def test_final():
         false_result = 0  # total of false wikidata ids found
         true_silence = 0  # total of wikidata ids that haven't been found where it's not a mistake
         false_silence = 0  # total of wikidata ids that haven't been found when an id should have been found
+        cert_positive = 0  # total of certain positives
+        cert_false_positive = 0  # total of certain positives returned by launch_query() that turn out to be false
         prev = {}
         test_final = {"success": 0, "f1_result": 0, "f1_silence": 0, "total": 0}
         trows = sum(1 for row in reader)  # total number of rows
@@ -164,7 +165,7 @@ def test_final():
         for row in tqdm(reader, desc="retrieving IDs from the wikidata API", total=trows):
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
-            w_id = launch_query(qdict)
+            w_id, cert = launch_query(qdict)
             if w_id == read_id(nrow):  # if the result is correct
                 test_final["success"] += 1
                 if w_id != "":
@@ -177,24 +178,38 @@ def test_final():
                 else:
                     false_silence += 1
             if w_id != "":
+                if cert is True:
+                    cert_positive += 1
+                if cert is True and w_id != read_id(nrow):
+                    cert_false_positive += 1
                 test_result += 1
             else:
                 test_silence += 1
             total += 1
             nrow += 1
 
-    # crunch statistical data: precision and recall for both true positives (a correct wikidata id has been found)
-    # and true negatives (a wikidata id has not been found, but no wikidata id is present in reader), f1 score
-    # for true positives and negatives and, finally, the proporition of successful queries
+    # crunch statistical data:
+    # - precision and recall for both true positives (a correct wikidata id has been found)
+    #   and true negatives (a wikidata id has not been found, but no wikidata id is present in reader)
+    #   (precision_result, precision_silence, recall_result, recall_silence)
+    # - f1 score for true positives and negatives (f1_result and f1_silence)
+    # - proportion of successful queries (success)
+    # - proportion of queries that have returned an id and that are marked as "certain" (where cert is True)
+    #   (certitude_result)
+    # - proportion of queries that have returned a result and are marked as "certain" but that returned,
+    #   in fact, a wrong result (certitude_false_positive)
+    # - number of wikidata ids found (found_ids) and not found (no_id_found)
     precision_result = true_result / test_result
     precision_silence = true_silence / test_silence
     recall_result = true_result / total_ids
     recall_silence = true_silence / total_silence
-    test_final["success"] = round((test_final["success"] / test_final["total"]), 3)
+    test_final["success"] = round((test_final["success"] / total), 3)
     test_final["precision_result"] = round(precision_result, 3)
     test_final["precision_silence"] = round(precision_silence, 3)
     test_final["recall_result"] = round(recall_result, 3)
     test_final["recall_silence"] = round(recall_silence, 3)
+    test_final["certitude_result"] = round(cert_positive / total, 3)
+    test_final["certitude_false_positive"] = round(cert_false_positive / total, 3)
     test_final["f1_result"] = round(2 * (precision_result * recall_result) / (precision_result + recall_result), 3)
     if precision_silence != 0 or recall_silence != 0:
         test_final["f1_silence"] = \
@@ -284,14 +299,16 @@ def itemtoid_test():
         }
 
         # variables to test the final algorithm
-        total = 0  # number of queried items
+        test_final = {"success": 0, "f1_result": 0, "f1_silence": 0, "total": 0}
+        total = 0  # total number of entries queried
         test_result = 0  # total of wikidata ids found
         test_silence = 0  # total of wikidata ids not found
         true_result = 0  # total of correct wikidata ids found
         false_result = 0  # total of false wikidata ids found
         true_silence = 0  # total of wikidata ids that haven't been found where it's not a mistake
         false_silence = 0  # total of wikidata ids that haven't been found when an id should have been found
-        test_final = {"success": 0}  # dictionary to store data on the final query algorithm
+        cert_positive = 0  # total of certain positives
+        cert_false_positive = 0  # total of certain positives returned by launch_query() that turn out to be false
 
         # launch the queries
         trows = sum(1 for row in reader)  # total number of rows
@@ -300,7 +317,7 @@ def itemtoid_test():
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
             test_base, test_rebuilt = test_isolate(qdict, test_base, test_rebuilt, nrow)
-            w_id = launch_query(qdict)
+            w_id, cert = launch_query(qdict)
             if w_id == read_id(nrow):  # if the result is correct
                 test_final["success"] += 1
                 if w_id != "":
@@ -313,6 +330,10 @@ def itemtoid_test():
                 else:
                     false_silence += 1
             if w_id != "":
+                if cert is True:
+                    cert_positive += 1
+                if cert is True and w_id != read_id(nrow):
+                    cert_false_positive += 1
                 test_result += 1
             else:
                 test_silence += 1
@@ -332,10 +353,17 @@ def itemtoid_test():
         else:
             test_rebuilt[k]["success"] = 0
 
-    # crunch statistical data for the final algorithm (the one used to get the wikidata ids):
-    # precision and recall for both true positives (a correct wikidata id has been found) and true
-    # negatives (a wikidata id has not been found, but no wikidata id is present in reader), f1 score
-    # for true positives and negatives and the proporition of successful queries
+    # crunch statistical data:
+    # - precision and recall for both true positives (a correct wikidata id has been found)
+    #   and true negatives (a wikidata id has not been found, but no wikidata id is present in reader)
+    #   (precision_result, precision_silence, recall_result, recall_silence)
+    # - f1 score for true positives and negatives (f1_result and f1_silence)
+    # - proportion of successful queries (success)
+    # - proportion of queries that have returned an id and that are marked as "certain" (where cert is True)
+    #   (certitude_result)
+    # - proportion of queries that have returned a result and are marked as "certain" but that returned,
+    #   in fact, a wrong result (certitude_false_positive)
+    # - number of wikidata ids found (found_ids) and not found (no_id_found)
     precision_result = true_result / test_result
     precision_silence = true_silence / test_silence
     recall_result = true_result / total_ids
@@ -345,22 +373,16 @@ def itemtoid_test():
     test_final["precision_silence"] = round(precision_silence, 3)
     test_final["recall_result"] = round(recall_result, 3)
     test_final["recall_silence"] = round(recall_silence, 3)
+    test_final["certitude_result"] = round(cert_positive / total, 3)
+    test_final["certitude_false_positive"] = round(cert_false_positive / total, 3)
     test_final["f1_result"] = round(2 * (precision_result * recall_result) / (precision_result + recall_result), 3)
     if precision_silence != 0 or recall_silence != 0:
         test_final["f1_silence"] = \
             round(2 * (precision_silence * recall_silence) / (precision_silence + recall_silence), 3)
     else:
         test_final["f1_silence"] = 0.0
-    test_final["total"] = total
     test_final["found_ids"] = test_result
     test_final["no_id_found"] = test_silence
-
-    # build output json file and write the file
-    outdict = {"base_query": test_base, "no_rebuilt_names": test_rebuilt, "final_algorithm": test_final}
-    if not os.path.isdir(os.path.join(os.getcwd(), "test_out")):
-        os.makedirs(os.path.join(os.getcwd(), "test_out"))
-    with open(f"{os.path.join(os.getcwd(), 'test_out')}/itemtoid_test_result.json", mode="w") as out:
-        json.dump(outdict, out, indent=4)
 
     print("tests finished !")
     return None
@@ -368,5 +390,5 @@ def itemtoid_test():
 
 # ================= LAUNCH THE SCRIPT ================= #
 if __name__ == "__main__":
-    # second_test()
+    # test_final()
     itemtoid_test()

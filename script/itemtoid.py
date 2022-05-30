@@ -319,8 +319,7 @@ def prep_query(in_data, prev):
         "status": sts_title,
         "dates": dates,
         "function": function,
-        "rebuilt": rebuilt,
-        # "abv": abv
+        "rebuilt": rebuilt
     }
     qdata_prev = qdata  # in case an entry is labeled "le même", aka the same person as the entry before
 
@@ -328,12 +327,19 @@ def prep_query(in_data, prev):
     return qdata, qdata_prev
 
 
-def request(qstr):
+def request(qstr, qdict):
     """
     run a full text search on wikidata and return the result
     :param qstr: the query string
+    :param qdict: the dictionary from which the query is built (to check wether dates
+    are in the query string)
     :return:
     """
+    qdate = False  # boolean indicating if there is a date in a successful query; True if there's a date
+    qparam = False  # boolean indicating wether 2 or more search parameters were used to
+    #                  return a result
+    cert = False  # boolean indicating the certitude of the result (if qdate or qparam is True)
+
     # remove duplicate words from qstr
     qstr = qstr.lower().split()
     qstr_ddp = " ".join(sorted(set(qstr), key=qstr.index))
@@ -365,7 +371,26 @@ def request(qstr):
         w_id = ""
     except KeyError:
         w_id = ""
-    return w_id
+
+    # evaluate the certainty of a query that has returned a result:
+    # check wether there's date info or more than 2 parameters (except fname and lname)
+    if w_id != "":
+        paramcount = 0  # count number of parameters to determine value of qparam
+        if qdict["dates"] != "":
+            if qdict["dates"] in qstr_ddp \
+                    or qdict["dates"].split()[0] in qstr_ddp \
+                    or qdict["dates"].split()[-1] in qstr_ddp:
+                qdate = True
+        for k, v in qdict.items():
+            if v in qstr and not re.match("(fname|lname)", k):
+                paramcount += 1
+        print(paramcount)
+        if paramcount >= 2:
+            qparam = True
+        if qparam is True or qdate is True:
+            cert = True
+
+    return w_id, cert
 
 
 def relaunch_query(qstr, qdict, avail):
@@ -377,19 +402,19 @@ def relaunch_query(qstr, qdict, avail):
     if len(list(qdict["dates"].split())) == 2:
         dates = list(qdict["dates"].split())
         qstr_dates = re.sub(r"\s+", " ", qstr.replace(dates[0], ""))
-        w_id = request(qstr_dates)
+        w_id, cert = request(qstr_dates, qdict)
         if w_id == "":
             qstr_dates = re.sub(r"\s+", " ", qstr.replace(dates[1], ""))
-            w_id = request(qstr_dates)
+            w_id, cert = request(qstr_dates, qdict)
     for a in avail:
         qstr = re.sub(r"\s+", " ", qstr.replace(qdict[a], ""))
-        w_id = request(qstr=qstr)
+        w_id, cert = request(qstr, qdict)
         if w_id != "":
             break  # info has been found. stop looping
         else:
             qstr = re.sub(r"\s+", " ", f"{qstr} {qdict[a]}")  # add the removed parameter
             #                                                   before looping on another param
-    return w_id
+    return w_id, cert
 
 
 def launch_query(qdict):
@@ -401,6 +426,7 @@ def launch_query(qdict):
     """
     # check which info is available and build the query string.
     avail = []  # dictionary indicating which infos are available in qdict
+    cert = False  # indicate the certitude of the obtained result
     for k, v in qdict.items():
         if isinstance(v, str):
             # if there is data for a key in qdict (there's a date...) ; flname and lname
@@ -412,12 +438,9 @@ def launch_query(qdict):
     qstr = re.sub(r"\s+", " ", f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
             {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}").lower()
 
-    # CHECK THE RESULTS OF DIFFERENT ORDER OF ELEMENTS IN THE ABOVE STRING
-    # ########################################################
-
     # launch query if there is info on which to be queried
     if not re.match(r"^\s*$", qstr):
-        w_id = request(qstr=qstr)
+        w_id, cert = request(qstr, qdict)
 
         # extra behaviour if there's no result : delete first name if it was rebuilt,
         # remove one of qdict parameters per query (except for lname and fname)
@@ -427,43 +450,46 @@ def launch_query(qdict):
             if qdict["nobname_sts"] != "":
                 if qdict["fname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
-                    w_id = request(qstr=qstr)
+                    w_id, cert = request(qstr, qdict)
                 if w_id == "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["lname"], "")
                     if not re.match(r"^\s*?", qdict["fname"]):
                         qstr = qstr + f" {qdict['fname']} "
-                    w_id = request(qstr=qstr)
+                    w_id, cert = request(qstr, qdict)
                 if w_id == "" and qdict["fname"] != "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
                     qstr = qstr.replace(qdict["lname"], "")
-                    w_id = request(qstr=qstr)
+                    w_id, cert = request(qstr, qdict)
                 if w_id != "":
-                    relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                    w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
 
             # remove a parameter and relaunch the query
             elif len(avail) >= 1:
-                w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
 
             # relaunch the query without the rebuilt name
             elif qdict["rebuilt"] is True:
+                qstr = re.sub(r"\s+", " ", f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
+                            {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}").lower()
                 qstr = qstr.replace(qdict["fname"], "")
-                w_id = request(qstr=qstr)
+                w_id, cert = request(qstr, qdict)
                 if w_id == "" and len(avail) >= 1:
-                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                    w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
 
-            # if all else fails, remove the first name (a french version of the name
-            # can be in the catalogs, while a foreign version only is on wikidata) and relaunch the query
+            # if all else fails, get the original query string back ;
+            # remove the first name (a french version of the name  can be in the catalogs,
+            # *while a foreign version only is on wikidata) and relaunch the query
             if w_id == "" and not re.search(r"^\s*$", qdict["fname"]):
                 qstr = re.sub(r"\s+", " ", qstr.replace(qdict["fname"], ""))
-                w_id = request(qstr=qstr)
+                w_id, cert = request(qstr, qdict)
                 if w_id == "" and len(avail) >= 1:
-                    w_id = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                    w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
 
     # if after all no id is found
     else:
         w_id = ""
 
-    return w_id
+    return w_id, cert
 
 
 def itemtoid():
@@ -477,7 +503,7 @@ def itemtoid():
         for row in reader:
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
-            # launch_query(qdict)
+            launch_query(qdict)
 
 
 # ================= LAUNCH THE SCRIPT ================= #
