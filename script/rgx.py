@@ -82,7 +82,7 @@ def rgx_abvsimp(nstr):
     :param nstr: the name string used as input
     :return:
     """
-    mo = re.search(r"(^|\s)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]*\.(\s|$)", nstr)
+    mo = re.search(r"(^|\s)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]*\.(\s|$|,)", nstr)
     if mo is not None:
         return mo[0]
     else:
@@ -103,7 +103,7 @@ def rgx_complnm(nstr):
     :return:
     """
     mo = re.search(r"(^|\s)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]+"
-                   + "((\s|-)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]+)*($|\s)", nstr)
+                   + "((\s|-)[A-ZÀÂÄÈÉÊËÏÔŒÙÛÜŸ][a-zàáâäéèêëíìîïòóôöúùûüøœæç]+)*($|\s|,)", nstr)
     if mo is not None:
         return mo[0]
     else:
@@ -202,16 +202,25 @@ def namebuild(nstr):
         # if abv is None:
         #     abv = True
 
-    # CASE 3 - if it is a full name, keep it that way
+    # CASE 3 - if a full name is matched : first, check if it's a mismatch (aka, the
+    # matched full name is a key in names or comp_names)
     elif rgx_complnm(nstr) is not None:
         complnm = rgx_complnm(nstr)  # try to match a full name
         matchstr = complnm
-        firstnm = complnm.lower()
-        # abv = False
+        mismatch = False
+        # try to see if it's actually an abbreviated composed name
+        complnm = re.sub(r"-", " ", complnm.lower())
+        for k, v in comp_names.items():
+            if complnm == k:
+                firstnm = v
+                mismatch = True
+        for k, v in names.items():
+            if complnm == k:
+                firstnm = v
+                mismatch = True
+        if mismatch is False:
+            firstnm = complnm
 
-    # CASE 4 - if no name is matched, the string is not rebuilt
-    # else:
-    #     abv = None  # neither true nor false, since there are no names
+    firstnm = firstnm.replace(",", "")
+
     return firstnm, matchstr, rebuilt
-
-    # return firstnm, matchstr, rebuilt, abv

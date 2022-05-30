@@ -131,37 +131,49 @@ def prep_query(in_data, prev):
                         lname = d
 
     # CASE 5 - it's related to an historical event
-
-    # SMH "REVOLUTION FRANCAISE" IS NOT MATCHED
-
     elif any(e in re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower().split() for e in events):
         # specicy that the "revolution" is the french revolution if there's no other info except dates
         name = re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower()
-        print(name)
+        # if there's only "révolution" and a date, extract the date and use "french revolution" for fname
         if re.search(r"^(r[eé]volution|\s|de|\d{4})*$", name):
-            print("ok")
-            fname = "french revolution"
+            lname = "french revolution"
             if re.search(r"\d{4}", name) is not None:
                 dates = re.search(r"\d{4}", name)[0]
             else:
                 dates = ""
+        # if there's only "guerre" and a date, extract the date and use "french war" for fname
         elif re.search(r"^(guerre|\s|de|\d{4})*$", name):
-            print("ok")
-            fname = "french war"
+            lname = "french war"
             if re.search(r"\d{4}", name) is not None:
                 dates = re.search(r"\d{4}", name)[0]
             else:
                 dates = ""
+        # if it's a revolution but no other geographical/chronological data is indictated,
+        # then it is implied that the revolution we're talking about is the french 1789 one.
+        # in that case, use "french revolution" for fname
+        elif re.search("r[eé]volution", name) \
+                and not any(e in re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower().split()
+                            for e in events if not re.search(r"r[ée]volution(\sfran[çc]aise)?", e)):
+            lname = "french revolution"
         else:
+            # catch the event
             for k, v in events.items():
-                if k in name or name == k:
-                    fname = v
-                    if re.search(r"\d{4}", name) is not None:
-                        dates += re.search(r"\d{4}", name)[0] + " "
+                if name == k:
+                    lname = v
+                    name = name.replace(k, " ")
+                elif k in name:
+                    lname = v
+                    name = name.replace(k, " ")
+            # catch the dates
+            if re.search(r"\d{4}", name):
+                for d in re.findall(r"\d{4}", name):
+                    dates += f"{d} "
+                    name = name.replace(d, " ")
 
-        print(fname, lname, dates)
-        print("_________________")
-
+        # clean noise (i.e., queries too vague to bring any results)
+        if re.search("^\s*(war|siege|defense)\s*$", lname) \
+                and re.search(r"^\s*$", fname) and re.search(r"^\s*$", dates):
+            lname = ""
 
     # CASE 5 - it's (considered to be) a name (yay!)
     else:
