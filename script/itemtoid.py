@@ -5,7 +5,7 @@ import re
 
 from tables.matching import status, provinces, dpts, colonies, \
     countries, events, other, functions
-from rgx import namebuild, rgx_complnm
+from rgx import namebuild, rgx_complnm, names
 
 # get a wikidata id from a full text query
 
@@ -327,23 +327,19 @@ def prep_query(in_data, prev):
     return qdata, qdata_prev
 
 
+# ================= MAKE AND LAUNCH THE QUERIES ================= #
 def request(qstr, qdict):
     """
-    run a full text search on wikidata and return the result
-    :param qstr: the query string
-    :param qdict: the dictionary from which the query is built (to check wether dates
-    are in the query string)
+    run a full text search on wikidata, determine the degree of certitude
+    of the obtained result (based on the values of qdict used to build
+    the query string) and return the result
+    :param qstr:
+    :param qdict:
     :return:
     """
+    paramcount = 0  # count number of parameters to determine if cert is True
     qdate = False  # boolean indicating if there is a date in a successful query; True if there's a date
-    qparam = False  # boolean indicating wether 2 or more search parameters were used to
-    #                  return a result
-    cert = False  # boolean indicating the certitude of the result (if qdate or qparam is True)
-
-    # remove duplicate words from qstr
-    qstr = qstr.lower().split()
-    qstr_ddp = " ".join(sorted(set(qstr), key=qstr.index))
-
+    cert = False
     # build query url, define parameters and define headers :
     # - set a user-agent, as per the api's etiquette (https://www.mediawiki.org/wiki/API:Etiquette);
     # - accept gzip encoding (makes requests faster)
@@ -355,13 +351,11 @@ def request(qstr, qdict):
     params = {
         "action": "query",
         "list": "search",
-        "srsearch": qstr_ddp.strip(),
+        "srsearch": qstr.strip(),
         "srlimit": 1,
         "format": "json"
     }
-
-    print(qstr_ddp)
-
+    # print(qstr)
     # launch query and return the person's wikidata id
     r = requests.get(url, params=params, headers=headers)
     js = r.json()
@@ -371,76 +365,144 @@ def request(qstr, qdict):
         w_id = ""
     except KeyError:
         w_id = ""
-
-    # evaluate the certainty of a query that has returned a result:
-    # check wether there's date info or more than 2 parameters (except fname and lname)
-    if w_id != "":
-        paramcount = 0  # count number of parameters to determine value of qparam
-        if qdict["dates"] != "":
-            if qdict["dates"] in qstr_ddp \
-                    or qdict["dates"].split()[0] in qstr_ddp \
-                    or qdict["dates"].split()[-1] in qstr_ddp:
+    # assert the certainty of the result : whether the id found is "certain" or not,
+    # from the values of qdict used to build a query
+    for k, v in qdict.items():
+        # if there's at least 1 date (of dates) in the query string, qdate is True and
+        # paramcount add 1 to paramcount
+        if k == "dates" and not re.match(r"^\s*$", v):
+            if qdict["dates"].split()[0] in qstr \
+                    or qdict["dates"].split()[-1] in qstr:
                 qdate = True
-        for k, v in qdict.items():
-            if v in qstr and not re.match("(fname|lname)", k):
                 paramcount += 1
-        print(paramcount)
-        if paramcount >= 2:
-            qparam = True
-        if qparam is True or qdate is True:
-            cert = True
+        # if the first name hasn't been rebuilt and a result has been found, that's an extra
+        # point !
+        elif k == "rebuilt" and v is True and not re.match(r"^\s*$", qdict["fname"]):
+            paramcount += 1
+        # if other parameters are in qstr
+        elif k != "rebuilt" and not re.match(r"^\s*$", v) and v.lower().strip() in qstr:
+            paramcount += 1
+    # print(paramcount)
+    # if paramcount >= 5: certitude == 0.305, certitude_false == 0.08;
+    # if paramcount >= 4: certitude == 0.335, certitude_false == 0.09
+    if paramcount >= 4 or qdate is True:
+        cert = True
 
     return w_id, cert
 
 
-def relaunch_query(qstr, qdict, avail):
+def makerequest(qstr, qdict, config=None):
+    """
+    configure the request and launch it
+    :param qstr: the query string
+    :param qdict: the dictionary from which the query is built (to check wether dates
+    :param config: a dictionnary indicating how to launch the query:
+                   - config["test"] indicates if it's a test or the true query, to choose which json to load
+                   - config["fetch"] indicates if a json should be loaded at all or not
+    are in the query string)
+    :return:
+    """
+    # remove duplicate words from qstr
+    qstr = qstr.lower().split()
+    qstr_ddp = re.sub(r"\s+", " ", " ".join(sorted(set(qstr), key=qstr.index)))  # ddp = de-duplicated
+
+    # check if the query has aldready been done; if so, get the result from the json
+    if config is None:
+        config = {"test": False, "fetch": False}
+
+    # if fetch is True, try to fetch the query in the json. if the query has not aldready been run,
+    # launch the query on the wikidata API  and write the output to json.
+    # if fetch is False, run the query directly
+    if config["fetch"] is True:
+        if config["test"] is True:
+            with open("tables/dummy.json", mode="r+") as fh:
+                queried = json.load(fh)
+                if qstr_ddp in queried.keys():
+                    w_id, cert = queried[qstr_ddp]
+                else:
+                    w_id, cert = request(qstr_ddp, qdict)
+                    queried[qstr_ddp] = (w_id, cert)
+                    fh.seek(0)
+                    json.dump(queried, fh, indent=4)
+        else:
+            with open("tables/queried.json", mode="r+") as fh:
+                queried = json.load(fh)
+                if qstr_ddp in queried.keys():
+                    w_id, cert = queried[qstr_ddp]
+                else:
+                    w_id, cert = request(qstr_ddp, qdict)
+                    queried[qstr_ddp] = (w_id, cert)
+                    fh.seek(0)
+                    json.dump(queried, fh, indent=4)
+    else:
+        w_id, cert = request(qstr_ddp, qdict)
+        if config["fetch"] is True:
+            pass
+        else:
+            w_id, cert = request(qstr_ddp, qdict)
+    return w_id, cert
+
+
+def relaunch_query(qstr, qdict, avail, config=None):
     """
     relaunch a query for launch_query() if it fails : remove one parameter at
     a time and relaunch the query
+    :param qstr: the query string
+    :param qdict: the dictionary from which the query string is being build
+    :param avail: the list of available query parameters (non empty keys of qdict that aren't fname, lname or rebuilt)
+    :param config: a dictionary with 2 keys ("test" + "fetch") to pass to makerequest(). see makerequest() for details
     :return:
     """
     if len(list(qdict["dates"].split())) == 2:
         dates = list(qdict["dates"].split())
-        qstr_dates = re.sub(r"\s+", " ", qstr.replace(dates[0], ""))
-        w_id, cert = request(qstr_dates, qdict)
+        qstr_dates = qstr.replace(dates[0], "")
+        w_id, cert = makerequest(qstr_dates, qdict, config)
         if w_id == "":
-            qstr_dates = re.sub(r"\s+", " ", qstr.replace(dates[1], ""))
-            w_id, cert = request(qstr_dates, qdict)
+            qstr_dates = qstr.replace(dates[1], "")
+            w_id, cert = makerequest(qstr_dates, qdict, config)
     for a in avail:
-        qstr = re.sub(r"\s+", " ", qstr.replace(qdict[a], ""))
-        w_id, cert = request(qstr, qdict)
+        qstr = qstr.replace(qdict[a], "")
+        w_id, cert = makerequest(qstr, qdict, config)
         if w_id != "":
             break  # info has been found. stop looping
         else:
-            qstr = re.sub(r"\s+", " ", f"{qstr} {qdict[a]}")  # add the removed parameter
-            #                                                   before looping on another param
+            qstr = f"{qstr} {qdict[a]}"  # add the removed parameter
+            #                              before looping on another param
     return w_id, cert
 
 
-def launch_query(qdict):
+def launch_query(qdict, config=None):
     """
+    main query algorithm.
     build a wikidata full text search from a dictionary of structured data
-    (see build_query()).
-    :param qdict: the query string (i.e., name for which we want a wikidata id)
+    (see prep_query()).
+    :param qdict: the dictionary from which the query string is being build (see prep_query())
+    :param config: a dictionary with 2 keys ("test" + "fetch") to pass to makerequest(). see makerequest() for details
     :return:
     """
-    # check which info is available and build the query string.
+    # check infos available in qdict and build a list of available query data (aka, non-empty values of qdict)
+    if config is None:
+        config = {"test": False, "fetch": False}
     avail = []  # dictionary indicating which infos are available in qdict
     cert = False  # indicate the certitude of the obtained result
     for k, v in qdict.items():
-        if isinstance(v, str):
-            # if there is data for a key in qdict (there's a date...) ; flname and lname
-            # are not to be excluded, except if rebuilt is true (see below)
-            if not re.match(r"^\s*$", v) and not re.search("(fname|lname)", k):
-                avail.append(k)
+        # for some reason that i don't understand, the first name may not be fully rebuilt
+        # by namebuild; check if that's the case and rebuild it
+        if k == "fname" and not re.match(r"^\s*$", v):
+            for abv, full in names.items():
+                if re.search(f"(^|-|\s){abv}(\s|\.|-|$)", v):
+                    v = v.replace(abv, full)
+                    qdict["fname"] = v
+        elif not re.search("(fname|lname|rebuilt)", k) and not re.match(r"^\s*$", v):
+            avail.append(k)  # add non-empty k's to avail
 
     # build query string. the first query is made with all available data
-    qstr = re.sub(r"\s+", " ", f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
-            {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}").lower()
+    qstr = f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
+            {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}".lower()
 
     # launch query if there is info on which to be queried
     if not re.match(r"^\s*$", qstr):
-        w_id, cert = request(qstr, qdict)
+        w_id, cert = makerequest(qstr, qdict, config)
 
         # extra behaviour if there's no result : delete first name if it was rebuilt,
         # remove one of qdict parameters per query (except for lname and fname)
@@ -450,40 +512,40 @@ def launch_query(qdict):
             if qdict["nobname_sts"] != "":
                 if qdict["fname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
-                    w_id, cert = request(qstr, qdict)
+                    w_id, cert = makerequest(qstr, qdict, config)
                 if w_id == "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["lname"], "")
                     if not re.match(r"^\s*?", qdict["fname"]):
                         qstr = qstr + f" {qdict['fname']} "
-                    w_id, cert = request(qstr, qdict)
+                    w_id, cert = makerequest(qstr, qdict, config)
                 if w_id == "" and qdict["fname"] != "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
                     qstr = qstr.replace(qdict["lname"], "")
-                    w_id, cert = request(qstr, qdict)
-                if w_id != "":
-                    w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                    w_id, cert = makerequest(qstr, qdict, config)
+                if w_id == "":
+                    w_id, cert = relaunch_query(qstr, qdict,  avail, config)
 
             # remove a parameter and relaunch the query
             elif len(avail) >= 1:
-                w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                w_id, cert = relaunch_query(qstr, qdict, avail, config)
 
             # relaunch the query without the rebuilt name
             elif qdict["rebuilt"] is True:
-                qstr = re.sub(r"\s+", " ", f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
-                            {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}").lower()
+                qstr = f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
+                        {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}".lower()
                 qstr = qstr.replace(qdict["fname"], "")
-                w_id, cert = request(qstr, qdict)
+                w_id, cert = makerequest(qstr, qdict, config)
                 if w_id == "" and len(avail) >= 1:
-                    w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                    w_id, cert = relaunch_query(qstr, qdict, avail, config)
 
             # if all else fails, get the original query string back ;
             # remove the first name (a french version of the name  can be in the catalogs,
             # *while a foreign version only is on wikidata) and relaunch the query
             if w_id == "" and not re.search(r"^\s*$", qdict["fname"]):
-                qstr = re.sub(r"\s+", " ", qstr.replace(qdict["fname"], ""))
-                w_id, cert = request(qstr, qdict)
+                qstr = qstr.replace(qdict["fname"], "")
+                w_id, cert = makerequest(qstr, qdict, config)
                 if w_id == "" and len(avail) >= 1:
-                    w_id, cert = relaunch_query(qstr=qstr, qdict=qdict, avail=avail)
+                    w_id, cert = relaunch_query(qstr, qdict, avail, config)
 
     # if after all no id is found
     else:
@@ -503,7 +565,7 @@ def itemtoid():
         for row in reader:
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
-            launch_query(qdict)
+            launch_query(qdict, {"test": False, "fetch": True})
 
 
 # ================= LAUNCH THE SCRIPT ================= #

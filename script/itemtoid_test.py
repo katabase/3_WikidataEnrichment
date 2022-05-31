@@ -1,15 +1,40 @@
 from tqdm import tqdm
 import requests
+import random
+import string
 import json
+import time
 import csv
 import re
 import os
 
 from itemtoid import prep_query, launch_query
-from rgx import namebuild
 
 
 # ================= TESTING FUNCTIONS ================= #
+def makedummy():
+    """
+    build dummy, a json to check what's quicker:
+    - run all queries, no matter whether if they've aldready been ran
+    - check in a large json file if the query has aldready been ran and get the result from there
+    :return: None
+    """
+    dummy = {}
+    for i in range(10000):
+        # about 30% of wikidata ids are certain ; add dummy booleans in that proportion to dummy
+        rand = random.randrange(1, 10)
+        if rand >= 7:
+            dummy_cert = True
+        else:
+            dummy_cert = False
+        dummy_key = "".join(random.choices(string.ascii_lowercase, k=15))
+        dummy_w_id = f"Q{''.join(random.choices(string.digits, k=7))}"
+        dummy[dummy_key] = [dummy_w_id, dummy_cert]
+    with open("tables/dummy.json", mode="w") as out:
+        json.dump(dummy, out, indent=4)
+    return None
+
+
 def read_id(i):
     """
     access the correct wikidata id
@@ -64,7 +89,7 @@ def test_isolate(qdict, test_base, test_rebuilt, nrow):
     # loop over the 2 names, launch the 2 queries and get the r_ids
     for name in namelist:
         if not re.match("^\s*$", name):
-            params["srsearch"] = re.sub("\s+", " ", name)
+            params["srsearch"] = re.sub(r"\s+", " ", name)
             r = requests.get(url, params=params, headers=headers)
             js = r.json()
             try:
@@ -127,10 +152,11 @@ def test_isolate(qdict, test_base, test_rebuilt, nrow):
     return test_base, test_rebuilt
 
 
-def test_final():
+def test_algorithm(fetch):
     """
-    to be used only if we want to test the final algorithm and not save the result (only print it)
-    else, use itemtoid_test()
+    test the final algorithm
+    :param fetch: boolean indicating wether to fetch if a query has aldready
+    been ran in a dummy json file or if all the queries must be ran
     :return: test_final, dictionary of data on the final test
     """
     with open("tables/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
@@ -146,47 +172,61 @@ def test_final():
 
     with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
-        nrow = 0
-        total = 0  # total number of entries queried
-        test_result = 0  # total of wikidata ids found
-        test_silence = 0  # total of wikidata ids not found
-        true_result = 0  # total of correct wikidata ids found
-        false_result = 0  # total of false wikidata ids found
-        true_silence = 0  # total of wikidata ids that haven't been found where it's not a mistake
-        false_silence = 0  # total of wikidata ids that haven't been found when an id should have been found
-        cert_positive = 0  # total of certain positives
-        cert_false_positive = 0  # total of certain positives returned by launch_query() that turn out to be false
-        prev = {}
-        test_final = {"success": 0, "f1_result": 0, "f1_silence": 0, "total": 0}
-        trows = sum(1 for row in reader)  # total number of rows
-        fh.seek(0)
 
-        fh.seek(0)
-        for row in tqdm(reader, desc="retrieving IDs from the wikidata API", total=trows):
-            in_data = [row[2], row[3]]  # input data on which to launch a query
-            qdict, prev = prep_query(in_data, prev)
-            w_id, cert = launch_query(qdict)
-            if w_id == read_id(nrow):  # if the result is correct
-                test_final["success"] += 1
-                if w_id != "":
-                    true_result += 1
+        # launch 2 different queries 3 times: first, with "fetch" = True; then, with "fetch" = False
+        # (the queries are ran 3 times to see which one is quicker)
+        # to determine which is quicker:
+        # - to run the queries everytime, no matter if the query has aldready been ran
+        # - to save new queries and their result to a large json file and to browse the
+        #   json file for a result each time to get a result
+        runtime = []
+        for i in range(3):
+            total = 0  # total number of entries queried
+            test_result = 0  # total of wikidata ids found
+            test_silence = 0  # total of wikidata ids not found
+            true_result = 0  # total of correct wikidata ids found
+            false_result = 0  # total of false wikidata ids found
+            true_silence = 0  # total of wikidata ids that haven't been found where it's not a mistake
+            false_silence = 0  # total of wikidata ids that haven't been found when an id should have been found
+            cert_positive = 0  # total of certain positives
+            cert_false_positive = 0  # total of certain positives returned by launch_query() that turn out to be false
+            prev = {}
+            test_final = {"success": 0, "f1_result": 0, "f1_silence": 0, "total": 0}
+            trows = sum(1 for row in reader)  # total number of rows
+            nrow = 0
+            fh.seek(0)
+            if fetch is True:
+                makedummy()  # build a dummy json file
+            start = time.time()  # to count the execution time
+            for row in tqdm(reader, desc="retrieving IDs from the wikidata API", total=trows):
+                in_data = [row[2], row[3]]  # input data on which to launch a query
+                qdict, prev = prep_query(in_data, prev)
+                # print(qdict)
+                w_id, cert = launch_query(qdict, {"test": True, "fetch": fetch})
+                if w_id == read_id(nrow):  # if the result is correct
+                    test_final["success"] += 1
+                    if w_id != "":
+                        true_result += 1
+                    else:
+                        true_silence += 1
                 else:
-                    true_silence += 1
-            else:
+                    if w_id != "":
+                        false_result += 1
+                    else:
+                        false_silence += 1
                 if w_id != "":
-                    false_result += 1
+                    if cert is True:
+                        cert_positive += 1
+                    if cert is True and w_id != read_id(nrow):
+                        cert_false_positive += 1
+                    test_result += 1
                 else:
-                    false_silence += 1
-            if w_id != "":
-                if cert is True:
-                    cert_positive += 1
-                if cert is True and w_id != read_id(nrow):
-                    cert_false_positive += 1
-                test_result += 1
-            else:
-                test_silence += 1
-            total += 1
-            nrow += 1
+                    test_silence += 1
+                total += 1
+                nrow += 1
+            runtime.append(time.time() - start)
+            if fetch is True:
+                os.remove("tables/dummy.json")
 
     # crunch statistical data:
     # - precision and recall for both true positives (a correct wikidata id has been found)
@@ -204,23 +244,25 @@ def test_final():
     recall_result = true_result / total_ids
     recall_silence = true_silence / total_silence
     test_final["success"] = round((test_final["success"] / total), 3)
-    test_final["precision_result"] = round(precision_result, 3)
-    test_final["precision_silence"] = round(precision_silence, 3)
-    test_final["recall_result"] = round(recall_result, 3)
-    test_final["recall_silence"] = round(recall_silence, 3)
-    test_final["certitude_result"] = round(cert_positive / total, 3)
-    test_final["certitude_false_positive"] = round(cert_false_positive / total, 3)
     test_final["f1_result"] = round(2 * (precision_result * recall_result) / (precision_result + recall_result), 3)
     if precision_silence != 0 or recall_silence != 0:
         test_final["f1_silence"] = \
             round(2 * (precision_silence * recall_silence) / (precision_silence + recall_silence), 3)
     else:
         test_final["f1_silence"] = 0.0
+    test_final["precision_result"] = round(precision_result, 3)
+    test_final["recall_result"] = round(recall_result, 3)
+    test_final["precision_silence"] = round(precision_silence, 3)
+    test_final["recall_silence"] = round(recall_silence, 3)
+    test_final["certitude"] = round(cert_positive / total, 3)
+    test_final["certitude_false"] = round(cert_false_positive / total, 3)
+    test_final["total"] = total
     test_final["found_ids"] = test_result
     test_final["no_id_found"] = test_silence
-    print(test_final)
 
-    return test_final
+    # calculate the runtime and return the dictionary
+    runtime = sum(runtime) / len(runtime)  # average runtime over the 3 iterations
+    return test_final, runtime
 
 
 # ================= BUILDING QUERIES ================= #
@@ -272,6 +314,17 @@ def itemtoid_test():
                 total_ids += 1
             else:
                 total_silence += 1
+
+    # running the tests of the final algorithm
+    print("~ tests for the final algorithm started ! ~")
+    test_final, runtime_nofetch = test_algorithm(fetch=False)
+    test_final, runtime_fetch = test_algorithm(fetch=True)
+    test_final["runtime_fetch"] = f"{runtime_fetch} seconds"
+    test_final["runtime_nofetch"] = f"{runtime_nofetch} seconds"
+    print("~ tests for the final algorithm finished ! ~")
+
+    # running tests for isolate parameters
+    print("~ tests for isolate parameters started ! ~")
     with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
         nrow = 0
@@ -299,6 +352,7 @@ def itemtoid_test():
         }
 
         # variables to test the final algorithm
+        """
         test_final = {"success": 0, "f1_result": 0, "f1_silence": 0, "total": 0}
         total = 0  # total number of entries queried
         test_result = 0  # total of wikidata ids found
@@ -309,86 +363,43 @@ def itemtoid_test():
         false_silence = 0  # total of wikidata ids that haven't been found when an id should have been found
         cert_positive = 0  # total of certain positives
         cert_false_positive = 0  # total of certain positives returned by launch_query() that turn out to be false
+        """
 
-        # launch the queries
+        # launch the queries for test_isolate
         trows = sum(1 for row in reader)  # total number of rows
         fh.seek(0)
         for row in tqdm(reader, desc="retrieving IDs from the wikidata API", total=trows):
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
             test_base, test_rebuilt = test_isolate(qdict, test_base, test_rebuilt, nrow)
-            w_id, cert = launch_query(qdict)
-            if w_id == read_id(nrow):  # if the result is correct
-                test_final["success"] += 1
-                if w_id != "":
-                    true_result += 1
-                else:
-                    true_silence += 1
-            else:
-                if w_id != "":
-                    false_result += 1
-                else:
-                    false_silence += 1
-            if w_id != "":
-                if cert is True:
-                    cert_positive += 1
-                if cert is True and w_id != read_id(nrow):
-                    cert_false_positive += 1
-                test_result += 1
-            else:
-                test_silence += 1
-            total += 1
-            nrow += 1
+        print("~ tests for isolate parameters finished ! ~")
 
     # build the test dictionaries data : isolate the effect of a single key-value pair of
     # qdict in obtaining the correct result
     for k, v in test_base.items():
         if v["success"] != 0:
-            test_base[k]["success"] = round((v["success"] / v["total"]), 3)  # calculate a %
+            test_base[k]["success"] = round((v["success"] / v["total"]), 3)  # calculate a proportion
         else:
             test_base[k]["success"] = 0  # avoid divisions by 0
     for k, v in test_rebuilt.items():
         if v["success"] != 0:
-            test_rebuilt[k]["success"] = round((v["success"] / v["total"]), 3)  # calculate a %
+            test_rebuilt[k]["success"] = round((v["success"] / v["total"]), 3)  # calculate a proportion
         else:
             test_rebuilt[k]["success"] = 0
 
-    # crunch statistical data:
-    # - precision and recall for both true positives (a correct wikidata id has been found)
-    #   and true negatives (a wikidata id has not been found, but no wikidata id is present in reader)
-    #   (precision_result, precision_silence, recall_result, recall_silence)
-    # - f1 score for true positives and negatives (f1_result and f1_silence)
-    # - proportion of successful queries (success)
-    # - proportion of queries that have returned an id and that are marked as "certain" (where cert is True)
-    #   (certitude_result)
-    # - proportion of queries that have returned a result and are marked as "certain" but that returned,
-    #   in fact, a wrong result (certitude_false_positive)
-    # - number of wikidata ids found (found_ids) and not found (no_id_found)
-    precision_result = true_result / test_result
-    precision_silence = true_silence / test_silence
-    recall_result = true_result / total_ids
-    recall_silence = true_silence / total_silence
-    test_final["success"] = round((test_final["success"] / total), 3)
-    test_final["precision_result"] = round(precision_result, 3)
-    test_final["precision_silence"] = round(precision_silence, 3)
-    test_final["recall_result"] = round(recall_result, 3)
-    test_final["recall_silence"] = round(recall_silence, 3)
-    test_final["certitude_result"] = round(cert_positive / total, 3)
-    test_final["certitude_false_positive"] = round(cert_false_positive / total, 3)
-    test_final["f1_result"] = round(2 * (precision_result * recall_result) / (precision_result + recall_result), 3)
-    if precision_silence != 0 or recall_silence != 0:
-        test_final["f1_silence"] = \
-            round(2 * (precision_silence * recall_silence) / (precision_silence + recall_silence), 3)
-    else:
-        test_final["f1_silence"] = 0.0
-    test_final["found_ids"] = test_result
-    test_final["no_id_found"] = test_silence
+    # save the tests result in the out directory
+    outdict = {"base_query": test_base, "no_rebuilt_names": test_rebuilt, "final_algorithm": test_final}
+    if not os.path.isdir("out"):
+        os.makedirs("out")
+    with open(os.path.join(os.getcwd(), "out", "itemtoid_test_out.json"), mode="w") as out:
+        json.dump(outdict, out, indent=4)
 
-    print("tests finished !")
+    print(outdict)
+    print("~ tests finished ! ~")
     return None
 
 
 # ================= LAUNCH THE SCRIPT ================= #
 if __name__ == "__main__":
-    # test_final()
+    # test_algorithm(fetch=False)
     itemtoid_test()
