@@ -156,7 +156,8 @@ def test_algorithm(fetch, nloop=1):
     """
     test the final algorithm
     :param fetch: boolean indicating wether to fetch if a query has aldready
-    been ran in a dummy json file or if all the queries must be ran
+    been ran in a dummy json file or if all the queries must be ran.
+    see itemtoid_test() for the json structure
     :param nloop: number of times to run the algorithm on all entries of the test dataset
     :return: test_final, dictionary of data on the final test
     """
@@ -292,7 +293,43 @@ def count_empty():
 
 def itemtoid_test():
     """
-    launch the query on all entries of nametable_test_noid.tsv to verify the precision
+    run tests on all isolated parameters and on the final algorithm for a test dataset of 200
+    entires. the test dataset has the same proportion of tei:traits as the main data set and
+    roughly the same kind of entries in the same proportions (persons, events, places...).
+    store the output to out/itemtoid_test_out.json. json structure:
+    {
+      base_query: {
+        query parameters: {
+          success: # the number of successful queries
+          total: # the total number of queries ran with those parameters
+        }
+      }  # the results for the query with rebuilt and not rebuilt names
+      no_rebuilt_names: {
+        query parameters: {
+          success: # the proportion of successful queries (0: none, 1: 100%)
+          total: # the total number of queries ran with those parameters
+        }
+      }
+      "final_algorithm": {
+        "success":  # proportion of queries where the good result has been found (0: none, 1: 100%)
+        "f1_result":  # f1 score for the when an id has been found (0: none, 1: 100%)
+        "f1_silence": # f1 score for the when no id has been found (0: none, 1: 100%)
+        "total": # total number of items queried
+        "precision_result":  # precision for when a result has been found (0: none, 1: 100%)
+        "recall_result": # recall for when a result has been found (0: none, 1: 100%)
+        "precision_silence": # precision for when a result no been found (0: none, 1: 100%)
+        "recall_silence":  # recall for when no result has been found (0: none, 1: 100%)
+        "certitude": # proportion of items where the result is marked "certain" (0: none, 1: 100%)
+        "certitude_false":  # proportion of "certain" results that are not correct (false positives) (0: none, 1: 100%)
+        "found_ids":  # total number of found ids
+        "no_id_found":  # total number of ids that haven't been found
+        "runtime_fetch":  # average runtime for the 200 items when we fetch aldready ran queries in a json
+        "runtime_nofetch":  # average runtime for the 200 items when we run every single query without
+                              checking if they've ben ran before
+      }
+    }
+    proportions are relative to the total number of items. a proportion of 0 means 0%, a proportion
+    of 1 means a 100 %
 
     about the precision, recall and the f1:
     https://fr.wikipedia.org/wiki/Pr%C3%A9cision_et_rappel
@@ -317,12 +354,12 @@ def itemtoid_test():
     # - to run the queries everytime, no matter if the query has aldready been ran
     # - to save new queries and their result to a large json file and to browse the
     #   json file for a result each time to get a result
-    print("~ tests for the final algorithm started ! ~")
+    """print("~ tests for the final algorithm started ! ~")
     test_final, runtime_nofetch = test_algorithm(fetch=False, nloop=3)
     test_final, runtime_fetch = test_algorithm(fetch=True, nloop=3)
     test_final["runtime_fetch"] = f"{runtime_fetch} seconds"
     test_final["runtime_nofetch"] = f"{runtime_nofetch} seconds"
-    print("~ tests for the final algorithm finished ! ~")
+    print("~ tests for the final algorithm finished ! ~")"""
 
     # running tests for isolate parameters
     print("~ tests for isolate parameters started ! ~")
