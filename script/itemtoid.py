@@ -23,8 +23,22 @@ from rgx import namebuild, rgx_complnm, names
 # ================= BUILD A QUERY ================= #
 def prep_query(in_data, prev):
     """
-    prepare the query string: normalize first names, extract data from the tei:trait,
-    order the querystring
+    prepare the query string:
+    - identify the type of name (a place, a person, an event...)
+    - match full/abbreviated names
+    - build a full name from an abbreviation normalize first names
+    - extract data from the tei:trait
+    - build a structured dictionary with the following structure:
+      {
+        fname = ""  # first name of a person or additional info if the tei:name is not about a person
+        lname = ""  # last name of a person or main info if the tei:name is not about a person
+        nobname_sts = ""  # name owned by a person if they are nobility
+        sts_title = ""  # nobility titles of a person
+        dates = ""  # dates of life/death of a person (in tei:trait or in tei:name for historical events)
+        function = ""  # functions occupied by a person (in tei:trait)
+        rebuilt = False  # wether a person's first name has been rebuilt from an abbreviation
+      }
+
     :param in_data: input data: a list of the 3rd and 4th entries of the csv
     :param prev: the dictionary built in the previous loop (in case a tei:name has "le même" as value)
     :return:
@@ -36,7 +50,6 @@ def prep_query(in_data, prev):
     dates = ""  # dates of life/death of a person (in tei:trait or in tei:name for historical events)
     function = ""  # functions occupied by a person (in tei:trait)
     rebuilt = False  # wether a person's first name has been rebuilt from an abbreviation
-    # abv = None  # wether a person's first name contains abbreviations
     name = in_data[0]  # tei:name
     trait = in_data[1]  # tei:trait
 
@@ -382,10 +395,11 @@ def request(qstr, qdict):
         # if other parameters are in qstr
         elif k != "rebuilt" and not re.match(r"^\s*$", v) and v.lower().strip() in qstr:
             paramcount += 1
-    # print(paramcount)
-    # if paramcount >= 5: certitude == 0.305, certitude_false == 0.08;
-    # if paramcount >= 4: certitude == 0.335, certitude_false == 0.09
-    if paramcount >= 4 or qdate is True:
+    # if paramcount >= 5 or qdate is True: certitude == 0.305, certitude_false == 0.08
+    # if paramcount >= 4 or qdate is True: certitude == 0.335, certitude_false == 0.09
+    # if paramcount >= 4: certitude == 0.21, certutude_false == 0.05
+    # if paramcount >= 3 and qdate is True: certitude == 0.255, certitude_false: 0.06
+    if paramcount >= 4 or qdate is True:  # or qdate is True:
         cert = True
 
     return w_id, cert
@@ -474,8 +488,10 @@ def relaunch_query(qstr, qdict, avail, config=None):
 def launch_query(qdict, config=None):
     """
     main query algorithm.
-    build a wikidata full text search from a dictionary of structured data
-    (see prep_query()).
+    build a wikidata full text search from a dictionary of structured ; depending on the
+    result of a query (if a wikidata id is found or not), relaunch the query with different parameters.
+    (see prep_query() for the preparation of qdict, a structured dictionary made from the tei:trait
+    and tei:name).
     :param qdict: the dictionary from which the query string is being build (see prep_query())
     :param config: a dictionary with 2 keys ("test" + "fetch") to pass to makerequest(). see makerequest() for details
     :return:
@@ -570,5 +586,4 @@ def itemtoid():
 
 # ================= LAUNCH THE SCRIPT ================= #
 if __name__ == "__main__":
-    # launch_query("merzbow")
     itemtoid()

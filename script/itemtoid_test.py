@@ -152,11 +152,12 @@ def test_isolate(qdict, test_base, test_rebuilt, nrow):
     return test_base, test_rebuilt
 
 
-def test_algorithm(fetch):
+def test_algorithm(fetch, nloop=1):
     """
     test the final algorithm
     :param fetch: boolean indicating wether to fetch if a query has aldready
     been ran in a dummy json file or if all the queries must be ran
+    :param nloop: number of times to run the algorithm on all entries of the test dataset
     :return: test_final, dictionary of data on the final test
     """
     with open("tables/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
@@ -172,15 +173,8 @@ def test_algorithm(fetch):
 
     with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
-
-        # launch 2 different queries 3 times: first, with "fetch" = True; then, with "fetch" = False
-        # (the queries are ran 3 times to see which one is quicker)
-        # to determine which is quicker:
-        # - to run the queries everytime, no matter if the query has aldready been ran
-        # - to save new queries and their result to a large json file and to browse the
-        #   json file for a result each time to get a result
         runtime = []
-        for i in range(3):
+        for i in range(nloop):
             total = 0  # total number of entries queried
             test_result = 0  # total of wikidata ids found
             test_silence = 0  # total of wikidata ids not found
@@ -262,6 +256,7 @@ def test_algorithm(fetch):
 
     # calculate the runtime and return the dictionary
     runtime = sum(runtime) / len(runtime)  # average runtime over the 3 iterations
+    print(test_final)
     return test_final, runtime
 
 
@@ -316,9 +311,15 @@ def itemtoid_test():
                 total_silence += 1
 
     # running the tests of the final algorithm
+    # launch 2 different queries 3 times: first, with "fetch" = True; then, with "fetch" = False
+    # (the queries are ran 3 times to see which one is quicker)
+    # to determine which is quicker:
+    # - to run the queries everytime, no matter if the query has aldready been ran
+    # - to save new queries and their result to a large json file and to browse the
+    #   json file for a result each time to get a result
     print("~ tests for the final algorithm started ! ~")
-    test_final, runtime_nofetch = test_algorithm(fetch=False)
-    test_final, runtime_fetch = test_algorithm(fetch=True)
+    test_final, runtime_nofetch = test_algorithm(fetch=False, nloop=3)
+    test_final, runtime_fetch = test_algorithm(fetch=True, nloop=3)
     test_final["runtime_fetch"] = f"{runtime_fetch} seconds"
     test_final["runtime_nofetch"] = f"{runtime_nofetch} seconds"
     print("~ tests for the final algorithm finished ! ~")
@@ -401,5 +402,4 @@ def itemtoid_test():
 
 # ================= LAUNCH THE SCRIPT ================= #
 if __name__ == "__main__":
-    # test_algorithm(fetch=False)
     itemtoid_test()
