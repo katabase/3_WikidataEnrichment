@@ -55,7 +55,8 @@ def test_isolate(qdict, test_base, test_rebuilt, nrow):
     :param test_base: a dictionary to store the query results when rebuilt is True and False
     :param test_rebuilt: a dictionary to store the query results using only non-rebuilt names (rebuilt = False)
     :param nrow: the index of the current nametable_* row
-    :return:
+    :return: test_final (dictionary with stats for the final query algorithm) and runtime (float of the runtime of
+             the query algorithm)
     """
     # build query url
     url = "https://www.wikidata.org/w/api.php"
@@ -266,7 +267,7 @@ def count_empty():
     """
     count number of empty cells in test and complete dictionary to ensure that
     the test dataset represents well the whole dataset
-    :return:
+    :return: statdict
     """
     statdict = {"test": {"percent empty": 0, "empty rows": 0, "total rows": 0},
                 "real": {"percent empty": 0, "empty rows": 0, "total rows": 0}}
@@ -334,7 +335,7 @@ def itemtoid_test():
     about the precision, recall and the f1:
     https://fr.wikipedia.org/wiki/Pr%C3%A9cision_et_rappel
     https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
-    :return:
+    :return: None
     """
     with open("tables/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t")
@@ -354,12 +355,12 @@ def itemtoid_test():
     # - to run the queries everytime, no matter if the query has aldready been ran
     # - to save new queries and their result to a large json file and to browse the
     #   json file for a result each time to get a result
-    """print("~ tests for the final algorithm started ! ~")
+    print("~ tests for the final algorithm started ! ~")
     test_final, runtime_nofetch = test_algorithm(fetch=False, nloop=3)
     test_final, runtime_fetch = test_algorithm(fetch=True, nloop=3)
     test_final["runtime_fetch"] = f"{runtime_fetch} seconds"
     test_final["runtime_nofetch"] = f"{runtime_nofetch} seconds"
-    print("~ tests for the final algorithm finished ! ~")"""
+    print("~ tests for the final algorithm finished ! ~")
 
     # running tests for isolate parameters
     print("~ tests for isolate parameters started ! ~")
@@ -389,20 +390,6 @@ def itemtoid_test():
             "fname lname function": {"success": 0, "total": 0},  # fname + lname + function
         }
 
-        # variables to test the final algorithm
-        """
-        test_final = {"success": 0, "f1_result": 0, "f1_silence": 0, "total": 0}
-        total = 0  # total number of entries queried
-        test_result = 0  # total of wikidata ids found
-        test_silence = 0  # total of wikidata ids not found
-        true_result = 0  # total of correct wikidata ids found
-        false_result = 0  # total of false wikidata ids found
-        true_silence = 0  # total of wikidata ids that haven't been found where it's not a mistake
-        false_silence = 0  # total of wikidata ids that haven't been found when an id should have been found
-        cert_positive = 0  # total of certain positives
-        cert_false_positive = 0  # total of certain positives returned by launch_query() that turn out to be false
-        """
-
         # launch the queries for test_isolate
         trows = sum(1 for row in reader)  # total number of rows
         fh.seek(0)
@@ -410,6 +397,7 @@ def itemtoid_test():
             in_data = [row[2], row[3]]  # input data on which to launch a query
             qdict, prev = prep_query(in_data, prev)
             test_base, test_rebuilt = test_isolate(qdict, test_base, test_rebuilt, nrow)
+            nrow += 1
         print("~ tests for isolate parameters finished ! ~")
 
     # build the test dictionaries data : isolate the effect of a single key-value pair of
@@ -424,6 +412,9 @@ def itemtoid_test():
             test_rebuilt[k]["success"] = round((v["success"] / v["total"]), 3)  # calculate a proportion
         else:
             test_rebuilt[k]["success"] = 0
+
+    print(test_base)
+    print(test_rebuilt)
 
     # save the tests result in the out directory
     outdict = {"base_query": test_base, "no_rebuilt_names": test_rebuilt, "final_algorithm": test_final}
