@@ -8,7 +8,8 @@ import csv
 import re
 import os
 
-from itemtoid import prep_query, launch_query
+from itemtoid import launch_query
+from prepare_query import prep_query
 
 
 # ================= TESTING FUNCTIONS ================= #
@@ -17,6 +18,7 @@ def makedummy():
     build dummy, a json to check what's quicker:
     - run all queries, no matter whether if they've aldready been ran
     - check in a large json file if the query has aldready been ran and get the result from there
+    the structure of the dummy json is similar to the structure of the json file to be used with the final dataset
     :return: None
     """
     dummy = {}
@@ -29,7 +31,9 @@ def makedummy():
             dummy_cert = False
         dummy_key = "".join(random.choices(string.ascii_lowercase, k=15))
         dummy_w_id = f"Q{''.join(random.choices(string.digits, k=7))}"
-        dummy[dummy_key] = [dummy_w_id, dummy_cert]
+        dummy_title = "".join(random.choices(string.digits, k=15))
+        dummy_snippet = random.choices(string.digits, k=25)
+        dummy[dummy_key] = [dummy_w_id, dummy_title, dummy_snippet, dummy_cert]
     with open("tables/dummy.json", mode="w") as out:
         json.dump(dummy, out, indent=4)
     return None
@@ -194,11 +198,15 @@ def test_algorithm(fetch, nloop=1):
             if fetch is True:
                 makedummy()  # build a dummy json file
             start = time.time()  # to count the execution time
+
             for row in tqdm(reader, desc="retrieving IDs from the wikidata API", total=trows):
                 in_data = [row[2], row[3]]  # input data on which to launch a query
                 qdict, prev = prep_query(in_data, prev)
-                # print(qdict)
-                w_id, cert = launch_query(qdict, {"test": True, "fetch": fetch})
+                out = launch_query(qdict, {"test": True, "fetch": fetch})
+
+                # get the wikidata id and certitude level and build stats
+                w_id = out[0]
+                cert = out[3]
                 if w_id == read_id(nrow):  # if the result is correct
                     test_final["success"] += 1
                     if w_id != "":
@@ -220,9 +228,10 @@ def test_algorithm(fetch, nloop=1):
                     test_silence += 1
                 total += 1
                 nrow += 1
+
             runtime.append(time.time() - start)
             if fetch is True:
-                os.remove("tables/dummy.json")
+                os.remove("tables/dummy.json")  # delete the dummy file
 
     # crunch statistical data:
     # - precision and recall for both true positives (a correct wikidata id has been found)
