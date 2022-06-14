@@ -31,8 +31,8 @@ def makedummy():
             dummy_cert = False
         dummy_key = "".join(random.choices(string.ascii_lowercase, k=15))
         dummy_w_id = f"Q{''.join(random.choices(string.digits, k=7))}"
-        dummy_title = "".join(random.choices(string.digits, k=15))
-        dummy_snippet = random.choices(string.digits, k=25)
+        dummy_title = "".join(random.choices(string.digits, k=10))
+        dummy_snippet = "".join(random.choices(string.digits, k=20))
         dummy[dummy_key] = [dummy_w_id, dummy_title, dummy_snippet, dummy_cert]
     with open("tables/dummy.json", mode="w") as out:
         json.dump(dummy, out, indent=4)
@@ -195,6 +195,7 @@ def test_algorithm(fetch, nloop=1):
             trows = sum(1 for row in reader)  # total number of rows
             nrow = 0
             fh.seek(0)
+
             if fetch is True:
                 makedummy()  # build a dummy json file
             start = time.time()  # to count the execution time

@@ -1,8 +1,10 @@
-import traceback
 from pathlib import Path
+from tqdm import tqdm
+import traceback
 import requests
 import json
 import csv
+import sys
 import re
 import os
 
@@ -141,7 +143,7 @@ def makerequest(qstr, qdict, config=None):
                     # to the queried json file
                     queried = {}
                     out = request(qstr_ddp, qdict)
-                    queried[qstr_ddp] = (out)
+                    queried[qstr_ddp] = out
                     fh.seek(0)
                     json.dump(queried, fh, indent=4)
     else:
@@ -159,20 +161,20 @@ def relaunch_query(qstr, qdict, avail, config=None):
     :param config: a dictionary with 2 keys ("test" + "fetch") to pass to makerequest(). see makerequest() for details
     :return:
     """
-    out = []
+    out = ["", "", "", False]
     # if there are two dates (birth + death), first remove the first date and launch the query;
     # if there's no result, remove the second date and relaunch the query
     if len(list(qdict["dates"].split())) == 2:
         dates = list(qdict["dates"].split())
         qstr_dates = qstr.replace(dates[0], "")
         out = makerequest(qstr_dates, qdict, config)
-        if len(out) == 0:
+        if out[0] == "":
             qstr_dates = qstr.replace(dates[1], "")
             out = makerequest(qstr_dates, qdict, config)
 
     # if there's no result after running the query with one less date,
     # relaunch the query in a substractive manner (by removing one available query parameter (value of qdict))
-    if len(out) == 0:
+    if out[0] == "":
         for a in avail:
             qstr = qstr.replace(qdict[a], "")
             out = makerequest(qstr, qdict, config)
@@ -221,23 +223,23 @@ def launch_query(qdict, config=None):
 
         # extra behaviour if there's no result : delete first name if it was rebuilt,
         # remove one of qdict parameters per query (except for lname and fname)
-        if len(out) == 0:
+        if out[0] == "":
             # if there's a nobility name, try to remove the fname or lname or both (conditions 1, 2, 3)
             # if all else fails, relaunch_query without fname or lname
             if qdict["nobname_sts"] != "":
                 if qdict["fname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
                     out = makerequest(qstr, qdict, config)
-                if len(out) == 0 and qdict["lname"] != "":
+                if out[0] == "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["lname"], "")
                     if not re.match(r"^\s*?", qdict["fname"]):
                         qstr = qstr + f" {qdict['fname']} "
                     out = makerequest(qstr, qdict, config)
-                if len(out) == 0 and qdict["fname"] != "" and qdict["lname"] != "":
+                if out[0] == "" and qdict["fname"] != "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
                     qstr = qstr.replace(qdict["lname"], "")
                     out = makerequest(qstr, qdict, config)
-                if len(out) == 0:
+                if out[0] == "":
                     out = relaunch_query(qstr, qdict,  avail, config)
 
             # remove a parameter and relaunch the query
@@ -250,19 +252,19 @@ def launch_query(qdict, config=None):
                         {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}".lower()
                 qstr = qstr.replace(qdict["fname"], "")
                 out = makerequest(qstr, qdict, config)
-                if len(out) == 0 and len(avail) >= 1:
+                if out[0] == "" and len(avail) >= 1:
                     out = relaunch_query(qstr, qdict, avail, config)
 
             # if all else fails, get the original query string back ;
             # remove the first name (a french version of the name  can be in the catalogs,
             # while a foreign version only is on wikidata) and relaunch the query
-            if len(out) == 0 and not re.search(r"^\s*$", qdict["fname"]):
+            if out[0] == "" and not re.search(r"^\s*$", qdict["fname"]):
                 qstr = qstr.replace(qdict["fname"], "")
                 out = makerequest(qstr, qdict, config)
-                if len(out) == 0 and len(avail) >= 1:
+                if out[0] == "" and len(avail) >= 1:
                     out = relaunch_query(qstr, qdict, avail, config)
 
-    # if after all no id is found
+    # if there's no data to be queried
     else:
         out = ["", "", "", False]
 
@@ -287,14 +289,19 @@ def itemtoid(config=None):
         out_writer = csv.writer(f_out, delimiter="\t")
         out_reader = csv.reader(f_out, delimiter="\t")
         queried = []
+        prev = {}
 
         # write the column headers if output is empty
         if os.stat("out/nametable_out.tsv").st_size == 0:
             out_writer.writerow(["tei:xml_id", "wd:id", "tei:name", "wd:name",
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
+        # get the total number of rows
+        trows = sum(1 for row in in_reader)
+        f_in.seek(0)
         next(f_in)  # skip column headers
-        for row in in_reader:
+
+        for row in tqdm(in_reader, desc="retrieving IDs from the wikidata API", total=trows):
             # safeguard in case the script crashes: see which
             # entries have aldready been queried to avoid querying them again
             # queried is rebuilt at each iteration to update it with new entries
@@ -304,7 +311,6 @@ def itemtoid(config=None):
                 queried.append([c[0], c[2]])  # add entry's xml:id and tei:name to a list
             f_out.seek(0, 0)
 
-            prev = {}
             in_data = [row[2], row[3]]  # input data on which to launch a query
             entry = [row[0], row[2]]  # to compare with queried
 
@@ -327,7 +333,6 @@ def itemtoid(config=None):
     # delete queried.json (which stores aldready ran queries)
     os.remove("tables/queried.json")
     return None
-
 
 
 def striptag(instr):

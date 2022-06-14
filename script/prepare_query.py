@@ -50,7 +50,7 @@ def prep_query(in_data, prev):
 
     # =========== PARSE THE NAME =========== #
     # CASE 1 - the name is the same as the one in the previous item: build this item's data w/ data from the prev item
-    if re.match("(le|la)\smême", name.lower()):
+    if re.match(r"(le|la)\sm[êe]me\.?", name.lower()):
         qdata = prev
         prev = qdata
         return qdata, prev  # at this point, there's no tei:trait with meaningful
