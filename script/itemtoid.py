@@ -305,24 +305,18 @@ def itemtoid(config=None):
         f_in.seek(0)
         next(f_in)  # skip column headers
 
-        nrow = 0
-
         for row in tqdm(in_reader, desc="retrieving IDs from the wikidata API", total=trows):
             # safeguard in case the script crashes (which it does): see which
             # entries have aldready been queried to avoid querying them again
             # queried is rebuilt at each iteration to update it with new entries
-            f = open("tables/log_done.txt", mode="r", encoding="utf-8")
-            done = f.read().split()
-            if nrow == 0:
-                print(len(done))
-                print(len(set(done)))
-            nrow += 1
+            log = open("tables/log_done.txt", mode="r", encoding="utf-8")
+            done = log.read().split()
 
             # manage the updates: run a query only if this row hasn't been queried aldready
             # (aka, it it's not in done)
             if row[0] not in done:
                 done = []  # empty the looong list of queried items to same memory
-                f.close()  # close the file to save memory
+                log.close()  # close the file to save memory
 
                 try:
                     in_data = [row[2], row[3]]  # input data on which to launch a query
