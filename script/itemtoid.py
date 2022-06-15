@@ -296,30 +296,41 @@ def itemtoid(config=None):
             out_writer.writerow(["tei:xml_id", "wd:id", "tei:name", "wd:name",
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
+        # write the aldready queried items to tables/log_done.txt if this file doesn't exist
+        if not os.path.isfile("tables/log_done.txt"):
+            log_done(in_fpath="tables/log_done.txt", orig=True)
+
         # get the total number of rows
         trows = sum(1 for row in in_reader)
         f_in.seek(0)
         next(f_in)  # skip column headers
 
+        nrow = 0
+
         for row in tqdm(in_reader, desc="retrieving IDs from the wikidata API", total=trows):
-            # safeguard in case the script crashes: see which
+            # safeguard in case the script crashes (which it does): see which
             # entries have aldready been queried to avoid querying them again
             # queried is rebuilt at each iteration to update it with new entries
-            out_reader = csv.reader(f_out, delimiter="\t")
-            content = list(out_reader)  # the lines aldready present in the output csv file
-            for c in content:
-                queried.append([c[0], c[2]])  # add entry's xml:id and tei:name to a list
-            f_out.seek(0, 0)
-
-            in_data = [row[2], row[3]]  # input data on which to launch a query
-            entry = [row[0], row[2]]  # to compare with queried
+            f = open("tables/log_done.txt", mode="r", encoding="utf-8")
+            done = f.read().split()
+            if nrow == 0:
+                print(len(done))
+                print(len(set(done)))
+            nrow += 1
 
             # manage the updates: run a query only if this row hasn't been queried aldready
-            if entry not in queried:
+            # (aka, it it's not in done)
+            if row[0] not in done:
+                done = []  # empty the looong list of queried items to same memory
+                f.close()  # close the file to save memory
+
                 try:
+                    in_data = [row[2], row[3]]  # input data on which to launch a query
                     qdict, prev = prep_query(in_data, prev)
                     out = launch_query(qdict, config)
                     out_writer.writerow([row[0], out[0], row[2], out[1], out[2], row[3], out[3]])
+                    log_done(orig=False, data=row[0])  # write the xml:id to log file
+
                 except:
                     print(f"########### ERROR ON {row[0]} ###########")
                     print(row)
@@ -329,9 +340,29 @@ def itemtoid(config=None):
                     sys.exit(1)
 
         f_in.close()
+    return None
 
-    # delete queried.json (which stores aldready ran queries)
-    os.remove("tables/queried.json")
+
+def log_done(orig, in_fpath=None, data=None):
+    """
+    write the aldready queried items to a log file (in order to avoid querying the same items again and again)
+    - if used in orig=True mode, in_fpath must be supplied
+    - if used in orig=False mode, data must be supplied
+    :param orig: boolean indicating that the log file is created for the first time: read all
+                 of fpath and write it to the log file
+    :param in_fpath: the input file path from which to get the queried entries when it's ran the first time
+                     (should be out/nametable_out.tsv)
+    :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
+    :return: None
+    """
+    with open("tables/log_done.txt", mode="a", encoding="utf-8") as f_out:
+        if orig is True:
+            with open(in_fpath, mode="r", encoding="utf-8") as f_in:
+                in_reader = csv.reader(f_in, delimiter="\t")
+                for row in in_reader:
+                    f_out.write(f"{row[0]} ")  # write the entry's xml:id to log_done.txt
+        else:
+            f_out.write(f"{data} ")
     return None
 
 
@@ -343,6 +374,7 @@ def striptag(instr):
     """
     outstr = re.sub(r"<.*?>", "", instr)
     return outstr
+
 
     """with open("tables/wd_nametable.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
