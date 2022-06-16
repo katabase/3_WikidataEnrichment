@@ -4,6 +4,7 @@ import random
 import string
 import json
 import time
+import glob
 import csv
 import re
 import os
@@ -15,14 +16,20 @@ from prepare_query import prep_query
 # ================= TESTING FUNCTIONS ================= #
 def makedummy():
     """
-    build dummy, a json to check what's quicker:
+    build dummies, json files to check what's quicker:
     - run all queries, no matter whether if they've aldready been ran
-    - check in a large json file if the query has aldready been ran and get the result from there
-    the structure of the dummy json is similar to the structure of the json file to be used with the final dataset
+    - check in json files if the query has aldready been ran and get the result from there
+    the structure of the dummy jsons is similar to the structure of the json file to be used with the final dataset
+    the json files are separated by the first letter of the query string to avoid having to parse a huge file:
+    queried_{first query letter}.json. files are stored to logs/test/
     :return: None
     """
+    if not os.path.isdir("logs/test"):
+        os.makedirs("logs/test")
     dummy = {}
-    for i in range(10000):
+    for i in range(30000):
+        # 30000 dummy query results because the current dataset's size is 80000-ish, but some
+        # queries return empty and thus don't take as much size / are parsed quicker
         # about 30% of wikidata ids are certain ; add dummy booleans in that proportion to dummy
         rand = random.randrange(1, 10)
         if rand >= 7:
@@ -32,10 +39,16 @@ def makedummy():
         dummy_key = "".join(random.choices(string.ascii_lowercase, k=15))
         dummy_w_id = f"Q{''.join(random.choices(string.digits, k=7))}"
         dummy_title = "".join(random.choices(string.digits, k=10))
-        dummy_snippet = "".join(random.choices(string.digits, k=20))
-        dummy[dummy_key] = [dummy_w_id, dummy_title, dummy_snippet, dummy_cert]
-    with open("tables/dummy.json", mode="w") as out:
-        json.dump(dummy, out, indent=4)
+        dummy_snippet = "".join(random.choices(string.digits, k=25))
+        if dummy_key[0] not in dummy.keys():
+            dummy[dummy_key[0]] = {dummy_key: [dummy_w_id, dummy_title, dummy_snippet, dummy_cert]}
+        else:
+            dummy[dummy_key[0]].update({
+                dummy_key: [dummy_w_id, dummy_title, dummy_snippet, dummy_cert]
+            })
+    for d in dummy:
+        with open(f"logs/test/dummy_{d[0]}.json", mode="w") as out:
+            json.dump(dummy[d], out, indent=4)
     return None
 
 
@@ -231,8 +244,12 @@ def test_algorithm(fetch, nloop=1):
                 nrow += 1
 
             runtime.append(time.time() - start)
+
+            # delete dummy files
             if fetch is True:
-                os.remove("tables/dummy.json")  # delete the dummy file
+                for f in glob.glob("logs/test/*"):
+                    os.remove(f)
+                os.rmdir("logs/test")
 
     # crunch statistical data:
     # - precision and recall for both true positives (a correct wikidata id has been found)
@@ -441,3 +458,4 @@ def itemtoid_test():
 # ================= LAUNCH THE SCRIPT ================= #
 if __name__ == "__main__":
     itemtoid_test()
+    # makedummy()

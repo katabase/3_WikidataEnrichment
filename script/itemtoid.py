@@ -101,53 +101,62 @@ def makerequest(qstr, qdict, config=None):
     are in the query string)
     :return:
     """
-    # remove duplicate words from qstr
+    # clean the query string: remove duplicates, symbols ...
     qstr = qstr.lower().split()
-    qstr_ddp = re.sub(r"\s+", " ", " ".join(sorted(set(qstr), key=qstr.index)))  # ddp = de-duplicated
+    qstr = re.sub(r"\s+", " ", " ".join(sorted(set(qstr), key=qstr.index)))
+    qstr = re.sub(r"(!|\.|\?|;|/|\\|:|&|\(|\)|\[|\]|#|\"|,|^'|_)", " ", qstr)
+    qstr = re.sub(r"\s+", " ", qstr).strip()
 
     # check if the query has aldready been done; if so, get the result from the json
     if config is None:
         config = {"test": False, "fetch": True}
 
-    # if fetch is True, try to fetch the query in the queried json. if the query has not aldready been run,
+    # if fetch is True, try to fetch the query in the queried jsons.
+    # the queried jsons are a bunch of files following the pattern :
+    # "queried_{first character of query string}.json". this allows to create a
+    # lot of smaller files to make the program run faster and save on ram.
+    # if we're running tests, then the files follow the pattern : "test/dummy_{character}.json"
+    # see itemtoid_test.py for explanations
+    # if the query has not aldready been ran,
     # launch the query on the wikidata API  and write the output to queried.
     # if fetch is False, run the query directly
     if config["fetch"] is True:
         if config["test"] is True:
-            with open("tables/dummy.json", mode="r+") as fh:
+            with open(f"logs/test/dummy_{qstr[0]}.json", mode="r+") as fh:
                 queried = json.load(fh)
-                if qstr_ddp in queried.keys():
-                    out = queried[qstr_ddp]
+                if qstr in queried.keys():
+                    out = queried[qstr]
                 else:
-                    out = request(qstr_ddp, qdict)
-                    queried[qstr_ddp] = out
+                    out = request(qstr, qdict)
+                    queried[qstr] = out
                     fh.seek(0)
                     json.dump(queried, fh, indent=4)
         else:
-            if not os.path.isfile("tables/queried.json"):
-                Path("tables/queried.json").touch()  # create file
-            with open("tables/queried.json", mode="r+") as fh:
-                if not os.stat("tables/queried.json").st_size == 0:
+            fpath = f"logs/queried_{qstr[0]}.json"
+            if not os.path.isfile(fpath):
+                Path(fpath).touch()  # create file
+            with open(fpath, mode="r+") as fh:
+                if not os.stat(fpath).st_size == 0:
                     # if the file is not empty, normal functionning: read the json
                     # to see if the query has aldready been ran ; return the result
                     queried = json.load(fh)
-                    if qstr_ddp in queried.keys():
-                        out = queried[qstr_ddp]
+                    if qstr in queried.keys():
+                        out = queried[qstr]
                     else:
-                        out = request(qstr_ddp, qdict)
-                        queried[qstr_ddp] = out
+                        out = request(qstr, qdict)
+                        queried[qstr] = out
                         fh.seek(0)
                         json.dump(queried, fh, indent=4)
                 else:
                     # if the file is empty (on the first request), write the request's result
                     # to the queried json file
                     queried = {}
-                    out = request(qstr_ddp, qdict)
-                    queried[qstr_ddp] = out
+                    out = request(qstr, qdict)
+                    queried[qstr] = out
                     fh.seek(0)
                     json.dump(queried, fh, indent=4)
     else:
-        out = request(qstr_ddp, qdict)
+        out = request(qstr, qdict)
     return out
 
 
@@ -297,8 +306,8 @@ def itemtoid(config=None):
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
         # write the aldready queried items to tables/log_done.txt if this file doesn't exist
-        if not os.path.isfile("tables/log_done.txt"):
-            log_done(in_fpath="tables/log_done.txt", orig=True)
+        if not os.path.isfile("logs/log_done.txt"):
+            log_done(in_fpath="logs/log_done.txt", orig=True)
 
         # get the total number of rows
         trows = sum(1 for row in in_reader)
@@ -309,7 +318,7 @@ def itemtoid(config=None):
             # safeguard in case the script crashes (which it does): see which
             # entries have aldready been queried to avoid querying them again
             # queried is rebuilt at each iteration to update it with new entries
-            log = open("tables/log_done.txt", mode="r", encoding="utf-8")
+            log = open("logs/log_done.txt", mode="r", encoding="utf-8")
             done = log.read().split()
 
             # manage the updates: run a query only if this row hasn't been queried aldready
@@ -349,7 +358,7 @@ def log_done(orig, in_fpath=None, data=None):
     :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
     :return: None
     """
-    with open("tables/log_done.txt", mode="a", encoding="utf-8") as f_out:
+    with open("logs/log_done.txt", mode="a", encoding="utf-8") as f_out:
         if orig is True:
             with open(in_fpath, mode="r", encoding="utf-8") as f_in:
                 in_reader = csv.reader(f_in, delimiter="\t")
@@ -368,15 +377,6 @@ def striptag(instr):
     """
     outstr = re.sub(r"<.*?>", "", instr)
     return outstr
-
-
-    """with open("tables/wd_nametable.tsv", mode="r", encoding="utf-8") as fh:
-        reader = csv.reader(fh, delimiter="\t")
-        prev = {}  # dictionary to store the previous loop entry
-        for row in reader:
-            in_data = [row[2], row[3]]  # input data on which to launch a query
-            qdict, prev = prep_query(in_data, prev)
-            launch_query(qdict, {"test": False, "fetch": True})"""
 
 
 # ================= LAUNCH THE SCRIPT ================= #
