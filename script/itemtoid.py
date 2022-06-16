@@ -9,11 +9,31 @@ import re
 import os
 
 from rgx import names
-from prepare_query import prep_query
+from itemtoid_prep import prep_query
 
 
 # get a wikidata id from a full text query
 # wikidata api documentation : https://www.mediawiki.org/wiki/API:Etiquette
+#
+#
+# PROCESS (follow the arrows to get an idea of which function triggers which other)
+# -------
+#
+# itemtoid() : loop through the tsv, prepare the data log the query and write the results to output
+#  |
+#  |-> log_done() : log which entries have been queried
+#  |
+#  |-> launch_query() : main query algorithm
+#  |    |
+#  |    |-> relaunch_query() : remove one parameter at a time and relaunch the query
+#  |    |    |
+#  |<---+----+
+#  |
+#  +-> confrequest() : configure the request and try to fetch the results from queried_* jsons
+#       |
+#       +-> request() : launch a request on the wikidata API
+#            |
+#            +-> striptags() : strip thml tags
 
 
 # ================= MAKE AND LAUNCH THE QUERIES ================= #
@@ -22,8 +42,8 @@ def request(qstr, qdict):
     run a full text search on wikidata, determine the degree of certitude
     of the obtained result (based on the values of qdict used to build
     the query string) and return the result
-    :param qstr:
-    :param qdict:
+    :param qstr: the queried string
+    :param qdict: the dictionary used to build the query string
     :return: out, a list of the results : ["wikidata id", "page title", "page snippet", "certitude"]
     """
     paramcount = 0  # count number of parameters to determine if cert is True
@@ -53,7 +73,7 @@ def request(qstr, qdict):
         out = [
             js["query"]["search"][0]["title"],
             striptag(js["query"]["search"][0]["titlesnippet"]),
-            js["query"]["search"][0]["snippet"]
+            striptag(js["query"]["search"][0]["snippet"])
                ]
 
     # if there's a mistake, at a list with 3 empty elements (we add empty elements cause
@@ -90,7 +110,7 @@ def request(qstr, qdict):
     return out
 
 
-def makerequest(qstr, qdict, config=None):
+def confrequest(qstr, qdict, config=None):
     """
     configure the request and launch it
     :param qstr: the query string
@@ -99,7 +119,7 @@ def makerequest(qstr, qdict, config=None):
                    - config["test"] indicates if it's a test or the true query, to choose which json to load
                    - config["fetch"] indicates if a json should be loaded at all or not
     are in the query string)
-    :return:
+    :return: out (see request())
     """
     # clean the query string: remove duplicates, symbols ...
     qstr = qstr.lower().split()
@@ -167,8 +187,8 @@ def relaunch_query(qstr, qdict, avail, config=None):
     :param qstr: the query string
     :param qdict: the dictionary from which the query string is being build
     :param avail: the list of available query parameters (non empty keys of qdict that aren't fname, lname or rebuilt)
-    :param config: a dictionary with 2 keys ("test" + "fetch") to pass to makerequest(). see makerequest() for details
-    :return:
+    :param config: a dictionary with 2 keys ("test" + "fetch") to pass to confrequest(). see confrequest() for details
+    :return: out (see request())
     """
     out = ["", "", "", False]
     # if there are two dates (birth + death), first remove the first date and launch the query;
@@ -176,17 +196,17 @@ def relaunch_query(qstr, qdict, avail, config=None):
     if len(list(qdict["dates"].split())) == 2:
         dates = list(qdict["dates"].split())
         qstr_dates = qstr.replace(dates[0], "")
-        out = makerequest(qstr_dates, qdict, config)
+        out = confrequest(qstr_dates, qdict, config)
         if out[0] == "":
             qstr_dates = qstr.replace(dates[1], "")
-            out = makerequest(qstr_dates, qdict, config)
+            out = confrequest(qstr_dates, qdict, config)
 
     # if there's no result after running the query with one less date,
     # relaunch the query in a substractive manner (by removing one available query parameter (value of qdict))
     if out[0] == "":
         for a in avail:
             qstr = qstr.replace(qdict[a], "")
-            out = makerequest(qstr, qdict, config)
+            out = confrequest(qstr, qdict, config)
             if len(out) != "":
                 break  # info has been found. stop looping
             else:
@@ -203,8 +223,8 @@ def launch_query(qdict, config=None):
     (see prep_query() for the preparation of qdict, a structured dictionary made from the tei:trait
     and tei:name).
     :param qdict: the dictionary from which the query string is being build (see prep_query())
-    :param config: a dictionary with 2 keys ("test" + "fetch") to pass to makerequest(). see makerequest() for details
-    :return:
+    :param config: a dictionary with 2 keys ("test" + "fetch") to pass to confrequest(). see confrequest() for details
+    :return: out (see request())
     """
     if config is None:
         config = {"test": False, "fetch": True}
@@ -228,7 +248,7 @@ def launch_query(qdict, config=None):
 
     # launch query if there is info on which to be queried
     if not re.match(r"^\s*$", qstr):
-        out = makerequest(qstr, qdict, config)
+        out = confrequest(qstr, qdict, config)
 
         # extra behaviour if there's no result : delete first name if it was rebuilt,
         # remove one of qdict parameters per query (except for lname and fname)
@@ -238,16 +258,16 @@ def launch_query(qdict, config=None):
             if qdict["nobname_sts"] != "":
                 if qdict["fname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
-                    out = makerequest(qstr, qdict, config)
+                    out = confrequest(qstr, qdict, config)
                 if out[0] == "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["lname"], "")
                     if not re.match(r"^\s*?", qdict["fname"]):
                         qstr = qstr + f" {qdict['fname']} "
-                    out = makerequest(qstr, qdict, config)
+                    out = confrequest(qstr, qdict, config)
                 if out[0] == "" and qdict["fname"] != "" and qdict["lname"] != "":
                     qstr = qstr.replace(qdict["fname"], "")
                     qstr = qstr.replace(qdict["lname"], "")
-                    out = makerequest(qstr, qdict, config)
+                    out = confrequest(qstr, qdict, config)
                 if out[0] == "":
                     out = relaunch_query(qstr, qdict,  avail, config)
 
@@ -260,7 +280,7 @@ def launch_query(qdict, config=None):
                 qstr = f"{qdict['fname']} {qdict['lname']} {qdict['status']} \
                         {qdict['nobname_sts']} {qdict['dates']} {qdict['function']}".lower()
                 qstr = qstr.replace(qdict["fname"], "")
-                out = makerequest(qstr, qdict, config)
+                out = confrequest(qstr, qdict, config)
                 if out[0] == "" and len(avail) >= 1:
                     out = relaunch_query(qstr, qdict, avail, config)
 
@@ -269,7 +289,7 @@ def launch_query(qdict, config=None):
             # while a foreign version only is on wikidata) and relaunch the query
             if out[0] == "" and not re.search(r"^\s*$", qdict["fname"]):
                 qstr = qstr.replace(qdict["fname"], "")
-                out = makerequest(qstr, qdict, config)
+                out = confrequest(qstr, qdict, config)
                 if out[0] == "" and len(avail) >= 1:
                     out = relaunch_query(qstr, qdict, avail, config)
 
@@ -283,8 +303,9 @@ def launch_query(qdict, config=None):
 def itemtoid(config=None):
     """
     launch the query on all entries of nametable_in.tsv. a nametable_out.tsv output
-    file is created in out/, even if it's not used in tests (which it's not supposed to be).
-    :return:
+    file is created in out/, even if it's not used in tests (this function is not supposed to be
+    used in tests tho).
+    :return: None
     """
     if config is None:
         config = {"test": False, "fetch": True}
@@ -296,8 +317,6 @@ def itemtoid(config=None):
 
         in_reader = csv.reader(f_in, delimiter="\t")
         out_writer = csv.writer(f_out, delimiter="\t")
-        out_reader = csv.reader(f_out, delimiter="\t")
-        queried = []
         prev = {}
 
         # write the column headers if output is empty

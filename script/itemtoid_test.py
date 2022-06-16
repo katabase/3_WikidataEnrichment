@@ -10,7 +10,7 @@ import re
 import os
 
 from itemtoid import launch_query
-from prepare_query import prep_query
+from itemtoid_prep import prep_query
 
 
 # ================= TESTING FUNCTIONS ================= #
