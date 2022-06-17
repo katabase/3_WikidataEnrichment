@@ -97,7 +97,7 @@ def request(qstr, qdict):
         elif k == "rebuilt" and v is True and not re.match(r"^\s*$", qdict["fname"]):
             paramcount += 1
         # if other parameters are in qstr
-        elif k != "rebuilt" and not re.match(r"^\s*$", v) and v.lower().strip() in qstr:
+        elif k != "rebuilt" and type(v) == str and not re.match(r"^\s*$", v) and v.lower().strip() in qstr:
             paramcount += 1
     # if paramcount >= 5 or qdate is True: certitude == 0.305, certitude_false == 0.08
     # if paramcount >= 4 or qdate is True: certitude == 0.335, certitude_false == 0.09
