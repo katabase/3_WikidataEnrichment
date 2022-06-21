@@ -136,7 +136,7 @@ def confrequest(qstr, qdict, config=None):
 
     # if fetch is True, try to fetch the query in the queried jsons.
     # the queried jsons are a bunch of files following the pattern :
-    # "queried_{first character of query string}.json". this allows to create a
+    # "idqueried_{first character of query string}.json". this allows to create a
     # lot of smaller files to make the program run faster and save on ram.
     # if we're running tests, then the files follow the pattern : "test/dummy_{character}.json"
     # see itemtoid_test.py for explanations
@@ -155,7 +155,7 @@ def confrequest(qstr, qdict, config=None):
                     fh.seek(0)
                     json.dump(queried, fh, indent=4)
         else:
-            fpath = f"logs/queried_{qstr[0]}.json"
+            fpath = f"logs/idqueried_{qstr[0]}.json"
             if not os.path.isfile(fpath):
                 Path(fpath).touch()  # create file
             with open(fpath, mode="r+") as fh:
@@ -306,13 +306,13 @@ def launch_query(qdict, config=None):
 def itemtoid(config=None):
     """
     launch the query on all entries of nametable_in.tsv. a nametable_out.tsv output
-    file is created in out/, even if it's not used in tests (this function is not supposed to be
+    file is created in ../out/wd_out/, even if it's not used in tests (this function is not supposed to be
     used in tests tho).
     :return: None
     """
     if config is None:
         config = {"test": False, "fetch": True}
-    with open("out/nametable_out.tsv", mode="a+", encoding="utf-8") as f_out:
+    with open("../out/wd_out/nametable_out.tsv", mode="a+", encoding="utf-8") as f_out:
         if config["test"] is True:
             f_in = open("tables/nametable_test_noid.tsv", mode="r+", encoding="utf-8")
         else:
@@ -323,13 +323,13 @@ def itemtoid(config=None):
         prev = {}
 
         # write the column headers if output is empty
-        if os.stat("out/nametable_out.tsv").st_size == 0:
+        if os.stat("../out/wd_out/nametable_out.tsv").st_size == 0:
             out_writer.writerow(["tei:xml_id", "wd:id", "tei:name", "wd:name",
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
         # write the aldready queried items to tables/log_done.txt if this file doesn't exist
-        if not os.path.isfile("logs/log_done.txt"):
-            log_done(in_fpath="logs/log_done.txt", orig=True)
+        if not os.path.isfile("logs/log_id.txt"):
+            log_done(in_fpath="logs/log_id.txt", orig=True)
 
         # get the total number of rows
         trows = sum(1 for row in in_reader)
@@ -340,7 +340,7 @@ def itemtoid(config=None):
             # safeguard in case the script crashes (which it does): see which
             # entries have aldready been queried to avoid querying them again
             # queried is rebuilt at each iteration to update it with new entries
-            log = open("logs/log_done.txt", mode="r", encoding="utf-8")
+            log = open("logs/log_id.txt", mode="r", encoding="utf-8")
             done = log.read().split()
 
             # manage the updates: run a query only if this row hasn't been queried aldready
@@ -376,11 +376,11 @@ def log_done(orig, in_fpath=None, data=None):
     :param orig: boolean indicating that the log file is created for the first time: read all
                  of fpath and write it to the log file
     :param in_fpath: the input file path from which to get the queried entries when it's ran the first time
-                     (should be out/nametable_out.tsv)
+                     (should be ../out/wd_out/nametable_out.tsv)
     :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
     :return: None
     """
-    with open("logs/log_done.txt", mode="a", encoding="utf-8") as f_out:
+    with open("logs/log_id.txt", mode="a", encoding="utf-8") as f_out:
         if orig is True:
             with open(in_fpath, mode="r", encoding="utf-8") as f_in:
                 in_reader = csv.reader(f_in, delimiter="\t")

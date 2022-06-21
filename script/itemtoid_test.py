@@ -26,7 +26,7 @@ def makedummy():
     - check in json files if the query has aldready been ran and get the result from there
     the structure of the dummy jsons is similar to the structure of the json file to be used with the final dataset
     the json files are separated by the first letter of the query string to avoid having to parse a huge file:
-    queried_{first query letter}.json. files are stored to logs/test/
+    idqueried_{first query letter}.json. files are stored to logs/test/
     :return: None
     """
     if not os.path.isdir("logs/test"):
