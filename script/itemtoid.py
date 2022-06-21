@@ -306,13 +306,13 @@ def launch_query(qdict, config=None):
 def itemtoid(config=None):
     """
     launch the query on all entries of nametable_in.tsv. a nametable_out.tsv output
-    file is created in ../out/wd_out/, even if it's not used in tests (this function is not supposed to be
+    file is created in ../out/wikidata/, even if it's not used in tests (this function is not supposed to be
     used in tests tho).
     :return: None
     """
     if config is None:
         config = {"test": False, "fetch": True}
-    with open("../out/wd_out/nametable_out.tsv", mode="a+", encoding="utf-8") as f_out:
+    with open("../out/wikidata/nametable_out.tsv", mode="a+", encoding="utf-8") as f_out:
         if config["test"] is True:
             f_in = open("tables/nametable_test_noid.tsv", mode="r+", encoding="utf-8")
         else:
@@ -323,7 +323,7 @@ def itemtoid(config=None):
         prev = {}
 
         # write the column headers if output is empty
-        if os.stat("../out/wd_out/nametable_out.tsv").st_size == 0:
+        if os.stat("../out/wikidata/nametable_out.tsv").st_size == 0:
             out_writer.writerow(["tei:xml_id", "wd:id", "tei:name", "wd:name",
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
@@ -376,7 +376,7 @@ def log_done(orig, in_fpath=None, data=None):
     :param orig: boolean indicating that the log file is created for the first time: read all
                  of fpath and write it to the log file
     :param in_fpath: the input file path from which to get the queried entries when it's ran the first time
-                     (should be ../out/wd_out/nametable_out.tsv)
+                     (should be ../out/wikidata/nametable_out.tsv)
     :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
     :return: None
     """
