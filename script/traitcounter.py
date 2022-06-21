@@ -3,6 +3,12 @@ import csv
 import json
 
 
+# -----------------------------------------------------------------
+# counting the most frequent words in the tei:trait
+# (can be used to update matching tables for new catalogue entries)
+# -----------------------------------------------------------------
+
+
 # ================= COUNT THE MOST FREQUENT WORDS ================= #
 def counter():
     """

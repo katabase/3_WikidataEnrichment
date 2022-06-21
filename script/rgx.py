@@ -3,6 +3,13 @@ import re
 from tables.matching import comp_names, names
 
 
+# ------------------------------------------------------------
+# operations on tei:name:
+# regex matching for full and abbreviated names,
+# building a full name from its abbreviation in the catalogues
+# ------------------------------------------------------------
+
+
 # ================= WORKING ON NAMES: REGEX MATCHING AND GETTING THE FULL 1ST NAME ================= #
 def rgx_abvcomp(nstr):
     """

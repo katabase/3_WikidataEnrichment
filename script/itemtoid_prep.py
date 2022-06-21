@@ -5,6 +5,11 @@ from tables.matching import status, provinces, dpts, colonies, \
 from rgx import namebuild
 
 
+# ---------------------------------------------------------------------------
+# build a dictionary of structured data to launch queries on the wikidata api
+# ---------------------------------------------------------------------------
+
+
 # ================= BUILD A QUERY ================= #
 def prep_query(in_data, prev):
     """

@@ -13,6 +13,11 @@ from itemtoid import launch_query
 from itemtoid_prep import prep_query
 
 
+# ----------------------------------------
+# test the wikidata id matching algorithms
+# ----------------------------------------
+
+
 # ================= TESTING FUNCTIONS ================= #
 def makedummy():
     """

@@ -4,6 +4,13 @@ import csv
 import os
 import re
 
+
+# -------------------------------------------------------
+# build a table of xml:id, tei:name and tei:trait
+# to use as input for wikidata id matching
+# -------------------------------------------------------
+
+
 ns = {"tei": "http://www.tei-c.org/ns/1.0"}  # tei namespace
 
 

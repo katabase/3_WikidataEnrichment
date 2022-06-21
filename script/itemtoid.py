@@ -12,9 +12,12 @@ from rgx import names
 from itemtoid_prep import prep_query
 
 
+# ----------------------------------------
 # get a wikidata id from a full text query
+# ----------------------------------------
+
+
 # wikidata api documentation : https://www.mediawiki.org/wiki/API:Etiquette
-#
 #
 # PROCESS (follow the arrows to get an idea of which function triggers which other)
 # -------
