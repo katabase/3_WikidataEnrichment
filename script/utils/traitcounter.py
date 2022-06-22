@@ -73,6 +73,3 @@ def counter():
         json.dump(counter_sort, out, indent=4)
     print("done !")
     return None
-
-if __name__ == "__main__":
-    counter()

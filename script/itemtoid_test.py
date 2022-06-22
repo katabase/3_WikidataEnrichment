@@ -453,7 +453,7 @@ def itemtoid_test():
     outdict = {"base_query": test_base, "no_rebuilt_names": test_rebuilt, "final_algorithm": test_final}
     if not os.path.isdir(OUT):
         os.makedirs(OUT)
-    with open(os.path.join(OUT, "itemtoid_test_out.json"), mode="w") as out:
+    with open(os.path.join(OUT, "wikidata", "itemtoid_test_out.json"), mode="w") as out:
         json.dump(outdict, out, indent=4)
 
     print(outdict)

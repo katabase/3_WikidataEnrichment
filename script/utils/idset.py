@@ -25,7 +25,3 @@ def build_idset():
         out += f"{w} "
     with open(f"{TABLES}/id_wikidata.txt", mode="w") as f:
         f.write(out)
-
-
-if __name__ == "__main__":
-    build_idset()
