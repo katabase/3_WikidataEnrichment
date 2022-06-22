@@ -1,6 +1,6 @@
 import re
 
-from tables.matching import comp_names, names
+from ..tables.matching import comp_names, names
 
 
 # ------------------------------------------------------------

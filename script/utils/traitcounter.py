@@ -2,6 +2,8 @@ import re
 import csv
 import json
 
+from .paths import TABLES
+
 
 # -----------------------------------------------------------------
 # counting the most frequent words in the tei:trait
@@ -17,7 +19,7 @@ def counter():
     used to get how to clusterize data
     :return: None
     """
-    with open("tables/nametable_in.tsv", mode="r", encoding="utf-8") as f:
+    with open(f"{TABLES}/nametable_in.tsv", mode="r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t")
         trait = ""
         for row in reader:
@@ -67,7 +69,7 @@ def counter():
     # sortv = sorted(list(counter.values()))  # sorted count of words
 
     # save counter and print it
-    with open("tables/wd_trait_wordcount.json", mode="w", encoding="utf-8") as out:
+    with open(f"{TABLES}/wd_trait_wordcount.json", mode="w", encoding="utf-8") as out:
         json.dump(counter_sort, out, indent=4)
     print("done !")
     return None

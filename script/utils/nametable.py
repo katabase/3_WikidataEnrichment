@@ -4,6 +4,8 @@ import csv
 import os
 import re
 
+from .paths import TABLES, CATS
+
 
 # -------------------------------------------------------
 # build a table of xml:id, tei:name and tei:trait
@@ -32,13 +34,11 @@ def csvbuilder():
 
     :return:
     """
-    input_f = glob.glob(os.path.abspath(
-        os.path.join(os.getcwd(), os.pardir, "Catalogues", "*0*", "CAT_*.xml")
-    ))  # get the input files
+    input_f = glob.glob(os.path.join(CATS, "*0*", "CAT_*.xml"))  # get the input files
     idwiki = ""  # empty wikipedia identifier
-    if not os.path.isdir(os.path.join(os.getcwd(), "tables")):
-        os.makedirs("tables")
-    with open("tables/nametable_in.tsv", mode="w", encoding="utf-8") as out:
+    if not os.path.isdir(TABLES):
+        os.makedirs(TABLES)
+    with open(f"{TABLES}/nametable_in.tsv", mode="w", encoding="utf-8") as out:
         writer = csv.writer(out, delimiter="\t", quotechar="\"")
         writer.writerow(["xml id", "wikidata id", "name", "trait"])
         for f in input_f:

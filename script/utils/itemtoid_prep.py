@@ -1,8 +1,8 @@
 import re
 
-from tables.matching import status, provinces, dpts, colonies, \
+from ..tables.matching import status, provinces, dpts, colonies, \
     countries, events, other, functions
-from rgx import namebuild
+from .rgx import namebuild
 
 
 # ---------------------------------------------------------------------------

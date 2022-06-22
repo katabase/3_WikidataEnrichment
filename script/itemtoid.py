@@ -8,8 +8,10 @@ import sys
 import re
 import os
 
-from rgx import names
-from itemtoid_prep import prep_query
+from .utils.rgx import names
+from .utils.nametable import csvbuilder
+from .utils.paths import LOGS, OUT, TABLES
+from .utils.itemtoid_prep import prep_query
 
 
 # ----------------------------------------
@@ -145,7 +147,7 @@ def confrequest(qstr, qdict, config=None):
     # if fetch is False, run the query directly
     if config["fetch"] is True:
         if config["test"] is True:
-            with open(f"logs/test/dummy_{qstr[0]}.json", mode="r+") as fh:
+            with open(f"{LOGS}/test/dummy_{qstr[0]}.json", mode="r+") as fh:
                 queried = json.load(fh)
                 if qstr in queried.keys():
                     out = queried[qstr]
@@ -155,7 +157,7 @@ def confrequest(qstr, qdict, config=None):
                     fh.seek(0)
                     json.dump(queried, fh, indent=4)
         else:
-            fpath = f"logs/idqueried_{qstr[0]}.json"
+            fpath = f"{LOGS}/idqueried_{qstr[0]}.json"
             if not os.path.isfile(fpath):
                 Path(fpath).touch()  # create file
             with open(fpath, mode="r+") as fh:
@@ -310,26 +312,30 @@ def itemtoid(config=None):
     used in tests tho).
     :return: None
     """
+    print("* building input dataset *")
+    csvbuilder()  # build the input dataset. doesn't take time, the output can be updated
+    #              if input entries aldready exist in the output dataset
+
     if config is None:
         config = {"test": False, "fetch": True}
-    with open("../out/wikidata/nametable_out.tsv", mode="a+", encoding="utf-8") as f_out:
+    with open(f"{OUT}/wikidata/nametable_out.tsv", mode="a+", encoding="utf-8") as f_out:
         if config["test"] is True:
-            f_in = open("tables/nametable_test_noid.tsv", mode="r+", encoding="utf-8")
+            f_in = open(f"{TABLES}/nametable_test_noid.tsv", mode="r+", encoding="utf-8")
         else:
-            f_in = open("tables/nametable_in.tsv", mode="r+", encoding="utf-8")
+            f_in = open(f"{TABLES}/nametable_in.tsv", mode="r+", encoding="utf-8")
 
         in_reader = csv.reader(f_in, delimiter="\t")
         out_writer = csv.writer(f_out, delimiter="\t")
         prev = {}
 
         # write the column headers if output is empty
-        if os.stat("../out/wikidata/nametable_out.tsv").st_size == 0:
+        if os.stat(f"{OUT}/wikidata/nametable_out.tsv").st_size == 0:
             out_writer.writerow(["tei:xml_id", "wd:id", "tei:name", "wd:name",
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
         # write the aldready queried items to tables/log_done.txt if this file doesn't exist
-        if not os.path.isfile("logs/log_id.txt"):
-            log_done(in_fpath="logs/log_id.txt", orig=True)
+        if not os.path.isfile(f"{LOGS}/log_id.txt"):
+            log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True)
 
         # get the total number of rows
         trows = sum(1 for row in in_reader)
@@ -340,7 +346,7 @@ def itemtoid(config=None):
             # safeguard in case the script crashes (which it does): see which
             # entries have aldready been queried to avoid querying them again
             # queried is rebuilt at each iteration to update it with new entries
-            log = open("logs/log_id.txt", mode="r", encoding="utf-8")
+            log = open(f"{LOGS}/log_id.txt", mode="r", encoding="utf-8")
             done = log.read().split()
 
             # manage the updates: run a query only if this row hasn't been queried aldready
@@ -380,7 +386,7 @@ def log_done(orig, in_fpath=None, data=None):
     :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
     :return: None
     """
-    with open("logs/log_id.txt", mode="a", encoding="utf-8") as f_out:
+    with open(f"{LOGS}/log_id.txt", mode="a", encoding="utf-8") as f_out:
         if orig is True:
             with open(in_fpath, mode="r", encoding="utf-8") as f_in:
                 in_reader = csv.reader(f_in, delimiter="\t")

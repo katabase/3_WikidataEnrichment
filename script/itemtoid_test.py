@@ -9,8 +9,9 @@ import csv
 import re
 import os
 
-from itemtoid import launch_query
-from itemtoid_prep import prep_query
+from .itemtoid import launch_query
+from .utils.itemtoid_prep import prep_query
+from .utils.paths import LOGS, TABLES, OUT
 
 
 # ----------------------------------------
@@ -29,8 +30,8 @@ def makedummy():
     idqueried_{first query letter}.json. files are stored to logs/test/
     :return: None
     """
-    if not os.path.isdir("logs/test"):
-        os.makedirs("logs/test")
+    if not os.path.isdir(f"{LOGS}/test"):
+        os.makedirs(f"{LOGS}/test")
     dummy = {}
     for i in range(30000):
         # 30000 dummy query results because the current dataset's size is 80000-ish, but some
@@ -52,7 +53,7 @@ def makedummy():
                 dummy_key: [dummy_w_id, dummy_title, dummy_snippet, dummy_cert]
             })
     for d in dummy:
-        with open(f"logs/test/dummy_{d[0]}.json", mode="w") as out:
+        with open(f"{LOGS}/test/dummy_{d[0]}.json", mode="w") as out:
             json.dump(dummy[d], out, indent=4)
     return None
 
@@ -63,7 +64,7 @@ def read_id(i):
     :param i: the row for which we want to retrieve an id
     :return: the propert wikidata id
     """
-    with open("tables/nametable_test_withid.tsv", mode="r") as fh:
+    with open(f"{TABLES}/nametable_test_withid.tsv", mode="r") as fh:
         reader = csv.reader(fh, delimiter="\t")
         w_id = [row for idx, row in enumerate(reader) if idx == i][0][1]
     return w_id
@@ -184,7 +185,7 @@ def test_algorithm(fetch, nloop=1):
     :param nloop: number of times to run the algorithm on all entries of the test dataset
     :return: test_final, dictionary of data on the final test
     """
-    with open("tables/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
+    with open(f"{TABLES}/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t")
         total_ids = 0  # total number of wikidata ids in the test dataset
         total_silence = 0  # total number of empty wikidata ids in the test dataset
@@ -195,7 +196,7 @@ def test_algorithm(fetch, nloop=1):
             else:
                 total_silence += 1
 
-    with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
+    with open(f"{TABLES}/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
         runtime = []
         for i in range(nloop):
@@ -252,9 +253,9 @@ def test_algorithm(fetch, nloop=1):
 
             # delete dummy files
             if fetch is True:
-                for f in glob.glob("logs/test/*"):
+                for f in glob.glob(f"{LOGS}/test/*"):
                     os.remove(f)
-                os.rmdir("logs/test")
+                os.rmdir(f"{LOGS}/test")
 
     # crunch statistical data:
     # - precision and recall for both true positives (a correct wikidata id has been found)
@@ -303,13 +304,13 @@ def count_empty():
     """
     statdict = {"test": {"percent empty": 0, "empty rows": 0, "total rows": 0},
                 "real": {"percent empty": 0, "empty rows": 0, "total rows": 0}}
-    with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
+    with open(f"{TABLES}/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
         for r in reader:
             if re.match(r"^\s*$", r[3]):
                 statdict["test"]["empty rows"] += 1
             statdict["test"]["total rows"] += 1
-    with open("tables/nametable_in.tsv", mode="r", encoding="utf-8") as fh:
+    with open(f"{TABLES}/nametable_in.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
         for r in reader:
             if re.match(r"^\s*$", r[3]):
@@ -369,7 +370,7 @@ def itemtoid_test():
     https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html
     :return: None
     """
-    with open("tables/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
+    with open(f"{TABLES}/nametable_test_withid.tsv", mode="r", encoding="utf-8") as f:
         reader = csv.reader(f, delimiter="\t")
         total_ids = 0  # total number of wikidata ids in the test dataset
         total_silence = 0  # total number of empty wikidata ids in the test dataset
@@ -396,7 +397,7 @@ def itemtoid_test():
 
     # running tests for isolate parameters
     print("~ tests for isolate parameters started ! ~")
-    with open("tables/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
+    with open(f"{TABLES}/nametable_test_noid.tsv", mode="r", encoding="utf-8") as fh:
         reader = csv.reader(fh, delimiter="\t")
         nrow = 0
         prev = {}  # dictionary to store the value of qdict at the previous iteration, in case tei:name == "Le même"
@@ -450,9 +451,9 @@ def itemtoid_test():
 
     # save the tests result in the out directory
     outdict = {"base_query": test_base, "no_rebuilt_names": test_rebuilt, "final_algorithm": test_final}
-    if not os.path.isdir("out"):
-        os.makedirs("out")
-    with open(os.path.join(os.getcwd(), "out", "itemtoid_test_out.json"), mode="w") as out:
+    if not os.path.isdir(OUT):
+        os.makedirs(OUT)
+    with open(os.path.join(OUT, "itemtoid_test_out.json"), mode="w") as out:
         json.dump(outdict, out, indent=4)
 
     print(outdict)

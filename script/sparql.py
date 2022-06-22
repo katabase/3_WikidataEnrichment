@@ -1,18 +1,80 @@
-from SPARQLWrapper import SPARQLWrapper, JSON, CSV
+from SPARQLWrapper import SPARQLWrapper, JSON
+from pathlib import Path
 from tqdm import tqdm
 import traceback
+import json
 import sys
+import re
+import os
 
-from idset import build_idset
+from .utils.idset import build_idset
+from .utils.paths import OUT, TABLES
 
-# --------------------------------------------------
-# launch sparql queries and save the result to a csv
-# --------------------------------------------------
+
+# ---------------------------------------------------
+# launch sparql queries and save the result to a json
+# ---------------------------------------------------
 
 
 def sparql(w_id):
     """
     launch a sparql query and return the result
+
+    wikidata json output:
+    {
+        'head': {'vars': ['list', 'of', 'variable', 'queried']},  # queried variables wether or not there's a result
+        'results':
+            {'bindings':
+                [
+                    {
+                        # first series of results; only variables with a result are in bindings (as keys)
+                        'var1': {'type': 'datatype', 'value': 'actual result 1'},
+                        'var2': {'type': 'datatype', 'value': 'actual result 1'}
+                    }, {
+                        # second series of results
+                        'var1': {'type': 'datatype', 'value': 'actual result 2'},
+                        'var2': {'type': 'datatype', 'value': 'actual result 2'}
+                    }
+                ]
+            }
+    }
+
+    out structure: a dictionary mapping to query keys (var) a list of results:
+    - either an empty list (no result for that key)
+    - or a list of different query results (wikidata returns a cartesian product: a
+      combination of all possible combination of query results. if wikidata returns:
+      if a wikidata query is launched on 2 values and each return 3 different results,
+      the results will be a list of 3x3=9 possible combinations, which mean there will
+      be duplicates. in turn, we need to deuplicate)
+
+    example:
+    out = {
+        'instance': ['Q5'],
+        'instanceL': ['human'],
+        'gender': ['Q6581097'],
+        'genderL': ['male'],
+        'citizenship': ['Q142'],
+        'citizenshipL': ['France'],
+        'birth': ['1788-01-06T00:00:00Z'],
+        'death': ['1868-05-06T00:00:00Z'],
+        'occupation': ['Q40348', 'Q82955', 'Q2135469', 'Q1930187'],
+        'occupationL': ['lawyer', 'Lawyer', 'politician', 'legal counsel', 'journalist'],
+        'award': ['Q10855212', 'Q372160'],
+        'awardL': ['Commander of the Legion of Honour', 'Montyon Prizes'],
+        'position': ['Q3044918', 'Q54996617', 'Q63442227'],
+        'positionL': [
+            'member of the French National Assembly',
+            'President of the State Council of France',
+            "Conseiller général de l'Yonne"
+        ],
+        'member': ['Q337543'],
+        'memberL': ['Académie des Sciences Morales et Politiques'],
+        'nobility': ['Q185902'],
+        'nobilityL': ['viscount'],
+        'image': []
+    }
+
+
     :param w_id:
     :return:
     """
@@ -90,64 +152,34 @@ def sparql(w_id):
 
         # parse the result into a json
         var = results["head"]["vars"]  # variables to get the result
+
         for bind in results["results"]["bindings"]:
-            done = {}  # dictionary to contain the processed results
-
-            # build done, a
+            # done = {}  # dictionary to contain the processed results
+            # build out
             for v in var:
-                key = v.replace("L", "")
-
-                # if there's a result for that request
-                if v in bind:
-                    # remove possible url to keep only id
-                    data = stripurl(bind[v]["value"])
-
-                    # if the result variable is a label
-                    if v[-1] == "L":
-                        if key not in done:
-                            done[key] = ["", data]
-                        else:
-                            done[key].append(data)
-
-                    # if there's a label associated to that result variable
-                    elif f"{v}L" in var:
-                        if key not in done:
-                            done[key] = [data]
-                        else:
-                            done[key][0] = data
-
-                    # if there's no label (basically, if it's a birth/death date)
+                if v not in out:
+                    if v in bind:
+                        out[v] = [clean(bind[v]["value"])]
                     else:
-                        done[key] = [data]
-
-                    # create the key for out if it hasn't been created yet
-                    """if key not in out:
-                        out[key] = []
-                    if v[-1] == "L":
-                    print(v)"""
-
-                # if there's no result for that request
+                        out[v] = []
                 else:
-                    done[key] = []
+                    if v in bind and clean(bind[v]["value"]) not in out[v]:
+                        # avoid duplicates: compare all strings in out[v] to see if they match with out[v]
+                        same = False
+                        for o in out[v]:
+                            if compare(clean(bind[v]["value"]), o) is True:  # if there's a matching comparison
+                                # print("YYYYYYYYYYYYYYYYYYYYYYYY")
+                                same = True
 
-            # print(done)
-
-            # build out from the content of done
-            # CA BUGUE
-            for k, v in done.items():
-                if k not in out.keys():
-                    if len(v) > 0:
-                        out[k] = [v]
+                        if same is False:
+                            out[v].append(clean(bind[v]["value"]))
                     else:
-                        out[k] = []
-                elif k in out.keys() and len(v) > 0 \
-                        and not any([v] == o for o in list(out.values())):
-                    out[k].append(v)
+                        pass
+
+                    # if v not in bind and
 
         print(out)
 
-        # print(results)
-        
     except:
         print(f"########### ERROR ON {w_id} ###########")
         error = traceback.format_exc()
@@ -156,34 +188,82 @@ def sparql(w_id):
         print(error)
         sys.exit(1)
 
+    return out
+
 
 def launch():
     """
     launch queries on all wikidata ids stored in tables/wikidata_id.txt
-    and save the result to out/wikidata/_____NAME TO DEFINE_____
-    :return:
+    and save the result to out/wikidata/sparql_out.json
+    :return: None
     """
     # build a unique list of ids and save it to a file
     build_idset()
 
-    # read wikidata ids and launch queries
-    with open("tables/id_wikidata.txt", mode="r") as f:
+    # parse the wikidata ids
+    with open(f"{TABLES}/id_wikidata.txt", mode="r") as f:
         idlist = f.read().split()
-    print(idlist[0])
+
+    # create the output file
+    fpath = f"{OUT}/wikidata/sparql_out.json"
+    if not os.path.isfile(fpath):
+        Path(fpath).touch()
+
+    # launch the query on all ids; if the output file is not empty,
+    # read the contents and update it;
+    # else, just write the contents
     for w_id in tqdm(idlist):
-        sparql(w_id)
+        with open(fpath, mode="r+") as fh:
+            if os.stat(fpath).st_size > 0:
+                queried = json.load(fh)
+                queried[w_id] = sparql(w_id)
+                fh.seek(0)
+                json.dump(queried, fh, indent=4)
+            else:
+                queried = {w_id: sparql(w_id)}
+                json.dump(queried, fh, indent=4)
+
+    return None
 
 
-def stripurl(url):
+def clean(s):
     """
-    strip the beginning of a wikidata url in order
+    clean the input string s:
+    - strip the beginning of a wikidata url to only keep the wikidata id
+    - clean the date by removing the time
     to keep only the id : http://www.wikidata.org/entity/
-    :param url: the input string: a wikidata url
+    :param s: the input string: a wikidata url
     :return: url, the id alone.
     """
-    url = url.replace("http://www.wikidata.org/entity/", "")
-    return url
+    s = s.replace("http://www.wikidata.org/entity/", "")
+    s = re.sub(r"T\d{2}:\d{2}:\d{2}Z$", "", s)
+    return s
 
+
+def compare(input, compa):
+    """
+    compare two strings to check if they're the same without punctuation and
+    capitals
+    :param input: input string
+    :param compa: string to compare input with
+    :return:
+    """
+    punct = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-',
+             '+', '=', '{', '}', '[', ']', ':', ';', '"', "'", '|',
+             '<', '>', ',', '.', '?', '/', '~', '`']
+    input = input.lower()
+    compa = compa.lower()
+    for p in punct:
+        input = input.replace(p, "")
+        compa = compa.replace(p, "")
+    input = re.sub(r"\s+", " ", input)
+    compa = re.sub(r"\s+", " ", compa)
+    input = re.sub(r"(^\s|\s$)", "", input)
+    compa = re.sub(r"(^\s|\s$)", "", compa)
+
+    # print(input, "|", compa)
+    same = (input == compa)  # true if same, false if not
+    return same
 
 if __name__ == "__main__":
     launch()
