@@ -80,17 +80,29 @@ def sparql(w_id):
     """
     out = {}  # dictionnary to store the output
     query = """
-                PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         
-        SELECT ?instance ?instanceL ?gender ?genderL ?citizenship ?citizenshipL
-          ?birth ?death ?occupation ?occupationL ?award ?awardL ?position ?positionL 
-          ?member ?memberL ?nobility ?nobilityL ?image
-        
+        SELECT ?instance
+          # variables for a person
+          ?instanceL ?gender ?genderL ?birth ?death ?deathmanner 
+          ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
+          ?residplace ?residplaceL ?burialplace ?burialplaceL
+          ?citizenship ?citizenshipL ?lang ?langL ?educ ?educL
+          ?religion ?religionL ?occupation ?occupationL 
+          ?award ?awardL ?position ?positionL 
+          ?member ?memberL ?nobility ?nobilityL
+          ?workcount ?conflictcount
+          ?image ?signature
+          # variables for a work
+          ?titleL ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
+          ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?creaplace ?creaplaceL 
+
         WHERE {
-          BIND (wd:TOKEN AS ?id)
+          BIND (wd:Q240617 AS ?id)
           
+          # =============== PERSONS =============== #
           OPTIONAL {
             ?id wdt:P31 ?instance .
             ?instance rdfs:label ?instanceL .
@@ -106,8 +118,46 @@ def sparql(w_id):
             ?citizenship rdfs:label ?citizenshipL .
             FILTER (langMatches(lang(?citizenshipL), "EN"))
           }
-          OPTIONAL {?id wdt:P569 ?birth .}
-          OPTIONAL {?id wdt:P570 ?death .}
+          OPTIONAL {
+            ?id wdt:P103 ?lang .
+            ?lang rdfs:label ?langL .
+            FILTER (langMatches(lang(?langL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P1196 ?deathmanner .
+            ?deathmanner rdfs:label ?deathmannerL .
+            FILTER (langMatches(lang(?deathmannerL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P19 ?birthplace .
+            ?birthplace rdfs:label ?birthplaceL .
+            FILTER (langMatches(lang(?birthplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P570 ?deathplace .
+            ?deathplace rdfs:label ?deathplaceL .
+            FILTER (langMatches(lang(?deathplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P551 ?residplace .
+            ?residplace rdfs:label ?residplaceL .
+            FILTER (langMatches(lang(?residplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:119 ?burialplace .
+            ?burialplace rdfs:label ?burialplaceL .
+            FILTER (langMatches(lang(?burialplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P69 ?educ .
+            ?educ rdfs:label ?educL .
+            FILTER (langMatches(lang(?educL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P140 ?religion .
+            ?religion rdfs:label ?religionL .
+            FILTER (langMatches(lang(?religionL), "EN"))
+          }
           OPTIONAL {
             ?id wdt:P106 ?occupation .
             ?occupation rdfs:label ?occupationL .
@@ -133,10 +183,65 @@ def sparql(w_id):
             ?nobility rdfs:label ?nobilityL .
             FILTER (langMatches(lang(?nobilityL), "EN"))
           }
+          OPTIONAL {?id wdt:P569 ?birth .}
+          OPTIONAL {?id wdt:P570 ?death .}
+          OPTIONAL {?id wdt:P18 ?img .}
+          OPTIONAL {?id wdt:P109 ?signature .}
+          
+          # problem here
+          # OPTIONAL {
+          #   SELECT (COUNT(?work) AS ?workcount)  # number of notable works
+          #     WHERE {?id wdt:P800 ?work.}
+          # }
+          # OPTIONAL {
+          #   SELECT (COUNT(?conflict) AS ?conflictcount)  # number of conflicts participated in
+          #   WHERE {?id wdt:P607 ?conflict.}
+          # }
+          
+          
+          # =============== WORKS =============== #
+          OPTIONAL {?id wdt:P1476 ?titleL .}
+          OPTIONAL {?id wdt:P571 ?inception .}
           OPTIONAL {
-            ?id wdt:P18 ?img .
+            ?id wdt:P50 ?author .
+            ?author rdfs:label ?authorL .
+            FILTER (langMatches(lang(?authorL), "EN"))
           }
-        } # LIMIT 1 => only first of each item
+          OPTIONAL {
+            ?id wdt:P123 ?pub .
+            ?pub rdfs:label ?pubL .
+            FILTER (langMatches(lang(?pubL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P291 ?pubplace .
+            ?pubplace rdfs:label ?pubplaceL .
+            FILTER (langMatches(lang(?pubplaceL), "EN"))
+          }
+          OPTIONAL {?id wdt:P577 ?pubdate .}
+          OPTIONAL {
+            ?id wdt:P170 ?creator .
+            ?creator rdfs:label ?creatorL .
+            FILTER (langMatches(lang(?creatorL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P186 ?material .
+            ?material rdfs:label ?materialL .
+            FILTER (langMatches(lang(?materialL), "EN"))
+          }
+          OPTIONAL {?id wdt:P2048 ?height .}
+          OPTIONAL {
+            ?id wdt:P136 ?genre .
+            ?genre rdfs:label ?genreL .
+            FILTER (langMatches(lang(?genreL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P1071 ?creaplace .
+            ?creaplace rdfs:label ?creaplaceL .
+            FILTER (langMatches(lang(?creaplaceL), "EN"))
+          }
+          
+          
+        } # LIMIT 1 # => only first of each item
     """.replace("TOKEN", w_id)
 
     endpoint = SPARQLWrapper(
@@ -301,17 +406,29 @@ JSON RETURN FORMAT
 """
 
 """
-                PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         
-        SELECT ?instance ?instanceL ?gender ?genderL ?citizenship 
-          ?birth ?death ?occupation ?occupationL ?award ?awardL 
-          ?position ?positionL ?member ?memberL ?nobility ?nobilityL ?image
-        
+        SELECT ?instance
+          # variables for a person
+          ?instanceL ?gender ?genderL ?birth ?death ?deathmanner 
+          ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
+          ?residplace ?residplaceL ?burialplace ?burialplaceL
+          ?citizenship ?citizenshipL ?lang ?langL ?educ ?educL
+          ?religion ?religionL ?occupation ?occupationL 
+          ?award ?awardL ?position ?positionL 
+          ?member ?memberL ?nobility ?nobilityL
+          ?workcount ?conflictcount
+          ?image ?signature
+          # variables for a work
+          ?titleL ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
+          ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?creaplace ?creaplaceL 
+
         WHERE {
-          BIND (wd:TOKEN AS ?id)
+          BIND (wd:Q240617 AS ?id)
           
+          # =============== PERSONS =============== #
           OPTIONAL {
             ?id wdt:P31 ?instance .
             ?instance rdfs:label ?instanceL .
@@ -327,8 +444,46 @@ JSON RETURN FORMAT
             ?citizenship rdfs:label ?citizenshipL .
             FILTER (langMatches(lang(?citizenshipL), "EN"))
           }
-          OPTIONAL {?id wdt:P569 ?birth .}
-          OPTIONAL {?id wdt:P570 ?death .}
+          OPTIONAL {
+            ?id wdt:P103 ?lang .
+            ?lang rdfs:label ?langL .
+            FILTER (langMatches(lang(?langL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P1196 ?deathmanner .
+            ?deathmanner rdfs:label ?deathmannerL .
+            FILTER (langMatches(lang(?deathmannerL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P19 ?birthplace .
+            ?birthplace rdfs:label ?birthplaceL .
+            FILTER (langMatches(lang(?birthplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P570 ?deathplace .
+            ?deathplace rdfs:label ?deathplaceL .
+            FILTER (langMatches(lang(?deathplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P551 ?residplace .
+            ?residplace rdfs:label ?residplaceL .
+            FILTER (langMatches(lang(?residplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:119 ?burialplace .
+            ?burialplace rdfs:label ?burialplaceL .
+            FILTER (langMatches(lang(?burialplaceL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P69 ?educ .
+            ?educ rdfs:label ?educL .
+            FILTER (langMatches(lang(?educL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P140 ?religion .
+            ?religion rdfs:label ?religionL .
+            FILTER (langMatches(lang(?religionL), "EN"))
+          }
           OPTIONAL {
             ?id wdt:P106 ?occupation .
             ?occupation rdfs:label ?occupationL .
@@ -354,8 +509,63 @@ JSON RETURN FORMAT
             ?nobility rdfs:label ?nobilityL .
             FILTER (langMatches(lang(?nobilityL), "EN"))
           }
+          OPTIONAL {?id wdt:P569 ?birth .}
+          OPTIONAL {?id wdt:P570 ?death .}
+          OPTIONAL {?id wdt:P18 ?img .}
+          OPTIONAL {?id wdt:P109 ?signature .}
+          
+          # problem here
+          # OPTIONAL {
+          #   SELECT (COUNT(?work) AS ?workcount)  # number of notable works
+          #     WHERE {?id wdt:P800 ?work.}
+          # }
+          # OPTIONAL {
+          #   SELECT (COUNT(?conflict) AS ?conflictcount)  # number of conflicts participated in
+          #   WHERE {?id wdt:P607 ?conflict.}
+          # }
+          
+          
+          # =============== WORKS =============== #
+          OPTIONAL {?id wdt:P1476 ?titleL .}
+          OPTIONAL {?id wdt:P571 ?inception .}
           OPTIONAL {
-            ?id wdt:P18 ?img .
+            ?id wdt:P50 ?author .
+            ?author rdfs:label ?authorL .
+            FILTER (langMatches(lang(?authorL), "EN"))
           }
-        } # LIMIT 1 => only first of each item
+          OPTIONAL {
+            ?id wdt:P123 ?pub .
+            ?pub rdfs:label ?pubL .
+            FILTER (langMatches(lang(?pubL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P291 ?pubplace .
+            ?pubplace rdfs:label ?pubplaceL .
+            FILTER (langMatches(lang(?pubplaceL), "EN"))
+          }
+          OPTIONAL {?id wdt:P577 ?pubdate .}
+          OPTIONAL {
+            ?id wdt:P170 ?creator .
+            ?creator rdfs:label ?creatorL .
+            FILTER (langMatches(lang(?creatorL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P186 ?material .
+            ?material rdfs:label ?materialL .
+            FILTER (langMatches(lang(?materialL), "EN"))
+          }
+          OPTIONAL {?id wdt:P2048 ?height .}
+          OPTIONAL {
+            ?id wdt:P136 ?genre .
+            ?genre rdfs:label ?genreL .
+            FILTER (langMatches(lang(?genreL), "EN"))
+          }
+          OPTIONAL {
+            ?id wdt:P1071 ?creaplace .
+            ?creaplace rdfs:label ?creaplaceL .
+            FILTER (langMatches(lang(?creaplaceL), "EN"))
+          }
+          
+          
+        } # LIMIT 1 # => only first of each item
 """
