@@ -11,7 +11,7 @@ from .paths import LOGS
 # ---------------------------------------------
 
 
-class Log:
+class Logs:
     """
     class to log aldready queried items in sparql.py and nametoid.py
     """
@@ -50,7 +50,7 @@ class Log:
 
 class Strings:
     """
-    class for basic functions on strings
+    class for basic functions on strings: cleaning, comparing
     """
     @staticmethod
     def striptag(instr):
@@ -106,7 +106,7 @@ class Strings:
         return same
 
 
-class Error:
+class Errors:
     """
     error handling classes
     """

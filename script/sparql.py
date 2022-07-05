@@ -5,8 +5,8 @@ import json
 import os
 
 from .utils.idset import build_idset
-from .utils.paths import OUT, TABLES
-from .utils.classes import *
+from .utils.paths import OUT, TABLES, LOGS
+from .utils.classes import Logs, Errors, Strings
 
 
 # ---------------------------------------------------
@@ -43,38 +43,60 @@ def sparql(w_id):
       combination of all possible combination of query results. if wikidata returns:
       if a wikidata query is launched on 2 values and each return 3 different results,
       the results will be a list of 3x3=9 possible combinations, which mean there will
-      be duplicates. in turn, we need to deuplicate)
+      be duplicates. in turn, we need to deduplicate)
 
     example:
+    --------
+              as a general rule, when a key ends with "L", it is a label
+              for wikidata ID that is also queried. when a key ends with
+              "ID", it is a unique identifier for the queried resource.
+              when it ends with "count", the result is counting a number of
+              occurrences
     out = {
-        'instance': ['Q5'],
-        'instanceL': ['human'],
-        'gender': ['Q6581097'],
-        'genderL': ['male'],
-        'citizenship': ['Q142'],
-        'citizenshipL': ['France'],
-        'birth': ['1788-01-06T00:00:00Z'],
-        'death': ['1868-05-06T00:00:00Z'],
-        'occupation': ['Q40348', 'Q82955', 'Q2135469', 'Q1930187'],
-        'occupationL': ['lawyer', 'Lawyer', 'politician', 'legal counsel', 'journalist'],
-        'award': ['Q10855212', 'Q372160'],
-        'awardL': ['Commander of the Legion of Honour', 'Montyon Prizes'],
-        'position': ['Q3044918', 'Q54996617', 'Q63442227'],
-        'positionL': [
-            'member of the French National Assembly',
-            'President of the State Council of France',
-            "Conseiller général de l'Yonne"
-        ],
-        'member': ['Q337543'],
-        'memberL': ['Académie des Sciences Morales et Politiques'],
-        'nobility': ['Q185902'],
-        'nobilityL': ['viscount'],
-        'image': []
+        'instance': ['Q5'], 'instanceL': ['human'],     # what "category" an id belongs to (person, litterary work...)
+        'gender': ['Q6581097'], 'genderL': ['male'],     # the gender of a person
+        'citizenship': ['Q145'], 'citizenshipL': ['United Kingdom'],     # citizenship
+        'lang': [], 'langL': [],     # languages spoken
+        'deathmanner': ['Q3739104'], 'deathmannerL': ['natural causes'],     # the way a person died
+        'birthplace': ['Q23436'], 'birthplaceL': ['Edinburgh'],     # the place a person is born
+        'deathplace': [], 'deathplaceL': [],     # the place a person died
+        'residplace': ['Q246076'], 'residplaceL': ['Abbotsford House'],     # the place a person lived
+        'burialplace': [], 'burialplaceL': [],     # where a person is buried
+        'educ': ['Q160302'], 'educL': ['University of Edinburgh'],     # where a person studied
+        'religion': [], 'religionL': [],     # a person's religion
+        'occupation': ['Q14915627'], 'occupationL': ['musicologist'],     # general description of a person's occupation
+        'award': ['Q5438598'], 'awardL': ['Fellow of the Royal Society of Edinburgh'],     # awards gained
+        'position': ['Q16533'], 'positionL': ['judge'],     # precise positions held by a person
+        'member': ['Q117467'], 'memberL': ['Royal Society of Edinburgh'],     # institution a person is member of
+        'nobility': ['Q282019', 'Q7437562'], 'nobilityL': ['baronet', 'Scott baronets'],   # nobility titles
+        'workcount': ['131'],     # number of works (books...) documented on wikidata
+        'conflictcount': [],     # number of conflicts (wars...) a person has participated in
+        'image': [],     # url to the portrait of a person
+        'signature': ['http://commons.wikimedia.org/wiki/Special:FilePath/Sir%20Walter%20Scott%20Signature.svg'],    # url to the signature of a person
+        'birth': ['1771-08-15'], 'death': ['1832-09-21'],     # birth and death dates
+
+        'title': [],     # title of a work of art / book...
+        'inception': [],     # date a work was created or published
+        'author': [], 'authorL': [],     # author of a book
+        'pub': [], 'pubL': [],     # publisher of a work
+        'pubplace': [], 'pubplaceL': [],     # place a work was published
+        'pubdate': [],     # date a work was published
+        'creator': [], 'creatorL': [],     # creator of a work of art
+        'material': [], 'materialL': [],     # material in which a work of art is made
+        'height': [],     # height of a work of art
+        'genre': ['Q482'], 'genreL': ['poetry'],     # genre of a work or genre of works created by a person
+        'movement': ['Q37068'], 'movementL': ['Romanticism'],     # movement in which a person or an artwork are inscribed
+        'creaplace': [], 'creaplaceL': [],     # place where a work was created
+
+        'viafID': ['95207079'],     # viaf identifier
+        'bnfID': ['11924221r'],     # bibliothèque nationale de france ID
+        'isniID': ['0000 0001 2144 1874'],      # isni id
+        'congressID': ['n78095541'],      # library of congress identifier
+        'idrefID': ['027129489']      # idref identifier
     }
 
-
-    :param w_id:
-    :return:
+    :param w_id: the wikidata id queried
+    :return: out, a dictionnary containing the results for that id
     """
     out = {}  # dictionnary to store the output
 
@@ -85,10 +107,10 @@ def sparql(w_id):
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         
-        SELECT ?instance
-               ?instanceL ?gender ?genderL ?citizenship ?citizenshipL ?lang ?langL 
-               ?deathmanner ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
-               ?residplace ?residplaceL ?burialplace ?burialplaceL
+        SELECT DISTINCT ?instance ?instanceL 
+                        ?gender ?genderL ?citizenship ?citizenshipL ?lang ?langL 
+                        ?deathmanner ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
+                        ?residplace ?residplaceL ?burialplace ?burialplaceL
           
         WHERE {
           BIND (wd:TOKEN AS ?id)
@@ -138,7 +160,7 @@ def sparql(w_id):
             ?burialplace rdfs:label ?burialplaceL .
             FILTER (langMatches(lang(?burialplaceL), "EN"))
           }
-        } # LIMIT 1 # => only first of each item
+        }
     """.replace("TOKEN", w_id)
 
     query2 = """
@@ -146,12 +168,9 @@ def sparql(w_id):
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         
-        SELECT ?educ ?educL ?religion ?religionL ?occupation ?occupationL 
-               ?award ?awardL ?position ?positionL 
-               ?member ?memberL ?nobility ?nobilityL
-               ?workcount ?conflictcount
-               ?image ?signature
-               ?birth ?death 
+        SELECT DISTINCT ?educ ?educL ?religion ?religionL ?occupation ?occupationL 
+                        ?award ?awardL ?position ?positionL ?member ?memberL ?nobility ?nobilityL
+                        ?workcount ?conflictcount ?img ?signature ?birth ?death 
 
         WHERE {
           BIND (wd:TOKEN AS ?id)
@@ -204,21 +223,22 @@ def sparql(w_id):
             SELECT ?id (COUNT(?conflict) AS ?conflictcount)  # number of conflicts participated in
             WHERE {?id wdt:P607 ?conflict.} GROUP BY ?id
           }
-        } # LIMIT 1
-    """
+        }
+    """.replace("TOKEN", w_id)
 
     query3 = """
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         
-        SELECT ?titleL ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
-               ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?creaplace ?creaplaceL 
+        SELECT DISTINCT ?title ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
+                        ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?movement ?movementL
+                        ?creaplace ?creaplaceL 
 
         WHERE {
           BIND (wd:TOKEN AS ?id)
           
-          OPTIONAL {?id wdt:P1476 ?titleL .}
+          OPTIONAL {?id wdt:P1476 ?title .}
           OPTIONAL {?id wdt:P571 ?inception .}
           OPTIONAL {
             ?id wdt:P50 ?author .
@@ -253,12 +273,33 @@ def sparql(w_id):
             FILTER (langMatches(lang(?genreL), "EN"))
           }
           OPTIONAL {
+            ?id wdt:P135 ?movement .
+            ?movement rdfs:label ?movementL .
+            FILTER (langMatches(lang(?movementL), "EN"))
+          }
+          OPTIONAL {
             ?id wdt:P1071 ?creaplace .
             ?creaplace rdfs:label ?creaplaceL .
             FILTER (langMatches(lang(?creaplaceL), "EN"))
           }
-        } # LIMIT 1
-    """
+        }
+    """.replace("TOKEN", w_id)
+
+    query4 = """
+        PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+
+        SELECT DISTINCT ?viafID ?bnfID ?isniID ?congressID ?idrefID
+
+        WHERE {
+          BIND (wd:TOKEN AS ?id)
+          OPTIONAL {?id wdt:P214 ?viafID .}
+          OPTIONAL {?id wdt:P268 ?bnfID .}
+          OPTIONAL {?id wdt:P213 ?isniID .}
+          OPTIONAL {?id wdt:P244 ?congressID .}
+          OPTIONAL {?id wdt:P269 ?idrefID .}
+        } LIMIT 1
+    """.replace("TOKEN", w_id)
 
     endpoint = SPARQLWrapper(
         "https://query.wikidata.org/sparql",
@@ -272,7 +313,7 @@ def sparql(w_id):
         results1 = endpoint.queryAndConvert()
         out1 = result_tojson(results1)
     except:
-        Error.sparql_error_handle(query1, w_id)
+        Errors.sparql_error_handle(query1, w_id)
 
     try:
         endpoint.setQuery(query2)
@@ -280,7 +321,7 @@ def sparql(w_id):
         results2 = endpoint.queryAndConvert()
         out2 = result_tojson(results2)
     except:
-        Error.sparql_error_handle(query2, w_id)
+        Errors.sparql_error_handle(query2, w_id)
 
     try:
         endpoint.setQuery(query3)
@@ -288,14 +329,22 @@ def sparql(w_id):
         results3 = endpoint.queryAndConvert()
         out3 = result_tojson(results3)
     except:
-        Error.sparql_error_handle(query3, w_id)
+        Errors.sparql_error_handle(query3, w_id)
+
+    try:
+        endpoint.setQuery(query4)
+        endpoint.setReturnFormat(JSON)
+        results4 = endpoint.queryAndConvert()
+        out4 = result_tojson(results4)
+    except:
+        Errors.sparql_error_handle(query4, w_id)
 
     # parse the result into a json
-    for o in [out1, out2, out3]:
-        print(o)
+    for o in [out1, out2, out3, out4]:
         for k, v in o.items():
             out[k] = v
 
+    print(out)
     return out
 
 
@@ -339,17 +388,18 @@ def launch():
     :return: None
     """
     # build a unique list of ids and save it to a file
+    # the ids are in a different order each time, so it will look like
+    # the updating doesn't work (but it does)
     build_idset()
-
     # parse the wikidata ids
     with open(f"{TABLES}/id_wikidata.txt", mode="r") as f:
         idlist = f.read().split()
 
     # create the output file and log file
-    fp_json = f"{OUT}/wikidata/sparql_out.json"
+    fp_out = f"{OUT}/wikidata/sparql_out.json"
     fp_log = f"{LOGS}/log_sparql.txt"
-    if not os.path.isfile(fp_json):
-        Path(fp_json).touch()
+    if not os.path.isfile(fp_out):
+        Path(fp_out).touch()
     if not os.path.isfile(fp_log):
         Path(fp_log).touch()
 
@@ -359,11 +409,13 @@ def launch():
     for w_id in tqdm(idlist):
         log = open(fp_log, mode="r", encoding="utf-8")
         done = log.read().split()  # list of queried wikidata ids
+
+        # manage the updates by checking that the id hasn't been queried
         if w_id not in done:
             done = []  # empty the long list of queried ids
             log.close()  # close the file to save memory
-            with open(fp_json, mode="r+") as fh:
-                if os.stat(fp_json).st_size > 0:
+            with open(fp_out, mode="r+") as fh:
+                if os.stat(fp_out).st_size > 0:
                     queried = json.load(fh)
                     queried[w_id] = sparql(w_id)
                     fh.seek(0)
@@ -371,7 +423,9 @@ def launch():
                 else:
                     queried = {w_id: sparql(w_id)}
                     json.dump(queried, fh, indent=4)
-                Log.log_done(mode="sparql", data=w_id)
+                Logs.log_done(mode="sparql", data=w_id)
+        else:
+            log.close()
 
     return None
 

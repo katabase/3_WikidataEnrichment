@@ -2,13 +2,15 @@ from pathlib import Path
 from tqdm import tqdm
 import requests
 import json
+import csv
 import os
+import re
 
-from .utils.classes import *
 from .utils.rgx import names
 from .utils.nametable import csvbuilder
 from .utils.paths import LOGS, OUT, TABLES
 from .utils.itemtoid_prep import prep_query
+from .utils.classes import Logs, Errors, Strings
 
 
 # ----------------------------------------
@@ -332,7 +334,7 @@ def itemtoid(config=None):
 
         # write the aldready queried items to tables/log_done.txt if this file doesn't exist
         if not os.path.isfile(f"{LOGS}/log_id.txt"):
-            Log.log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True)
+            Logs.log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True)
 
         # get the total number of rows
         trows = sum(1 for row in in_reader)
@@ -357,10 +359,10 @@ def itemtoid(config=None):
                     qdict, prev = prep_query(in_data, prev)
                     out = launch_query(qdict, config)
                     out_writer.writerow([row[0], out[0], row[2], out[1], out[2], row[3], out[3]])
-                    Log.log_done(mode="itemtoid", orig=False, data=row[0])  # write the xml:id to log file
+                    Logs.log_done(mode="itemtoid", orig=False, data=row[0])  # write the xml:id to log file
 
                 except:
-                    Error.itemtoid_error_handle(row, qdict)
+                    Errors.itemtoid_error_handle(row, qdict)
 
         f_in.close()
     return None
