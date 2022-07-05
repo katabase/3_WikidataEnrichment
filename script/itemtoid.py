@@ -1,13 +1,10 @@
 from pathlib import Path
 from tqdm import tqdm
-import traceback
 import requests
 import json
-import csv
-import sys
-import re
 import os
 
+from .utils.classes import *
 from .utils.rgx import names
 from .utils.nametable import csvbuilder
 from .utils.paths import LOGS, OUT, TABLES
@@ -77,8 +74,8 @@ def request(qstr, qdict):
     try:
         out = [
             js["query"]["search"][0]["title"],
-            striptag(js["query"]["search"][0]["titlesnippet"]),
-            striptag(js["query"]["search"][0]["snippet"])
+            Strings.striptag(js["query"]["search"][0]["titlesnippet"]),
+            Strings.striptag(js["query"]["search"][0]["snippet"])
                ]
 
     # if there's a mistake, at a list with 3 empty elements (we add empty elements cause
@@ -335,7 +332,7 @@ def itemtoid(config=None):
 
         # write the aldready queried items to tables/log_done.txt if this file doesn't exist
         if not os.path.isfile(f"{LOGS}/log_id.txt"):
-            log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True)
+            Log.log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True)
 
         # get the total number of rows
         trows = sum(1 for row in in_reader)
@@ -360,51 +357,13 @@ def itemtoid(config=None):
                     qdict, prev = prep_query(in_data, prev)
                     out = launch_query(qdict, config)
                     out_writer.writerow([row[0], out[0], row[2], out[1], out[2], row[3], out[3]])
-                    log_done(orig=False, data=row[0])  # write the xml:id to log file
+                    Log.log_done(mode="itemtoid", orig=False, data=row[0])  # write the xml:id to log file
 
                 except:
-                    print(f"########### ERROR ON {row[0]} ###########")
-                    print(row)
-                    print(qdict)
-                    error = traceback.format_exc()
-                    print(error)
-                    sys.exit(1)
+                    Error.itemtoid_error_handle(row, qdict)
 
         f_in.close()
     return None
-
-
-def log_done(orig, in_fpath=None, data=None):
-    """
-    write the aldready queried items to a log file (in order to avoid querying the same items again and again)
-    - if used in orig=True mode, in_fpath must be supplied
-    - if used in orig=False mode, data must be supplied
-    :param orig: boolean indicating that the log file is created for the first time: read all
-                 of fpath and write it to the log file
-    :param in_fpath: the input file path from which to get the queried entries when it's ran the first time
-                     (should be ../out/wikidata/nametable_out.tsv)
-    :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
-    :return: None
-    """
-    with open(f"{LOGS}/log_id.txt", mode="a", encoding="utf-8") as f_out:
-        if orig is True:
-            with open(in_fpath, mode="r", encoding="utf-8") as f_in:
-                in_reader = csv.reader(f_in, delimiter="\t")
-                for row in in_reader:
-                    f_out.write(f"{row[0]} ")  # write the entry's xml:id to log_done.txt
-        else:
-            f_out.write(f"{data} ")
-    return None
-
-
-def striptag(instr):
-    """
-    strip html tags returned by the wikidata api
-    :param instr: input string to strip tags from
-    :return: the string with stripped tags
-    """
-    outstr = re.sub(r"<.*?>", "", instr)
-    return outstr
 
 
 # ================= LAUNCH THE SCRIPT ================= #

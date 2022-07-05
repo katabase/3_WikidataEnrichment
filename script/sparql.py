@@ -1,14 +1,12 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
 from pathlib import Path
 from tqdm import tqdm
-import traceback
 import json
-import sys
-import re
 import os
 
 from .utils.idset import build_idset
 from .utils.paths import OUT, TABLES
+from .utils.classes import *
 
 
 # ---------------------------------------------------
@@ -79,32 +77,24 @@ def sparql(w_id):
     :return:
     """
     out = {}  # dictionnary to store the output
-    query = """
+
+    # the query is too long so we divide it in 3. the first 2 are on persons,
+    # the last on works of art
+    query1 = """
         PREFIX wd: <http://www.wikidata.org/entity/>
         PREFIX wdt: <http://www.wikidata.org/prop/direct/>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
         
         SELECT ?instance
-          # variables for a person
-          ?instanceL ?gender ?genderL ?birth ?death ?deathmanner 
-          ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
-          ?residplace ?residplaceL ?burialplace ?burialplaceL
-          ?citizenship ?citizenshipL ?lang ?langL ?educ ?educL
-          ?religion ?religionL ?occupation ?occupationL 
-          ?award ?awardL ?position ?positionL 
-          ?member ?memberL ?nobility ?nobilityL
-          ?workcount ?conflictcount
-          ?image ?signature
-          # variables for a work
-          ?titleL ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
-          ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?creaplace ?creaplaceL 
-
-        WHERE {
-          BIND (wd:Q240617 AS ?id)
+               ?instanceL ?gender ?genderL ?citizenship ?citizenshipL ?lang ?langL 
+               ?deathmanner ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
+               ?residplace ?residplaceL ?burialplace ?burialplaceL
           
-          # =============== PERSONS =============== #
+        WHERE {
+          BIND (wd:TOKEN AS ?id)
+          
           OPTIONAL {
-            ?id wdt:P31 ?instance .
+            ?instance ^wdt:P31 ?id .
             ?instance rdfs:label ?instanceL .
             FILTER (langMatches(lang(?instanceL), "EN"))
           }
@@ -148,6 +138,24 @@ def sparql(w_id):
             ?burialplace rdfs:label ?burialplaceL .
             FILTER (langMatches(lang(?burialplaceL), "EN"))
           }
+        } # LIMIT 1 # => only first of each item
+    """.replace("TOKEN", w_id)
+
+    query2 = """
+        PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        
+        SELECT ?educ ?educL ?religion ?religionL ?occupation ?occupationL 
+               ?award ?awardL ?position ?positionL 
+               ?member ?memberL ?nobility ?nobilityL
+               ?workcount ?conflictcount
+               ?image ?signature
+               ?birth ?death 
+
+        WHERE {
+          BIND (wd:TOKEN AS ?id)
+          
           OPTIONAL {
             ?id wdt:P69 ?educ .
             ?educ rdfs:label ?educL .
@@ -188,18 +196,28 @@ def sparql(w_id):
           OPTIONAL {?id wdt:P18 ?img .}
           OPTIONAL {?id wdt:P109 ?signature .}
           
-          # problem here
-          # OPTIONAL {
-          #   SELECT (COUNT(?work) AS ?workcount)  # number of notable works
-          #     WHERE {?id wdt:P800 ?work.}
-          # }
-          # OPTIONAL {
-          #   SELECT (COUNT(?conflict) AS ?conflictcount)  # number of conflicts participated in
-          #   WHERE {?id wdt:P607 ?conflict.}
-          # }
+          OPTIONAL {
+            SELECT ?id (COUNT(?work) AS ?workcount)  # number of notable works
+            WHERE {?work wdt:P50 ?id.} GROUP BY ?id
+          }
+          OPTIONAL {
+            SELECT ?id (COUNT(?conflict) AS ?conflictcount)  # number of conflicts participated in
+            WHERE {?id wdt:P607 ?conflict.} GROUP BY ?id
+          }
+        } # LIMIT 1
+    """
+
+    query3 = """
+        PREFIX wd: <http://www.wikidata.org/entity/>
+        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+        
+        SELECT ?titleL ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
+               ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?creaplace ?creaplaceL 
+
+        WHERE {
+          BIND (wd:TOKEN AS ?id)
           
-          
-          # =============== WORKS =============== #
           OPTIONAL {?id wdt:P1476 ?titleL .}
           OPTIONAL {?id wdt:P571 ?inception .}
           OPTIONAL {
@@ -239,10 +257,8 @@ def sparql(w_id):
             ?creaplace rdfs:label ?creaplaceL .
             FILTER (langMatches(lang(?creaplaceL), "EN"))
           }
-          
-          
-        } # LIMIT 1 # => only first of each item
-    """.replace("TOKEN", w_id)
+        } # LIMIT 1
+    """
 
     endpoint = SPARQLWrapper(
         "https://query.wikidata.org/sparql",
@@ -250,50 +266,70 @@ def sparql(w_id):
     )
 
     try:
-        # launch the query
-        endpoint.setQuery(query)
+        # launch the queries
+        endpoint.setQuery(query1)
         endpoint.setReturnFormat(JSON)
-        results = endpoint.queryAndConvert()
-
-        # parse the result into a json
-        var = results["head"]["vars"]  # variables to get the result
-
-        for bind in results["results"]["bindings"]:
-            # done = {}  # dictionary to contain the processed results
-            # build out
-            for v in var:
-                if v not in out:
-                    if v in bind:
-                        out[v] = [clean(bind[v]["value"])]
-                    else:
-                        out[v] = []
-                else:
-                    if v in bind and clean(bind[v]["value"]) not in out[v]:
-                        # avoid duplicates: compare all strings in out[v] to see if they match with out[v]
-                        same = False
-                        for o in out[v]:
-                            if compare(clean(bind[v]["value"]), o) is True:  # if there's a matching comparison
-                                # print("YYYYYYYYYYYYYYYYYYYYYYYY")
-                                same = True
-
-                        if same is False:
-                            out[v].append(clean(bind[v]["value"]))
-                    else:
-                        pass
-
-                    # if v not in bind and
-
-        print(out)
-
+        results1 = endpoint.queryAndConvert()
+        out1 = result_tojson(results1)
     except:
-        print(f"########### ERROR ON {w_id} ###########")
-        error = traceback.format_exc()
-        print("query text on which the error happened:")
-        print(query)
-        print(error)
-        sys.exit(1)
+        Error.sparql_error_handle(query1, w_id)
+
+    try:
+        endpoint.setQuery(query2)
+        endpoint.setReturnFormat(JSON)
+        results2 = endpoint.queryAndConvert()
+        out2 = result_tojson(results2)
+    except:
+        Error.sparql_error_handle(query2, w_id)
+
+    try:
+        endpoint.setQuery(query3)
+        endpoint.setReturnFormat(JSON)
+        results3 = endpoint.queryAndConvert()
+        out3 = result_tojson(results3)
+    except:
+        Error.sparql_error_handle(query3, w_id)
+
+    # parse the result into a json
+    for o in [out1, out2, out3]:
+        print(o)
+        for k, v in o.items():
+            out[k] = v
 
     return out
+
+
+def result_tojson(wd_result):
+    """
+    transform the JSON returned by wikidata into a more elegant JSON
+    :param wd_result: the json returned by wikidata
+    :return: a cleaner JSON
+    """
+    out_dict = {}  # a cleaned json to built out
+    var = wd_result["head"]["vars"]  # the queried variables (used as keys to out_dict)
+
+    for bind in wd_result["results"]["bindings"]:
+        # build out_dict
+        for v in var:
+            if v not in out_dict:
+                if v in bind:
+                    out_dict[v] = [Strings.clean(bind[v]["value"])]
+                else:
+                    out_dict[v] = []
+            else:
+                if v in bind and Strings.clean(bind[v]["value"]) not in out_dict[v]:
+                    # avoid duplicates: compare all strings in out[v] to see if they match with out[v]
+                    same = False
+                    for o in out_dict[v]:
+                        if Strings.compare(
+                                Strings.clean(bind[v]["value"]), o
+                        ) is True:  # if there's a matching comparison
+                            same = True
+
+                    if same is False:
+                        out_dict[v].append(Strings.clean(bind[v]["value"]))
+
+    return out_dict
 
 
 def launch():
@@ -309,263 +345,36 @@ def launch():
     with open(f"{TABLES}/id_wikidata.txt", mode="r") as f:
         idlist = f.read().split()
 
-    # create the output file
-    fpath = f"{OUT}/wikidata/sparql_out.json"
-    if not os.path.isfile(fpath):
-        Path(fpath).touch()
+    # create the output file and log file
+    fp_json = f"{OUT}/wikidata/sparql_out.json"
+    fp_log = f"{LOGS}/log_sparql.txt"
+    if not os.path.isfile(fp_json):
+        Path(fp_json).touch()
+    if not os.path.isfile(fp_log):
+        Path(fp_log).touch()
 
     # launch the query on all ids; if the output file is not empty,
     # read the contents and update it;
     # else, just write the contents
     for w_id in tqdm(idlist):
-        with open(fpath, mode="r+") as fh:
-            if os.stat(fpath).st_size > 0:
-                queried = json.load(fh)
-                queried[w_id] = sparql(w_id)
-                fh.seek(0)
-                json.dump(queried, fh, indent=4)
-            else:
-                queried = {w_id: sparql(w_id)}
-                json.dump(queried, fh, indent=4)
+        log = open(fp_log, mode="r", encoding="utf-8")
+        done = log.read().split()  # list of queried wikidata ids
+        if w_id not in done:
+            done = []  # empty the long list of queried ids
+            log.close()  # close the file to save memory
+            with open(fp_json, mode="r+") as fh:
+                if os.stat(fp_json).st_size > 0:
+                    queried = json.load(fh)
+                    queried[w_id] = sparql(w_id)
+                    fh.seek(0)
+                    json.dump(queried, fh, indent=4)
+                else:
+                    queried = {w_id: sparql(w_id)}
+                    json.dump(queried, fh, indent=4)
+                Log.log_done(mode="sparql", data=w_id)
 
     return None
 
 
-def clean(s):
-    """
-    clean the input string s:
-    - strip the beginning of a wikidata url to only keep the wikidata id
-    - clean the date by removing the time
-    to keep only the id : http://www.wikidata.org/entity/
-    :param s: the input string: a wikidata url
-    :return: url, the id alone.
-    """
-    s = s.replace("http://www.wikidata.org/entity/", "")
-    s = re.sub(r"T\d{2}:\d{2}:\d{2}Z$", "", s)
-    return s
-
-
-def compare(input, compa):
-    """
-    compare two strings to check if they're the same without punctuation and
-    capitals
-    :param input: input string
-    :param compa: string to compare input with
-    :return:
-    """
-    punct = ['!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-',
-             '+', '=', '{', '}', '[', ']', ':', ';', '"', "'", '|',
-             '<', '>', ',', '.', '?', '/', '~', '`']
-    input = input.lower()
-    compa = compa.lower()
-    for p in punct:
-        input = input.replace(p, "")
-        compa = compa.replace(p, "")
-    input = re.sub(r"\s+", " ", input)
-    compa = re.sub(r"\s+", " ", compa)
-    input = re.sub(r"(^\s|\s$)", "", input)
-    compa = re.sub(r"(^\s|\s$)", "", compa)
-
-    # print(input, "|", compa)
-    same = (input == compa)  # true if same, false if not
-    return same
-
 if __name__ == "__main__":
     launch()
-
-
-"""
-JSON RETURN FORMAT 
-{'head': 
-     {'vars': 
-          ['instance', 'gender', 'citizenship', 'birth', 'date', 'occupation', 'award', 'position', 'member', 'nobility', 'image']
-      }, 
- 'results': 
-     {
-         'bindings': [
-             {'instance': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q5'}, 
-              'gender': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q6581097'}, 
-              'citizenship': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q142'}, 
-              'birth': {'datatype': 'http://www.w3.org/2001/XMLSchema#dateTime', 'type': 'literal', 'value': '1783-01-23T00:00:00Z'}, 
-              'occupation': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q36180'}, 
-              'award': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q10855271'}, 
-              'position': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q21694612'}, 
-              'image': {'type': 'uri', 'value': 'http://commons.wikimedia.org/wiki/Special:FilePath/Stendhal.jpg'}
-              }, 
-             {'instance': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q2985549'}, 
-              'gender': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q6581097'}, 
-              'citizenship': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q142'}, 
-              'birth': {'datatype': 'http://www.w3.org/2001/XMLSchema#dateTime', 'type': 'literal', 'value': '1783-01-23T00:00:00Z'}, 
-              'occupation': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q36180'}, 
-              'award': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q10855271'}, 
-              'position': {'type': 'uri', 'value': 'http://www.wikidata.org/entity/Q21694612'}, 
-              'image': {'type': 'uri', 'value': 'http://commons.wikimedia.org/wiki/Special:FilePath/Stendhal.jpg'}}
-         ]
-     }
- }
-"""
-
-"""
-        PREFIX wd: <http://www.wikidata.org/entity/>
-        PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-        PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-        
-        SELECT ?instance
-          # variables for a person
-          ?instanceL ?gender ?genderL ?birth ?death ?deathmanner 
-          ?deathmannerL ?birthplace ?birthplaceL ?deathplace ?deathplaceL
-          ?residplace ?residplaceL ?burialplace ?burialplaceL
-          ?citizenship ?citizenshipL ?lang ?langL ?educ ?educL
-          ?religion ?religionL ?occupation ?occupationL 
-          ?award ?awardL ?position ?positionL 
-          ?member ?memberL ?nobility ?nobilityL
-          ?workcount ?conflictcount
-          ?image ?signature
-          # variables for a work
-          ?titleL ?inception ?author ?authorL ?pub ?pubL ?pubplace ?pubplaceL ?pubdate
-          ?creator ?creatorL ?material ?materialL ?height ?genre ?genreL ?creaplace ?creaplaceL 
-
-        WHERE {
-          BIND (wd:Q240617 AS ?id)
-          
-          # =============== PERSONS =============== #
-          OPTIONAL {
-            ?id wdt:P31 ?instance .
-            ?instance rdfs:label ?instanceL .
-            FILTER (langMatches(lang(?instanceL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P21 ?gender .
-            ?gender rdfs:label ?genderL .
-            FILTER (langMatches(lang(?genderL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P27 ?citizenship .
-            ?citizenship rdfs:label ?citizenshipL .
-            FILTER (langMatches(lang(?citizenshipL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P103 ?lang .
-            ?lang rdfs:label ?langL .
-            FILTER (langMatches(lang(?langL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P1196 ?deathmanner .
-            ?deathmanner rdfs:label ?deathmannerL .
-            FILTER (langMatches(lang(?deathmannerL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P19 ?birthplace .
-            ?birthplace rdfs:label ?birthplaceL .
-            FILTER (langMatches(lang(?birthplaceL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P570 ?deathplace .
-            ?deathplace rdfs:label ?deathplaceL .
-            FILTER (langMatches(lang(?deathplaceL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P551 ?residplace .
-            ?residplace rdfs:label ?residplaceL .
-            FILTER (langMatches(lang(?residplaceL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:119 ?burialplace .
-            ?burialplace rdfs:label ?burialplaceL .
-            FILTER (langMatches(lang(?burialplaceL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P69 ?educ .
-            ?educ rdfs:label ?educL .
-            FILTER (langMatches(lang(?educL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P140 ?religion .
-            ?religion rdfs:label ?religionL .
-            FILTER (langMatches(lang(?religionL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P106 ?occupation .
-            ?occupation rdfs:label ?occupationL .
-            FILTER (langMatches(lang(?occupationL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P166 ?award .
-            ?award rdfs:label ?awardL .
-            FILTER (langMatches(lang(?awardL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P39 ?position .
-            ?position rdfs:label ?positionL .
-            FILTER (langMatches(lang(?positionL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P463 ?member .
-            ?member rdfs:label ?memberL .
-            FILTER (langMatches(lang(?memberL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P97 ?nobility .
-            ?nobility rdfs:label ?nobilityL .
-            FILTER (langMatches(lang(?nobilityL), "EN"))
-          }
-          OPTIONAL {?id wdt:P569 ?birth .}
-          OPTIONAL {?id wdt:P570 ?death .}
-          OPTIONAL {?id wdt:P18 ?img .}
-          OPTIONAL {?id wdt:P109 ?signature .}
-          
-          # problem here
-          # OPTIONAL {
-          #   SELECT (COUNT(?work) AS ?workcount)  # number of notable works
-          #     WHERE {?id wdt:P800 ?work.}
-          # }
-          # OPTIONAL {
-          #   SELECT (COUNT(?conflict) AS ?conflictcount)  # number of conflicts participated in
-          #   WHERE {?id wdt:P607 ?conflict.}
-          # }
-          
-          
-          # =============== WORKS =============== #
-          OPTIONAL {?id wdt:P1476 ?titleL .}
-          OPTIONAL {?id wdt:P571 ?inception .}
-          OPTIONAL {
-            ?id wdt:P50 ?author .
-            ?author rdfs:label ?authorL .
-            FILTER (langMatches(lang(?authorL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P123 ?pub .
-            ?pub rdfs:label ?pubL .
-            FILTER (langMatches(lang(?pubL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P291 ?pubplace .
-            ?pubplace rdfs:label ?pubplaceL .
-            FILTER (langMatches(lang(?pubplaceL), "EN"))
-          }
-          OPTIONAL {?id wdt:P577 ?pubdate .}
-          OPTIONAL {
-            ?id wdt:P170 ?creator .
-            ?creator rdfs:label ?creatorL .
-            FILTER (langMatches(lang(?creatorL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P186 ?material .
-            ?material rdfs:label ?materialL .
-            FILTER (langMatches(lang(?materialL), "EN"))
-          }
-          OPTIONAL {?id wdt:P2048 ?height .}
-          OPTIONAL {
-            ?id wdt:P136 ?genre .
-            ?genre rdfs:label ?genreL .
-            FILTER (langMatches(lang(?genreL), "EN"))
-          }
-          OPTIONAL {
-            ?id wdt:P1071 ?creaplace .
-            ?creaplace rdfs:label ?creaplaceL .
-            FILTER (langMatches(lang(?creaplaceL), "EN"))
-          }
-          
-          
-        } # LIMIT 1 # => only first of each item
-"""
