@@ -16,9 +16,11 @@ from .utils.classes import Logs, Errors, Strings
 
 def sparql(w_id):
     """
-    launch a sparql query and return the result
+    launch a sparql query and return the result in a clean way. the result is then appended
+    to out/wikidata/sparql_out.json
 
     wikidata json output:
+    ---------------------
     {
         'head': {'vars': ['list', 'of', 'variable', 'queried']},  # queried variables wether or not there's a result
         'results':
@@ -38,6 +40,7 @@ def sparql(w_id):
     }
 
     out structure: a dictionary mapping to query keys (var) a list of results:
+    -------------
     - either an empty list (no result for that key)
     - or a list of different query results (wikidata returns a cartesian product: a
       combination of all possible combination of query results. if wikidata returns:
@@ -45,35 +48,35 @@ def sparql(w_id):
       the results will be a list of 3x3=9 possible combinations, which mean there will
       be duplicates. in turn, we need to deduplicate)
 
-    example:
-    --------
+    output details:
+    ---------------
               as a general rule, when a key ends with "L", it is a label
               for wikidata ID that is also queried. when a key ends with
               "ID", it is a unique identifier for the queried resource.
               when it ends with "count", the result is counting a number of
               occurrences
     out = {
-        'instance': ['Q5'], 'instanceL': ['human'],     # what "category" an id belongs to (person, litterary work...)
-        'gender': ['Q6581097'], 'genderL': ['male'],     # the gender of a person
-        'citizenship': ['Q145'], 'citizenshipL': ['United Kingdom'],     # citizenship
+        'instance': [], 'instanceL': [],     # what "category" an id belongs to (person, litterary work...)
+        'gender': [], 'genderL': [],     # the gender of a person
+        'citizenship': [], 'citizenshipL': [],     # citizenship
         'lang': [], 'langL': [],     # languages spoken
-        'deathmanner': ['Q3739104'], 'deathmannerL': ['natural causes'],     # the way a person died
-        'birthplace': ['Q23436'], 'birthplaceL': ['Edinburgh'],     # the place a person is born
+        'deathmanner': [], 'deathmannerL': [],     # the way a person died
+        'birthplace': [], 'birthplaceL': [],     # the place a person is born
         'deathplace': [], 'deathplaceL': [],     # the place a person died
-        'residplace': ['Q246076'], 'residplaceL': ['Abbotsford House'],     # the place a person lived
+        'residplace': [], 'residplaceL': [],     # the place a person lived
         'burialplace': [], 'burialplaceL': [],     # where a person is buried
-        'educ': ['Q160302'], 'educL': ['University of Edinburgh'],     # where a person studied
+        'educ': [], 'educL': [],     # where a person studied
         'religion': [], 'religionL': [],     # a person's religion
-        'occupation': ['Q14915627'], 'occupationL': ['musicologist'],     # general description of a person's occupation
-        'award': ['Q5438598'], 'awardL': ['Fellow of the Royal Society of Edinburgh'],     # awards gained
-        'position': ['Q16533'], 'positionL': ['judge'],     # precise positions held by a person
-        'member': ['Q117467'], 'memberL': ['Royal Society of Edinburgh'],     # institution a person is member of
-        'nobility': ['Q282019', 'Q7437562'], 'nobilityL': ['baronet', 'Scott baronets'],   # nobility titles
-        'workcount': ['131'],     # number of works (books...) documented on wikidata
+        'occupation': [], 'occupationL': [],     # general description of a person's occupation
+        'award': [], 'awardL': [],     # awards gained
+        'position': [], 'positionL': [],     # precise positions held by a person
+        'member': [], 'memberL': [],     # institution a person is member of
+        'nobility': [], 'nobilityL': [],   # nobility titles
+        'workcount': [],     # number of works (books...) documented on wikidata
         'conflictcount': [],     # number of conflicts (wars...) a person has participated in
         'image': [],     # url to the portrait of a person
-        'signature': ['http://commons.wikimedia.org/wiki/Special:FilePath/Sir%20Walter%20Scott%20Signature.svg'],    # url to the signature of a person
-        'birth': ['1771-08-15'], 'death': ['1832-09-21'],     # birth and death dates
+        'signature': [],    # url to the signature of a person
+        'birth': [], 'death': [],     # birth and death dates
 
         'title': [],     # title of a work of art / book...
         'inception': [],     # date a work was created or published
@@ -84,15 +87,15 @@ def sparql(w_id):
         'creator': [], 'creatorL': [],     # creator of a work of art
         'material': [], 'materialL': [],     # material in which a work of art is made
         'height': [],     # height of a work of art
-        'genre': ['Q482'], 'genreL': ['poetry'],     # genre of a work or genre of works created by a person
-        'movement': ['Q37068'], 'movementL': ['Romanticism'],     # movement in which a person or an artwork are inscribed
+        'genre': [], 'genreL': [],     # genre of a work or genre of works created by a person
+        'movement': [], 'movementL': [],     # movement in which a person or an artwork are inscribed
         'creaplace': [], 'creaplaceL': [],     # place where a work was created
 
-        'viafID': ['95207079'],     # viaf identifier
-        'bnfID': ['11924221r'],     # bibliothèque nationale de france ID
-        'isniID': ['0000 0001 2144 1874'],      # isni id
-        'congressID': ['n78095541'],      # library of congress identifier
-        'idrefID': ['027129489']      # idref identifier
+        'viafID': [],     # viaf identifier
+        'bnfID': [],     # bibliothèque nationale de france ID
+        'isniID': [],      # isni id
+        'congressID': [],      # library of congress identifier
+        'idrefID': []      # idref identifier
     }
 
     :param w_id: the wikidata id queried
@@ -351,6 +354,8 @@ def sparql(w_id):
 def result_tojson(wd_result):
     """
     transform the JSON returned by wikidata into a more elegant JSON
+    (mapping to a query variable a list of results (empty list if nothing is returned
+    by sparql. see the documentation for the above function for details))
     :param wd_result: the json returned by wikidata
     :return: a cleaner JSON
     """
