@@ -309,8 +309,9 @@ def sparql(w_id):
         agent="katabot/1.0 (https://katabase.huma-num.fr/) python/SPARQLwrapper/2.0.0"
     )
 
+    # launch the 4 queries separately and parse the queries
+    # into a nicer dict via result_tojson
     try:
-        # launch the queries
         endpoint.setQuery(query1)
         endpoint.setReturnFormat(JSON)
         results1 = endpoint.queryAndConvert()
@@ -342,7 +343,7 @@ def sparql(w_id):
     except:
         Errors.sparql_error_handle(query4, w_id)
 
-    # parse the result into a json
+    # parse the result into a single dict
     for o in [out1, out2, out3, out4]:
         for k, v in o.items():
             out[k] = v
