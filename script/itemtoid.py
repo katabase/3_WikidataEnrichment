@@ -11,7 +11,7 @@ from .utils.idset import build_idset
 from .utils.nametable import csvbuilder
 from .utils.paths import LOGS, OUT, TABLES
 from .utils.itemtoid_prep import prep_query
-from .utils.classes import Logs, Errors, Strings
+from .utils.classes import Logs, ErrorHandlers, Strings
 
 
 # ----------------------------------------
@@ -363,7 +363,7 @@ def itemtoid(config=None):
                     Logs.log_done(mode="itemtoid", orig=False, data=row[0])  # write the xml:id to log file
 
                 except:
-                    Errors.itemtoid_error_handle(row, qdict)
+                    ErrorHandlers.itemtoid(row, qdict)
 
         # once all ids have been retrieved, close f_in and
         # build a deduplicated list of ids to run the sparql queries (see sparql.py) 

@@ -1,12 +1,12 @@
-from SPARQLWrapper import SPARQLWrapper, JSON
+from SPARQLWrapper import SPARQLWrapper, SPARQLExceptions, JSON
 from pathlib import Path
 from tqdm import tqdm
+import http.client
 import json
 import os
 
-from .utils.idset import build_idset
 from .utils.paths import OUT, TABLES, LOGS
-from .utils.classes import Logs, Errors, Strings
+from .utils.classes import Logs, ErrorHandlers, Converters
 
 
 # ---------------------------------------------------
@@ -38,6 +38,7 @@ def sparql(w_id):
                 ]
             }
     }
+    (about sparql return formats: https://www.w3.org/TR/2013/REC-sparql11-overview-20130321/)
 
     out structure: a dictionary mapping to query keys (var) a list of results:
     -------------
@@ -310,38 +311,73 @@ def sparql(w_id):
     )
 
     # launch the 4 queries separately and parse the queries
-    # into a nicer dict via result_tojson
+    # into a nicer dict via result_tojson.
+    # handling system breakdown for the 4 queries:
+    # - if there's a json parsing error, relaunch the result in xml and convert it to
+    #   a sparql-valid json. if this second query times out, return a json with the
+    #   variables queried mapped to an empty list. continue with the script
+    # - if there's a timeout, return a json mapping the variables queried to an empty
+    #   list. continue with the script
+    # - if there's any other error, it's a hard exit and the script stops
     try:
         endpoint.setQuery(query1)
         endpoint.setReturnFormat(JSON)
         results1 = endpoint.queryAndConvert()
-        out1 = result_tojson(results1)
-    except:
-        Errors.sparql_error_handle(query1, w_id)
+        out1 = Converters.result_tojson(results1)
+    except http.client.IncompleteRead:  # if there's a json parsing problem
+        try:
+            out1 = ErrorHandlers.sparql_incomplete_read(endpoint, query1)
+        except SPARQLExceptions.EndPointInternalError:
+            out1 = ErrorHandlers.sparql_internal_error(query3)
+    except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
+        out1 = ErrorHandlers.sparql_internal_error(query1)
+    except:  # other errors: hard exit
+        ErrorHandlers.sparql_general(query1, w_id)
 
     try:
         endpoint.setQuery(query2)
         endpoint.setReturnFormat(JSON)
         results2 = endpoint.queryAndConvert()
-        out2 = result_tojson(results2)
-    except:
-        Errors.sparql_error_handle(query2, w_id)
+        out2 = Converters.result_tojson(results2)
+    except http.client.IncompleteRead:  # if there's a json parsing problem
+        try:
+            out2 = ErrorHandlers.sparql_incomplete_read(endpoint, query2)
+        except SPARQLExceptions.EndPointInternalError:
+            out2 = ErrorHandlers.sparql_internal_error(query3)
+    except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
+        out2 = ErrorHandlers.sparql_internal_error(query2)
+    except:  # other errors
+        ErrorHandlers.sparql_general(query2, w_id)
 
     try:
         endpoint.setQuery(query3)
         endpoint.setReturnFormat(JSON)
         results3 = endpoint.queryAndConvert()
-        out3 = result_tojson(results3)
-    except:
-        Errors.sparql_error_handle(query3, w_id)
+        out3 = Converters.result_tojson(results3)
+    except http.client.IncompleteRead:  # if there's a json parsing problem
+        try:
+            out3 = ErrorHandlers.sparql_incomplete_read(endpoint, query3)
+        except SPARQLExceptions.EndPointInternalError:
+            out3 = ErrorHandlers.sparql_internal_error(query3)
+    except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
+            out3 = ErrorHandlers.sparql_internal_error(query3)
+    except:  # other errors
+        ErrorHandlers.sparql_general(query3, w_id)
 
     try:
         endpoint.setQuery(query4)
         endpoint.setReturnFormat(JSON)
         results4 = endpoint.queryAndConvert()
-        out4 = result_tojson(results4)
-    except:
-        Errors.sparql_error_handle(query4, w_id)
+        out4 = Converters.result_tojson(results4)
+    except http.client.IncompleteRead:  # if there's a json parsing problem
+        try:
+            out4 = ErrorHandlers.sparql_incomplete_read(endpoint, query3)
+        except SPARQLExceptions.EndPointInternalError:
+            out4 = ErrorHandlers.sparql_internal_error(query3)
+    except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
+        out4 = ErrorHandlers.sparql_internal_error(query3)
+    except:  # other errors
+        ErrorHandlers.sparql_general(query3, w_id)
 
     # parse the result into a single dict
     for o in [out1, out2, out3, out4]:
@@ -349,41 +385,6 @@ def sparql(w_id):
             out[k] = v
 
     return out
-
-
-def result_tojson(wd_result):
-    """
-    transform the JSON returned by wikidata into a more elegant JSON
-    (mapping to a query variable a list of results (empty list if nothing is returned
-    by sparql. see the documentation for the above function for details))
-    :param wd_result: the json returned by wikidata
-    :return: a cleaner JSON
-    """
-    out_dict = {}  # a cleaned json to built out
-    var = wd_result["head"]["vars"]  # the queried variables (used as keys to out_dict)
-
-    for bind in wd_result["results"]["bindings"]:
-        # build out_dict
-        for v in var:
-            if v not in out_dict:
-                if v in bind:
-                    out_dict[v] = [Strings.clean(bind[v]["value"])]
-                else:
-                    out_dict[v] = []
-            else:
-                if v in bind and Strings.clean(bind[v]["value"]) not in out_dict[v]:
-                    # avoid duplicates: compare all strings in out[v] to see if they match with out[v]
-                    same = False
-                    for o in out_dict[v]:
-                        if Strings.compare(
-                                Strings.clean(bind[v]["value"]), o
-                        ) is True:  # if there's a matching comparison
-                            same = True
-
-                    if same is False:
-                        out_dict[v].append(Strings.clean(bind[v]["value"]))
-
-    return out_dict
 
 
 def launch():
