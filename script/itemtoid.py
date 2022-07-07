@@ -7,6 +7,7 @@ import os
 import re
 
 from .utils.rgx import names
+from .utils.idset import build_idset
 from .utils.nametable import csvbuilder
 from .utils.paths import LOGS, OUT, TABLES
 from .utils.itemtoid_prep import prep_query
@@ -364,7 +365,11 @@ def itemtoid(config=None):
                 except:
                     Errors.itemtoid_error_handle(row, qdict)
 
+        # once all ids have been retrieved, close f_in and
+        # build a deduplicated list of ids to run the sparql queries (see sparql.py) 
         f_in.close()
+        build_idset()
+
     return None
 
 

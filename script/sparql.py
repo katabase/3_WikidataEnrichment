@@ -17,7 +17,7 @@ from .utils.classes import Logs, Errors, Strings
 def sparql(w_id):
     """
     launch a sparql query and return the result in a clean way. the result is then appended
-    to out/wikidata/sparql_out.json
+    to out/wikidata/wikidata_enrichments.json
 
     wikidata json output:
     ---------------------
@@ -348,7 +348,6 @@ def sparql(w_id):
         for k, v in o.items():
             out[k] = v
 
-    print(out)
     return out
 
 
@@ -390,19 +389,15 @@ def result_tojson(wd_result):
 def launch():
     """
     launch queries on all wikidata ids stored in tables/wikidata_id.txt
-    and save the result to out/wikidata/sparql_out.json
+    and save the result to out/wikidata/wikidata_enrichments.json
     :return: None
     """
-    # build a unique list of ids and save it to a file
-    # the ids are in a different order each time, so it will look like
-    # the updating doesn't work (but it does)
-    build_idset()
-    # parse the wikidata ids
+    # parse the wikidata ids created at the end of itemtoid.py
     with open(f"{TABLES}/id_wikidata.txt", mode="r") as f:
         idlist = f.read().split()
 
     # create the output file and log file
-    fp_out = f"{OUT}/wikidata/sparql_out.json"
+    fp_out = f"{OUT}/wikidata/wikidata_enrichments.json"
     fp_log = f"{LOGS}/log_sparql.txt"
     if not os.path.isfile(fp_out):
         Path(fp_out).touch()
