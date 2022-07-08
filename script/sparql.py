@@ -328,7 +328,12 @@ def sparql(w_id):
         try:
             out1 = ErrorHandlers.sparql_incomplete_read(endpoint, query1)
         except SPARQLExceptions.EndPointInternalError:
-            out1 = ErrorHandlers.sparql_internal_error(query3)
+            out1 = ErrorHandlers.sparql_internal_error(query1)
+    except json.decoder.JSONDecodeError:  # if there's a json parsing problem
+        try:
+            out1 = ErrorHandlers.sparql_incomplete_read(endpoint, query1)
+        except SPARQLExceptions.EndPointInternalError:
+            out1 = ErrorHandlers.sparql_internal_error(query1)
     except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
         out1 = ErrorHandlers.sparql_internal_error(query1)
     except:  # other errors: hard exit
@@ -339,11 +344,17 @@ def sparql(w_id):
         endpoint.setReturnFormat(JSON)
         results2 = endpoint.queryAndConvert()
         out2 = Converters.result_tojson(results2)
-    except http.client.IncompleteRead:  # if there's a json parsing problem
+    except http.client.IncompleteRead or json.decoder.JSONDecodeError:  # if there's a json parsing problem
         try:
             out2 = ErrorHandlers.sparql_incomplete_read(endpoint, query2)
         except SPARQLExceptions.EndPointInternalError:
-            out2 = ErrorHandlers.sparql_internal_error(query3)
+            out2 = ErrorHandlers.sparql_internal_error(query2)
+    except json.decoder.JSONDecodeError:  # if there's a json parsing problem
+        try:
+            out2 = ErrorHandlers.sparql_incomplete_read(endpoint, query2)
+        except SPARQLExceptions.EndPointInternalError:
+            out2 = ErrorHandlers.sparql_internal_error(query2)
+
     except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
         out2 = ErrorHandlers.sparql_internal_error(query2)
     except:  # other errors
@@ -355,6 +366,11 @@ def sparql(w_id):
         results3 = endpoint.queryAndConvert()
         out3 = Converters.result_tojson(results3)
     except http.client.IncompleteRead:  # if there's a json parsing problem
+        try:
+            out3 = ErrorHandlers.sparql_incomplete_read(endpoint, query3)
+        except SPARQLExceptions.EndPointInternalError:
+            out3 = ErrorHandlers.sparql_internal_error(query3)
+    except json.decoder.JSONDecodeError:  # if there's a json parsing problem
         try:
             out3 = ErrorHandlers.sparql_incomplete_read(endpoint, query3)
         except SPARQLExceptions.EndPointInternalError:
@@ -371,13 +387,18 @@ def sparql(w_id):
         out4 = Converters.result_tojson(results4)
     except http.client.IncompleteRead:  # if there's a json parsing problem
         try:
-            out4 = ErrorHandlers.sparql_incomplete_read(endpoint, query3)
+            out4 = ErrorHandlers.sparql_incomplete_read(endpoint, query4)
         except SPARQLExceptions.EndPointInternalError:
-            out4 = ErrorHandlers.sparql_internal_error(query3)
+            out4 = ErrorHandlers.sparql_internal_error(query4)
+    except json.decoder.JSONDecodeError:  # if there's a json parsing problem
+        try:
+            out4 = ErrorHandlers.sparql_incomplete_read(endpoint, query4)
+        except SPARQLExceptions.EndPointInternalError:
+            out4 = ErrorHandlers.sparql_internal_error(query4)
     except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
-        out4 = ErrorHandlers.sparql_internal_error(query3)
+        out4 = ErrorHandlers.sparql_internal_error(query4)
     except:  # other errors
-        ErrorHandlers.sparql_general(query3, w_id)
+        ErrorHandlers.sparql_general(query4, w_id)
 
     # parse the result into a single dict
     for o in [out1, out2, out3, out4]:
