@@ -57,6 +57,8 @@ structure:
 </item>
 ```
 
+---
+
 **Step 1 : create an input TSV** - `python main.py -n`
 
 The first step is to create a `tsv` file that will be used to retrieve the wikidata IDs:
@@ -73,6 +75,8 @@ CAT_000362_e27086,,ADAM (Ad.),célèbre compositeur de musique.
 ```shell
 python main.py -n
 ```
+
+---
 
 **Step 2 : retrieve the wikidata IDs** - `python main.py -i`
 
@@ -113,6 +117,8 @@ The wikidata IDs are retrieved by running a full text search using the
 ```shell
 python main.py -i
 ```
+
+---
 
 **Step 3 : running `sparql` queries** - `python main.py -s`
 - the **algorithm** is much simpler: for each wikidata ID, 4 sparql queries are run. The results are returned
@@ -169,6 +175,8 @@ python main.py -i
 python main.py -s
 ```
 
+---
+
 **Running tests** - `python main.py -t`
 - the tests are only run on the **step 2** (for the rest, we are certain of the result). 
     - They are based on 200 catalogue entries. The test dataset ressembles the full dataset (about as many
@@ -182,13 +190,17 @@ python main.py -s
 python main.py -t
 ```
 
+---
+
 **Other options**:
 - **counting the most used words in the `tei:trait`s** of the input dataset (to tweak the way the dictionnary is
   built in the step 2) : `python main.py -c`
 - **`python main.py -x`** : a throwaway option to map to a function in order to use a script that is not accessible
   from the above arguments
 
-**Summarizing, the options are : **
+---
+
+**Summarizing, the options are**
 ```
 * -c --traitcounter : count most used terms in the tei:trait (to tweak the matching tables)
 * -t --test : run tests (takes ~20 minutes)
