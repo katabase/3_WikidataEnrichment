@@ -57,7 +57,7 @@ structure:
 </item>
 ```
 
-**Step 1 : create an input TSV**
+**Step 1 : create an input TSV** - `python main.py -n`
 
 The first step is to create a `tsv` file that will be used to retrieve the wikidata IDs:
 - the `tsv` is made of 5 columns (see example below):
@@ -74,7 +74,7 @@ CAT_000362_e27086,,ADAM (Ad.),célèbre compositeur de musique.
 python main.py -n
 ```
 
-**Step 2 : retrieve the wikidata IDs**
+**Step 2 : retrieve the wikidata IDs** - `python main.py -i`
 
 The wikidata IDs are retrieved by running a full text search using the 
 [wikidata API](https://www.wikidata.org/w/api.php). 
@@ -114,7 +114,7 @@ The wikidata IDs are retrieved by running a full text search using the
 python main.py -i
 ```
 
-**Step 3 : running `sparql` queries**
+**Step 3 : running `sparql` queries** - `python main.py -s`
 - the **algorithm** is much simpler: for each wikidata ID, 4 sparql queries are run. The results are returned
   in `json` or, if there's a mistake, `xml`. The results are translated to a simpler `json` and the result is stored to
   `out/wikidata/wikidata_enrichments.json`. This step takes a lot of time, but the script can be stopped and continued
@@ -169,7 +169,7 @@ python main.py -i
 python main.py -s
 ```
 
-**Running tests**
+**Running tests** - `python main.py -t`
 - the tests are only run on the **step 2** (for the rest, we are certain of the result). 
     - They are based on 200 catalogue entries. The test dataset ressembles the full dataset (about as many
       different kinds of entries, from different catalogues, with as many `tei:trait`s as in the main dataset)
