@@ -6,7 +6,7 @@ from script.itemtoid import itemtoid
 from script.utils.nametable import csvbuilder
 from script.utils.traitcounter import counter
 from script.itemtoid_test import itemtoid_test
-from script.utils.classes import Converters, r1, r2
+from script.utils.classes import Converters
 
 
 # ---------------------------------------------------------
@@ -56,7 +56,6 @@ if __name__ == "__main__":
         counter()
     elif args.buildnametable:
         csvbuilder()
-    elif args.throwaway:  # check the sparql xml to json converter
-        Converters.xmltojson(r1)
-        Converters.xmltojson(r2)
+    elif args.throwaway:
+        print("the throwaway argument is currently not mapped to any function.")
 

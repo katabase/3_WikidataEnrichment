@@ -1,6 +1,8 @@
-from SPARQLWrapper import XML
+from SPARQLWrapper import XML, SPARQLExceptions
+import http.client
 from lxml import etree
 import traceback
+import json
 import sys
 import csv
 import re
@@ -246,6 +248,42 @@ class ErrorHandlers:
         return out
 
     @staticmethod
+    def sparql_global(exception, endpoint, query, w_id):
+        """
+        for sparql.py
+        global error handling process
+        handling system breakdown for the queries:
+        - if there's a json parsing error or an IncompleteRead from
+          the http.client module, relaunch the result in xml and convert it to
+          a sparql-valid json. if this new query times out, return a json with the
+          variables queried mapped to an empty list. continue with the script
+        - if there's a timeout, return a json mapping the variables queried to an empty
+          list. continue with the script
+        - if there's any other error, it's a hard exit and the script stops
+        :param exception: the current exception
+        :param endpoint: the sparql endpoint
+        :param query: the current query
+        :param w_id: the wikidata identifier
+        :return: out, either 
+                 - a dict with a sparql response (or a dict mapping to queried keys empty lists)
+                 - None, if the error is sparql_general which doesn't return a value and exits the script
+        """
+        out = None
+        exception = sys.exc_info()[0] # NOT WORKING
+        print(exception)
+        if exception == http.client.IncompleteRead \
+                or exception == json.decoder.JSONDecodeError:  # if there's a json parsing problem or http client error
+            try:
+                out = ErrorHandlers.sparql_incomplete_read(endpoint, query)
+            except SPARQLExceptions.EndPointInternalError:
+                out = ErrorHandlers.sparql_internal_error(query)
+        elif exception == SPARQLExceptions.EndPointInternalError:  # if there's a timeout
+            out = ErrorHandlers.sparql_internal_error(query)
+        else:  # other errors: hard exit
+            ErrorHandlers.sparql_general(query, w_id)
+        return out
+
+    @staticmethod
     def itemtoid(row, qdict):
         """
         for itemtoid.py
@@ -260,331 +298,3 @@ class ErrorHandlers:
         error = traceback.format_exc()
         print(error)
         sys.exit(1)
-
-
-r1 = """<?xml version="1.0" ?>
-<sparql xmlns="http://www.w3.org/2005/sparql-results#">
-	
-	
-	<head>
-		
-		
-		<variable name="id"/>
-		
-		
-		<variable name="labelen"/>
-		
-		
-		<variable name="url"/>
-		
-		
-		<variable name="collid"/>
-		
-		
-		<variable name="colllabel"/>
-		
-		
-		<variable name="img"/>
-		
-		
-		<variable name="idisni"/>
-		
-		
-		<variable name="idviaf"/>
-		
-		
-		<variable name="idbnf"/>
-		
-		
-		<variable name="idcongress"/>
-		
-		
-		<variable name="idartsy"/>
-		
-	
-	</head>
-	
-	
-	<results>
-		
-		
-		<result>
-			
-			
-			<binding name="labelen">
-				
-				
-				<literal xml:lang="en">Joana Hadjithomas</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="id">
-				
-				
-				<literal>Q3179639</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="img">
-				
-				
-				<uri>http://commons.wikimedia.org/wiki/Special:FilePath/Joanna%20hadhjithomas.jpg</uri>
-				
-			
-			</binding>
-			
-			
-			<binding name="idisni">
-				
-				
-				<literal>0000 0001 2132 1223</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idviaf">
-				
-				
-				<literal>49362327</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idbnf">
-				
-				
-				<literal>13169967x</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idcongress">
-				
-				
-				<literal>nr2006017200</literal>
-				
-			
-			</binding>
-			
-		
-		</result>
-		
-		<result>
-			
-			
-			<binding name="collid">
-				
-				
-				<uri>http://www.wikidata.org/entity/Q924335</uri>
-				
-			
-			</binding>
-			
-			
-			<binding name="colllabel">
-				
-				
-				<literal xml:lang="en-gb">Stedelijk Museum Amsterdam</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="labelen">
-				
-				
-				<literal xml:lang="en">Mohamed Bourouissa</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="id">
-				
-				
-				<literal>Q3318456</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idisni">
-				
-				
-				<literal>0000 0003 6263 911X</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idviaf">
-				
-				
-				<literal>225099587</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idbnf">
-				
-				
-				<literal>15744950w</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idcongress">
-				
-				
-				<literal>n2014015573</literal>
-				
-			
-			</binding>
-			
-		
-		</result>
-	
-	</results>
-	
-
-</sparql>
-"""
-
-r2 = """<?xml version="1.0" ?>
-<sparql xmlns="http://www.w3.org/2005/sparql-results#">
-	
-	
-	<head>
-		
-		
-		<variable name="id"/>
-		
-		
-		<variable name="labelen"/>
-		
-		
-		<variable name="url"/>
-		
-		
-		<variable name="collid"/>
-		
-		
-		<variable name="colllabel"/>
-		
-		
-		<variable name="img"/>
-		
-		
-		<variable name="idisni"/>
-		
-		
-		<variable name="idviaf"/>
-		
-		
-		<variable name="idbnf"/>
-		
-		
-		<variable name="idcongress"/>
-		
-		
-		<variable name="idartsy"/>
-		
-	
-	</head>
-	
-	
-	<results>
-		
-		
-		<result>
-			
-			
-			<binding name="collid">
-				
-				
-				<uri>http://www.wikidata.org/entity/Q924335</uri>
-				
-			
-			</binding>
-			
-			
-			<binding name="colllabel">
-				
-				
-				<literal xml:lang="en-gb">Stedelijk Museum Amsterdam</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="labelen">
-				
-				
-				<literal xml:lang="en">Mohamed Bourouissa</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="id">
-				
-				
-				<literal>Q3318456</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idisni">
-				
-				
-				<literal>0000 0003 6263 911X</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idviaf">
-				
-				
-				<literal>225099587</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idbnf">
-				
-				
-				<literal>15744950w</literal>
-				
-			
-			</binding>
-			
-			
-			<binding name="idcongress">
-				
-				
-				<literal>n2014015573</literal>
-				
-			
-			</binding>
-			
-		
-		</result>
-		
-	
-	</results>
-	
-
-</sparql>
-"""
