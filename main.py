@@ -1,12 +1,11 @@
 import argparse
 import sys
 
-from script.sparql import launch
+from script.sparql import sparql
 from script.itemtoid import itemtoid
 from script.utils.nametable import csvbuilder
 from script.utils.traitcounter import counter
 from script.itemtoid_test import itemtoid_test
-from script.utils.classes import Converters
 
 
 # ---------------------------------------------------------
@@ -51,7 +50,7 @@ if __name__ == "__main__":
     elif args.wikidataids:
         itemtoid()
     elif args.runsparql:
-        launch()
+        sparql()
     elif args.traitcounter:
         counter()
     elif args.buildnametable:

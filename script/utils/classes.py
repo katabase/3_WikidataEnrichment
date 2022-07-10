@@ -195,7 +195,7 @@ class ErrorHandlers:
     error handling classes
     """
     @staticmethod
-    def sparql_general(query, w_id):
+    def sparql_exit(query, w_id):
         """
         for sparql.py
         general error handling for a wikidata sparql query;
@@ -212,10 +212,10 @@ class ErrorHandlers:
         sys.exit(1)
 
     @staticmethod
-    def sparql_incomplete_read(endpoint, query):
+    def sparql_tryxml(endpoint, query):
         """
         for sparql.py
-        error handling if there's a json parse xml error:
+        error handling if there's a json parse xml or an http client error:
         relaunch the query with xml result format
         and convert it to sparql-like json (aka, a json that follows the sparql specification:
         https://www.w3.org/TR/2013/REC-sparql11-overview-20130321/).
@@ -233,7 +233,7 @@ class ErrorHandlers:
         return out
 
     @staticmethod
-    def sparql_internal_error(query):
+    def sparql_returnempty(query):
         """
         for sparql.py
         internal errors = http code 500, usually because of a timeout.
@@ -245,42 +245,6 @@ class ErrorHandlers:
         vars = re.search(r"SELECT DISTINCT ((\?\w*|\s)*)", query)[1].split()  # list of queried variables
         for v in vars:
             out[v.replace("?", "")] = []
-        return out
-
-    @staticmethod
-    def sparql_global(exception, endpoint, query, w_id):
-        """
-        for sparql.py
-        global error handling process
-        handling system breakdown for the queries:
-        - if there's a json parsing error or an IncompleteRead from
-          the http.client module, relaunch the result in xml and convert it to
-          a sparql-valid json. if this new query times out, return a json with the
-          variables queried mapped to an empty list. continue with the script
-        - if there's a timeout, return a json mapping the variables queried to an empty
-          list. continue with the script
-        - if there's any other error, it's a hard exit and the script stops
-        :param exception: the current exception
-        :param endpoint: the sparql endpoint
-        :param query: the current query
-        :param w_id: the wikidata identifier
-        :return: out, either 
-                 - a dict with a sparql response (or a dict mapping to queried keys empty lists)
-                 - None, if the error is sparql_general which doesn't return a value and exits the script
-        """
-        out = None
-        exception = sys.exc_info()[0] # NOT WORKING
-        print(exception)
-        if exception == http.client.IncompleteRead \
-                or exception == json.decoder.JSONDecodeError:  # if there's a json parsing problem or http client error
-            try:
-                out = ErrorHandlers.sparql_incomplete_read(endpoint, query)
-            except SPARQLExceptions.EndPointInternalError:
-                out = ErrorHandlers.sparql_internal_error(query)
-        elif exception == SPARQLExceptions.EndPointInternalError:  # if there's a timeout
-            out = ErrorHandlers.sparql_internal_error(query)
-        else:  # other errors: hard exit
-            ErrorHandlers.sparql_general(query, w_id)
         return out
 
     @staticmethod

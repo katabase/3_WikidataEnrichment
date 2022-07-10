@@ -14,13 +14,21 @@ from .utils.classes import Logs, ErrorHandlers, Converters
 # ---------------------------------------------------
 
 
-def sparql(w_id):
+def launch_sparql(query, w_id):
     """
-    launch a sparql query and return the result in a clean way. the result is then appended
-    to out/wikidata/wikidata_enrichments.json
+    launch a sparql query and return the result in sparql json
 
+    handling system for the queries:
+    - if there's a json parsing error or an IncompleteRead from
+      the http.client module, relaunch the result in xml and convert it to
+      a sparql-valid json. if this new query times out, return a json with the
+      variables queried mapped to an empty list. continue with the script
+    - if there's a timeout, return a json mapping the variables queried to an empty
+      list. continue with the script
+    - if there's any other error, it's a hard exit and the script stops
+    new errors can easily be caught with new excepts
+        
     wikidata json output:
-    ---------------------
     {
         'head': {'vars': ['list', 'of', 'variable', 'queried']},  # queried variables wether or not there's a result
         'results':
@@ -39,6 +47,48 @@ def sparql(w_id):
             }
     }
     (about sparql return formats: https://www.w3.org/TR/2013/REC-sparql11-overview-20130321/)
+    
+    :param query: the current query
+    :param w_id: the wikidata identifier
+    :return: out, either 
+            - a dict with a sparql response (or a dict mapping to queried keys empty lists)
+            - None, if the error is sparql_general which doesn't return a value and exits the script
+    """
+    out = None
+    endpoint = SPARQLWrapper(
+        "https://query.wikidata.org/sparql",
+        agent="katabot/1.0 (https://katabase.huma-num.fr/) python/SPARQLwrapper/2.0.0"
+    )
+    try:
+        endpoint.setQuery(query)
+        endpoint.setReturnFormat(JSON)
+        results = endpoint.queryAndConvert()
+        out = Converters.result_tojson(results)
+    except json.decoder.JSONDecodeError:  # if there's a json parsing problem or http client error
+        try:
+            out = ErrorHandlers.sparql_tryxml(endpoint, query)
+        except http.client.IncompleteRead:
+            out = ErrorHandlers.sparql_returnempty(query)
+        except SPARQLExceptions.EndPointInternalError:
+            out = ErrorHandlers.sparql_returnempty(query)
+    except http.client.IncompleteRead:  # if there's a json parsing problem or http client error
+        try:
+            out = ErrorHandlers.sparql_tryxml(endpoint, query)
+        except http.client.IncompleteRead:
+            out = ErrorHandlers.sparql_returnempty(query)
+        except SPARQLExceptions.EndPointInternalError:
+            out = ErrorHandlers.sparql_returnempty(query)
+    except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
+        out = ErrorHandlers.sparql_returnempty(query)
+    except:
+        ErrorHandlers.sparql_exit(query, w_id)
+    return out
+
+
+def config_sparql(w_id):
+    """
+    prepare a sparql query, launch it and return the result in a clean way. the result is then appended
+    to out/wikidata/wikidata_enrichments.json
 
     out structure: a dictionary mapping to query keys (var) a list of results:
     -------------
@@ -305,45 +355,12 @@ def sparql(w_id):
         } LIMIT 1
     """.replace("TOKEN", w_id)
 
-    endpoint = SPARQLWrapper(
-        "https://query.wikidata.org/sparql",
-        agent="katabot/1.0 (https://katabase.huma-num.fr/) python/SPARQLwrapper/2.0.0"
-    )
-
     # launch the 4 queries separately and parse the queries
     # into a nicer dict via result_tojson.
-    # for the exception handling process, see ErrorHandlers class
-    try:
-        endpoint.setQuery(query1)
-        endpoint.setReturnFormat(JSON)
-        results1 = endpoint.queryAndConvert()
-        out1 = Converters.result_tojson(results1)
-    except Exception as e:
-        out1 = ErrorHandlers.sparql_global(e, endpoint, query1, w_id)
-
-    try:
-        endpoint.setQuery(query2)
-        endpoint.setReturnFormat(JSON)
-        results2 = endpoint.queryAndConvert()
-        out2 = Converters.result_tojson(results2)
-    except Exception as e:
-        out2 = ErrorHandlers.sparql_global(e, endpoint, query2, w_id)
-
-    try:
-        endpoint.setQuery(query3)
-        endpoint.setReturnFormat(JSON)
-        results3 = endpoint.queryAndConvert()
-        out3 = Converters.result_tojson(results3)
-    except Exception as e:
-        out3 = ErrorHandlers.sparql_global(e, endpoint, query3, w_id)
-
-    try:
-        endpoint.setQuery(query4)
-        endpoint.setReturnFormat(JSON)
-        results4 = endpoint.queryAndConvert()
-        out4 = Converters.result_tojson(results4)
-    except Exception as e:
-        out4 = ErrorHandlers.sparql_global(e, endpoint, query4, w_id)
+    out1 = launch_sparql(query1, w_id)
+    out2 = launch_sparql(query2, w_id)
+    out3 = launch_sparql(query3, w_id)
+    out4 = launch_sparql(query4, w_id)
 
     # parse the result into a single dict
     for o in [out1, out2, out3, out4]:
@@ -353,7 +370,7 @@ def sparql(w_id):
     return out
 
 
-def launch():
+def sparql():
     """
     launch queries on all wikidata ids stored in tables/wikidata_id.txt
     and save the result to out/wikidata/wikidata_enrichments.json
@@ -385,11 +402,11 @@ def launch():
             with open(fp_out, mode="r+") as fh:
                 if os.stat(fp_out).st_size > 0:
                     queried = json.load(fh)
-                    queried[w_id] = sparql(w_id)
+                    queried[w_id] = config_sparql(w_id)
                     fh.seek(0)
                     json.dump(queried, fh, indent=4)
                 else:
-                    queried = {w_id: sparql(w_id)}
+                    queried = {w_id: config_sparql(w_id)}
                     json.dump(queried, fh, indent=4)
                 Logs.log_done(mode="sparql", data=w_id)
         else:
@@ -399,4 +416,4 @@ def launch():
 
 
 if __name__ == "__main__":
-    launch()
+    sparql()
