@@ -2,6 +2,7 @@ from SPARQLWrapper import SPARQLWrapper, SPARQLExceptions, JSON
 from pathlib import Path
 from tqdm import tqdm
 import http.client
+import urllib
 import json
 import os
 
@@ -78,6 +79,8 @@ def launch_sparql(query, w_id):
             out = ErrorHandlers.sparql_returnempty(query)
         except SPARQLExceptions.EndPointInternalError:
             out = ErrorHandlers.sparql_returnempty(query)
+    except urllib.error.HTTPError:  # if there's a timeout
+        out = ErrorHandlers.sparql_returnempty(query)
     except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
         out = ErrorHandlers.sparql_returnempty(query)
     except:
