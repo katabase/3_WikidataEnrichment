@@ -1,8 +1,8 @@
 from SPARQLWrapper import SPARQLWrapper, SPARQLExceptions, JSON
+from urllib import error
 from pathlib import Path
 from tqdm import tqdm
 import http.client
-import urllib
 import json
 import os
 
@@ -28,7 +28,7 @@ def launch_sparql(query, w_id):
       list. continue with the script
     - if there's any other error, it's a hard exit and the script stops
     new errors can easily be caught with new excepts
-        
+
     wikidata json output:
     {
         'head': {'vars': ['list', 'of', 'variable', 'queried']},  # queried variables wether or not there's a result
@@ -48,7 +48,7 @@ def launch_sparql(query, w_id):
             }
     }
     (about sparql return formats: https://www.w3.org/TR/2013/REC-sparql11-overview-20130321/)
-    
+
     :param query: the current query
     :param w_id: the wikidata identifier
     :return: out, either 
@@ -79,7 +79,7 @@ def launch_sparql(query, w_id):
             out = ErrorHandlers.sparql_returnempty(query)
         except SPARQLExceptions.EndPointInternalError:
             out = ErrorHandlers.sparql_returnempty(query)
-    except urllib.error.HTTPError:  # if there's a timeout
+    except error.HTTPError:  # if there's a timeout
         out = ErrorHandlers.sparql_returnempty(query)
     except SPARQLExceptions.EndPointInternalError:  # if there's a timeout
         out = ErrorHandlers.sparql_returnempty(query)
