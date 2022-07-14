@@ -4,6 +4,7 @@ from pathlib import Path
 from tqdm import tqdm
 import http.client
 import json
+import xml
 import os
 
 from .utils.paths import OUT, TABLES, LOGS
@@ -72,12 +73,16 @@ def launch_sparql(query, w_id):
             out = ErrorHandlers.sparql_returnempty(query)
         except SPARQLExceptions.EndPointInternalError:
             out = ErrorHandlers.sparql_returnempty(query)
+        except xml.parsers.expat.ExpatError:
+            out = ErrorHandlers.sparql_returnempty(query)
     except http.client.IncompleteRead:  # if there's a json parsing problem or http client error
         try:
             out = ErrorHandlers.sparql_tryxml(endpoint, query)
         except http.client.IncompleteRead:
             out = ErrorHandlers.sparql_returnempty(query)
         except SPARQLExceptions.EndPointInternalError:
+            out = ErrorHandlers.sparql_returnempty(query)
+        except xml.parsers.expat.ExpatError:
             out = ErrorHandlers.sparql_returnempty(query)
     except error.HTTPError:  # if there's a timeout
         out = ErrorHandlers.sparql_returnempty(query)
