@@ -74,7 +74,31 @@ def prep_query(in_data, prev):
             or any(d in re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower().split() for d in dpts) \
             or any(c in re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower().split() for c in colonies) \
             or any(c in re.sub(r"(\.|,|(\s-)|(-\s))+", " ", name).lower().split() for c in countries.keys()):
-        if matchstr == "" and not any(s in name.lower() for s in status):  # check that it's not a name
+
+        # check that it's not a name: no firstname/lastname have been matched and there's no
+        # nobility title
+        #
+        # OK SO THERE'S ACTUALLY A MISTAKE HERE:
+        # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # (this mistake concerns ~900 out of 1406 names classified as geographic entries
+        # and out of +80.000 catalogue entries)
+        # since we use `if`/`elif` for the different cases (person, geography...)
+        # and there's no else to counter the below 'if', it means that if
+        # the below condition evaluates to False (aka, if what was matched as geographic data
+        # is in fact a person's name), the name goes untreated and no data is
+        # extracted. to correct this, either
+        # - balance the below `if` with an `else` that extracts name data (which
+        #   means repeting the CASE 5 code twice, ugly and not cool)
+        # - change the above (CASE 4) `elif`: everything that is now in
+        #   the `elif` is nested + we add an `and` with the below condition.
+        #   then we delete the below condition since it's now useless.
+        #
+        # other possibile amelioration: the data in conversion tables is multi-name and complex
+        # (entries in tables contains spaces and `-`. however,
+	# - the classifying algorithm cleans the tei:names by removing `,|-`, so some matches don't work
+        # - it also splits the tei:names word per word, while the conversion table data can be multi word.
+        #   so there possibly are more false negatives here too.
+        if matchstr == "" and not any(s in name.lower() for s in status):
             # clean the string
             name = re.sub(r"(^\.?\s+|.?\s+.?$)", "", name).lower()
             # remove extra noise : persons
@@ -326,6 +350,8 @@ def prep_query(in_data, prev):
         "rebuilt": rebuilt
     }
     qdata_prev = qdata  # in case an entry is labeled "le même", aka the same person as the entry before
+
+    print(qdata)
 
     # return
     return qdata, qdata_prev
