@@ -70,7 +70,6 @@ def request(qstr, qdict):
         "srprop": "title|titlesnippet|snippet",
         "format": "json"
     }
-    # print(qstr)
     # launch query and return out, a list of the wikidata ID, the wikidata title page, a snippet of the page
     r = requests.get(url, params=params, headers=headers)
     js = r.json()
@@ -333,9 +332,9 @@ def itemtoid(config=None):
             out_writer.writerow(["tei:xml_id", "wd:id", "tei:name", "wd:name",
                                  "wd:snippet", "tei:trait", "wd:certitude"])
 
-        # write the aldready queried items to tables/log_done.txt if this file doesn't exist
+        # write the aldready queried items to `LOGS`/log_done.txt if this file doesn't exist
         if not os.path.isfile(f"{LOGS}/log_id.txt"):
-            Logs.log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True)
+            Logs.log_done(in_fpath=f"{LOGS}/log_id.txt", orig=True, mode="itemtoid")
 
         # get the total number of rows
         trows = sum(1 for row in in_reader)

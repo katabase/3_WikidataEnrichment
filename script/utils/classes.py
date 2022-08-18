@@ -20,35 +20,40 @@ class Logs:
     class to log aldready queried items in sparql.py and nametoid.py
     """
     @staticmethod
-    def log_done(mode, data, orig=False, in_fpath=None):
+    def log_done(mode, data=None, orig=False, in_fpath=None):
         """
         for itemtoid.py and sparql.py
         write the aldready queried items to a log file (in order to avoid querying the same items again and again)
         - if used in orig=True mode, in_fpath must be supplied
         - if used in orig=False mode, data must be supplied
-        :param mode: indicating the execution context (itemtoid.py or sparql.py).
-                     possible values: itemtoid or sparql
-        :param orig: to use only in itemtoid.py
-                     boolean indicating that the log file is created for the first time: read all
-                     of fpath and write it to the log file
+        :param mode: indicating the execution context (itemtoid.py, sparql.py, wd2tei.py).
+                     possible values: `itemtoid`, `sparql`, `wd2tei`
+        :param orig: boolean indicating that the log file is created for the first time:
+                     - only use if mode = `itemtoid`, read all of fpath and write it to the log file
         :param in_fpath: to use only with itemtoid.py
                          the input file path from which to get the queried entries when it's ran the first time
                          (should be ../out/wikidata/nametable_out.tsv)
         :param data: data to append to the log file if orig is False (data must be a queried entry's xml:id)
         :return: None
         """
-        if mode == "itemtoid":
+        # set the output file
+        if mode == "wd2tei":  # wd2tei.py
+            fpath = f"{LOGS}/log_wd2tei.txt"
+        elif mode == "itemtoid":  # itemtoid.py
             fpath = f"{LOGS}/log_id.txt"
         else:
             fpath = f"{LOGS}/log_sparql.txt"
+
+        # write data
         with open(fpath, mode="a", encoding="utf-8") as f_out:
-            if orig is True:  # for mode=itemtoid only
+            if orig is True and mode == "itemtoid":
                 with open(in_fpath, mode="r", encoding="utf-8") as f_in:
                     in_reader = csv.reader(f_in, delimiter="\t")
                     for row in in_reader:
                         f_out.write(f"{row[0]} ")  # write the entry's xml:id to log_done.txt
-            else:
+            else:  # orig = False
                 f_out.write(f"{data} ")
+
         return None
 
 

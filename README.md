@@ -20,6 +20,25 @@ a price.
 
 ---
 
+### In short
+
+With the proper python virtual environment sourced, without running tests, just type:
+
+```shell
+python main.py -n  # build the input data table
+python main.py -i  # align tei:names with wikidata entities
+python main.py -s  # run sparql queries on those entities
+python main.py -w  # reinject the wikidata ids into the tei catalogues
+``` 
+
+Even simpler, you can just run the below script:
+
+```shell
+bash pipeline.sh
+```
+
+---
+
 ### Installation
 
 This works on MacOS and Linux (ubuntu, debian based distributions).
@@ -174,6 +193,14 @@ python main.py -i
 ```shell
 python main.py -s
 ```
+
+---
+
+**Step 4: reinject the wikidata ids into the TEI catalogues** - `python main.py -w`
+
+- all `tei:items` are linked with a wikidata ID retrieved during the process. 
+- the wikidata IDs are included in a `@ana` attribute inside the `tei:name`.
+- the output is written to `out/catalogues`.
 
 ---
 

@@ -6,6 +6,7 @@ from script.itemtoid import itemtoid
 from script.utils.nametable import csvbuilder
 from script.utils.traitcounter import counter
 from script.itemtoid_test import itemtoid_test
+from script.wd2tei import cat_processor
 
 
 # ---------------------------------------------------------
@@ -20,6 +21,9 @@ if __name__ == "__main__":
                         action="store_true")
     parser.add_argument("-s", "--runsparql",
                         help="run sparql queries (takes +-5 hours)",
+                        action="store_true")
+    parser.add_argument("-w", "--wdtotei",
+                        help="link the wikidata identifiers to the tei:names in the catalogues",
                         action="store_true")
     parser.add_argument("-t", "--test",
                         help="run a battery of tests on -i --wikidataids (takes 20 minutes)",
@@ -39,6 +43,7 @@ if __name__ == "__main__":
             * -t --test : run tests (takes ~20 minutes)
             * -i --wikidataids : retrieve wikidata ids (takes up to 10 to 20 hours!)
             * -s --runsparql : run sparql queries (takes +-5 hours)
+            * -w --wdtotei : link the wikidata identifiers to the tei:names in the catalogues
             * -n --buildnametable: build the input table for -i --wikidataids (a table from which 
                                     to retrieve wikidata ids)
             * -x --throwaway : run the current throwaway script (to test a function or whatnot)
@@ -51,6 +56,8 @@ if __name__ == "__main__":
         itemtoid()
     elif args.runsparql:
         sparql()
+    elif args.wdtotei:
+        cat_processor()
     elif args.traitcounter:
         counter()
     elif args.buildnametable:
