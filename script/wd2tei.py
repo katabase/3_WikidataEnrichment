@@ -19,37 +19,50 @@ from .utils.classes import Logs
 ns = {"tei": "http://www.tei-c.org/ns/1.0"}
 
 
-def wd_2_tei(tree: etree._ElementTree, nametable: _csv.reader):
+def build_mapper():
+    """
+    create a dict mapping to a tei:name a wikidata id
+    :return: mapper, a dict with this structure: {"tei:name": "wikidata id"}
+    """
+    with open(f"{OUT}/wikidata/nametable_out.tsv", mode = "r") as fh:
+        nametable = csv.reader(fh, delimiter="\t")
+        next(fh)  # skip headers
+        mapper = {row[2]: row[1] for row in nametable}
+    return mapper
+
+
+def wd_2_tei(tree: etree._ElementTree, mapper: dict):
     """
     link a wikidata identifier to a catalogue entry's tei:name
     :param tree: an lxml tree of the catalogue being processed
-    :param nametable: the nametable parsed in pase_nametable
+    :param mapper: a dict mapping to a tei:name a wikidata ID
     :return: the updated catalogue
     """
-    for row in nametable:
-        for tei_name in tree.xpath(".//tei:body//tei:name", namespaces=ns):
-            if tei_name.text == row[2]:
-                tei_name.set("ana", row[1])
+    for tei_name in tree.xpath(".//tei:body//tei:name", namespaces=ns):
+        try:
+            tei_name.set("ana", mapper[tei_name.text])
+        except KeyError:
+            pass
     return tree
 
 
 def cat_processor():
     """
     loop on all catalogues, parse them, call wd_2_tei and
-    save the output to out/catalogues
-    :return:
+    save the output to out/catalogues.
+    there are logs used because the original version took much longer,
+    but it is now much quicker
+    :return: None
     """
     parser = etree.XMLParser(remove_blank_text=True)
-    fh_nametable = open(f"{OUT}/wikidata/nametable_out.tsv", mode="r")
-    nametable = csv.reader(fh_nametable, delimiter="\t")
     logpath = f"{LOGS}/log_wd2tei.txt"
     outpath = f"{OUT}/catalogues/"
+    mapper = build_mapper()
 
     # create files and dirs
     if not os.path.isdir(outpath):
         os.makedirs(outpath)
     if not os.path.isfile(logpath):
-        print("hi1")
         with open(logpath, mode="w") as logfile:
             logfile.write("")
 
@@ -79,15 +92,10 @@ def cat_processor():
             # if it hasn't been processed, then it's time to do it
             if catid not in done:
                 with open(cat, mode="r") as fh:
-
-                    # rollback csv to its beginning and skip headers;
-                    # parse xml contents
-                    fh_nametable.seek(0)
-                    next(fh_nametable)
                     tree = etree.parse(fh, parser=parser)
 
                 # process the files
-                tree = wd_2_tei(tree, nametable)
+                tree = wd_2_tei(tree, mapper)
                 etree.indent(tree, space="    ")
 
                 # write output and write the catalogue's id to the log file
@@ -97,5 +105,4 @@ def cat_processor():
                     ).decode("utf-8")))
                 Logs.log_done(mode="wd2tei", orig=False, data=catid)
 
-    fh_nametable.close()
     return None
