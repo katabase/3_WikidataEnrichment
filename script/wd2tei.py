@@ -43,11 +43,12 @@ def wd_2_tei(tree: etree._ElementTree, mapper: dict):
     # add the tei:refsDecl to the encodingDesc
     refsdecl = etree.fromstring("""
         <refsDecl>
-             <p>In the <gi>body</gi>, the <att>key</att> attributes containted in
-                <gi>name</gi> elements are pointing to to a
-                <ref xml:base="wikidata.org">Wikidata</ref> identifier. The
-                URL to the Wikidata pages can be rebuilt by adding the
-                <att>xml:base</att> specified above before those identifiers.
+             <p>In the <gi>body</gi>, the <att>key</att> attributes 
+                containted in <gi>name</gi> elements are pointing to to a
+                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                identifier. The URL to the Wikidata pages of the manuscript
+                authors can be rebuilt by adding the <att>xml:base</att> 
+                specified above before those identifiers.
              </p>
         </refsDecl>
     """)
@@ -55,12 +56,10 @@ def wd_2_tei(tree: etree._ElementTree, mapper: dict):
         refsdecl
     )
 
-    # add the @key attribute to tei:names
+    # add the @key attribute to tei:names only if there's an id
     for tei_name in tree.xpath(".//tei:body//tei:name", namespaces=ns):
-        try:
+        if tei_name in mapper.keys() and mapper[tei_name.text] != "":
             tei_name.set("key", mapper[tei_name.text])
-        except KeyError:
-            pass
     return tree
 
 
@@ -117,10 +116,17 @@ def cat_processor():
                 etree.indent(tree, space="    ")
 
                 # write output and write the catalogue's id to the log file
+                # we take advantage of this situation to pointers to local
+                # rng by pointers to canonical online rngs.
                 with open(outfile, mode="w+") as fh:
                     fh.write(str(etree.tostring(
                         tree, xml_declaration=True, encoding="utf-8", pretty_print=True
-                    ).decode("utf-8")))
+                    ).decode("utf-8")).replace(
+                        '<?xml-model href="../../_schemas/odd_katabase.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>'
+                        + '\n<?xml-model href="../../_schemas/odd_katabase.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>',
+                        '<?xml-model href="https://raw.githubusercontent.com/katabase/Data_extraction/master/_schemas/odd_katabase.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>'
+                        + '\n<?xml-model href="https://raw.githubusercontent.com/katabase/Data_extraction/master/_schemas/odd_katabase.rng" schematypens="http://purl.oclc.org/dsdl/schematron"?>'
+                    ))
                 Logs.log_done(mode="wd2tei", orig=False, data=catid)
 
     return None
