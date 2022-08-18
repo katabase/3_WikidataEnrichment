@@ -3,7 +3,7 @@ echo "you need to have sourced an python virtual environment with the proper pac
 echo "this process can take several hours. do you with to proceed? [y/n]"
 read -r input
 
-if [[ ! "$input" =~ (y|n) ]]; then
+if [[ ! "$input" =~ ^(y|n)$ ]]; then
   echo "invalid answer; you can only answer with y or n" && exit 1
 fi;
 
