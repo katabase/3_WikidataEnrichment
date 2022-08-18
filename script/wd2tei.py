@@ -10,8 +10,9 @@ from .utils.classes import Logs
 
 
 # --------------------------------------------------------------
-# link wikidata ids to the tei:names in an @ana
-# and update the catalogues
+# link wikidata ids to the tei:names in a @key
+# declare the role of this key and the `wd:` prefix in
+# a tei:listPrefixDecl and update the catalogues
 # --------------------------------------------------------------
 
 
@@ -41,7 +42,7 @@ def wd_2_tei(tree: etree._ElementTree, mapper: dict):
     :param mapper: a dict mapping to a tei:name a wikidata ID
     :return: the updated catalogue
     """
-    # add the tei:refsDecl to the encodingDesc
+    # add the tei:listPrefixDef to the encodingDesc
     refsdecl = etree.fromstring("""
         <listPrefixDef>
             <prefixDef 

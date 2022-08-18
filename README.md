@@ -199,7 +199,11 @@ python main.py -s
 **Step 4: reinject the wikidata ids into the TEI catalogues** - `python main.py -w`
 
 - all `tei:items` are linked with a wikidata ID retrieved during the process. 
-- the wikidata IDs are included in a `@ana` attribute inside the `tei:name`.
+- the wikidata IDs are included in a `@key` attribute inside the `tei:name`
+  and prefixed by the token `wd:`.
+- a pattern to handle this prefix is provided in the `tei:teiHeader`, in the
+  `tei:editorialDecl//tei:listPrefixDef`. this allows to automatically rebuilt
+  a URL to the proper wikidata page.
 - the output is written to `out/catalogues`.
 
 ---
