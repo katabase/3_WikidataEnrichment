@@ -1,7 +1,6 @@
 from lxml import etree
 from tqdm import tqdm
 import glob
-import _csv
 import csv
 import os
 import re
@@ -33,14 +32,33 @@ def build_mapper():
 
 def wd_2_tei(tree: etree._ElementTree, mapper: dict):
     """
-    link a wikidata identifier to a catalogue entry's tei:name
+    - link a wikidata identifier to a catalogue entry's tei:name
+      in a @key attribute.
+    - append a tei:refsDecl at the beginning of the tei:encodingDesc
+      to describe the role of the @key attribute in the tei:names.
     :param tree: an lxml tree of the catalogue being processed
     :param mapper: a dict mapping to a tei:name a wikidata ID
     :return: the updated catalogue
     """
+    # add the tei:refsDecl to the encodingDesc
+    refsdecl = etree.fromstring("""
+        <refsDecl>
+             <p>In the <gi>body</gi>, the <att>key</att> attributes containted in
+                <gi>name</gi> elements are pointing to to a
+                <ref xml:base="wikidata.org">Wikidata</ref> identifier. The
+                URL to the Wikidata pages can be rebuilt by adding the
+                <att>xml:base</att> specified above before those identifiers.
+             </p>
+        </refsDecl>
+    """)
+    tree.xpath(".//tei:encodingDesc//tei:samplingDecl[1]", namespaces=ns)[0].addnext(
+        refsdecl
+    )
+
+    # add the @key attribute to tei:names
     for tei_name in tree.xpath(".//tei:body//tei:name", namespaces=ns):
         try:
-            tei_name.set("ana", mapper[tei_name.text])
+            tei_name.set("key", mapper[tei_name.text])
         except KeyError:
             pass
     return tree
