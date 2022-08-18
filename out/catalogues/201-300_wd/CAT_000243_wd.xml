@@ -69,15 +69,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -222,7 +225,7 @@
                 <note>Nota. Toutes les pièces de cette collection sont enfermées dans des chemises sur lesquelles M. Potiquet a inscrit les renseignements biographiques essentiels. La plupart des autographes sont accompagnés de portraits, de notices imprimées, etc. ACADÉMIE FRANÇAISE</note>
                 <item n="1" xml:id="CAT_000243_e1">
                     <num type="lot">1</num>
-                    <name type="author">AUGIER (Emile)</name>
+                    <name type="author" ref="wd:Q256991">AUGIER (Emile)</name>
                     <trait>
                         <p>le célèbre auteur dramatique.</p>
                     </trait>
@@ -231,7 +234,7 @@
                 </item>
                 <item n="2" xml:id="CAT_000243_e2">
                     <num type="lot">2</num>
-                    <name type="author">BARBIER (Auguste)</name>
+                    <name type="author" ref="wd:Q738494">BARBIER (Auguste)</name>
                     <trait>
                         <p>le grand poète.</p>
                     </trait>
@@ -243,7 +246,7 @@
                 </item>
                 <item n="3" xml:id="CAT_000243_e3">
                     <num type="lot">3</num>
-                    <name type="author">BERRYER (Pierre-Antoine)</name>
+                    <name type="author" ref="wd:Q917890">BERRYER (Pierre-Antoine)</name>
                     <trait>
                         <p>le célèbre orateur.</p>
                     </trait>
@@ -262,7 +265,7 @@
                 </item>
                 <item n="5" xml:id="CAT_000243_e5">
                     <num type="lot">5</num>
-                    <name type="author">BIOT (Jean-Baptiste)</name>
+                    <name type="author" ref="wd:Q58328">BIOT (Jean-Baptiste)</name>
                     <trait>
                         <p>l'illustre savant.</p>
                     </trait>
@@ -289,7 +292,7 @@
                 </item>
                 <item n="8" xml:id="CAT_000243_e8">
                     <num type="lot">8</num>
-                    <name type="author">CABANIS (Pierre-Jean-Georges)</name>
+                    <name type="author" ref="wd:Q30326902">CABANIS (Pierre-Jean-Georges)</name>
                     <trait>
                         <p>célèbre physiologiste.</p>
                     </trait>
@@ -298,7 +301,7 @@
                 </item>
                 <item n="9" xml:id="CAT_000243_e9">
                     <num type="lot">9</num>
-                    <name type="author">CAMBACÉRÈS (Jean-Jacques-Régis de)</name>
+                    <name type="author" ref="wd:Q290045">CAMBACÉRÈS (Jean-Jacques-Régis de)</name>
                     <trait>
                         <p>célèbre conventionnel, deuxième consul, archi-chancelier de l'Empire.</p>
                     </trait>
@@ -306,7 +309,7 @@
                 </item>
                 <item n="10" xml:id="CAT_000243_e10">
                     <num type="lot">10</num>
-                    <name type="author">CHATEAUBRIAND (François-René, vicomte de), le grand écrivain.</name>
+                    <name type="author" ref="wd:Q49767">CHATEAUBRIAND (François-René, vicomte de), le grand écrivain.</name>
                     <desc xml:id="CAT_000243_e10_d1">
                         <term ana="#document_type_7">L. a. s.</term> à une duchesse ; 27 mars, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_8">in-8</measure>
@@ -314,7 +317,7 @@
                 </item>
                 <item n="11" xml:id="CAT_000243_e11">
                     <num type="lot">11</num>
-                    <name type="author">CHÉNIER (Marie-Joseph de)</name>
+                    <name type="author" ref="wd:Q736424">CHÉNIER (Marie-Joseph de)</name>
                     <trait>
                         <p>célèbre auteur dramatique.</p>
                     </trait>
@@ -322,7 +325,7 @@
                 </item>
                 <item n="12" xml:id="CAT_000243_e12">
                     <num type="lot">12</num>
-                    <name type="author">COLLIN-HARLEVILLE (Jean-François)</name>
+                    <name type="author" ref="wd:Q715955">COLLIN-HARLEVILLE (Jean-François)</name>
                     <trait>
                         <p>célèbre auteur dramatique.</p>
                     </trait>
@@ -333,7 +336,7 @@
                 </item>
                 <item n="13" xml:id="CAT_000243_e13">
                     <num type="lot">13</num>
-                    <name type="author">CUVIER (Georges)</name>
+                    <name type="author" ref="wd:Q171969">CUVIER (Georges)</name>
                     <trait>
                         <p>le grand naturaliste.</p>
                     </trait>
@@ -342,7 +345,7 @@
                 </item>
                 <item n="14" xml:id="CAT_000243_e14">
                     <num type="lot">14</num>
-                    <name type="author">DELAVIGNE (Casimir)</name>
+                    <name type="author" ref="wd:Q126961">DELAVIGNE (Casimir)</name>
                     <trait>
                         <p>célèbre auteur dramatique.</p>
                     </trait>
@@ -351,7 +354,7 @@
                 </item>
                 <item n="15" xml:id="CAT_000243_e15">
                     <num type="lot">15</num>
-                    <name type="author">DEVAINES (Jean)</name>
+                    <name type="author" ref="wd:Q3171732">DEVAINES (Jean)</name>
                     <trait>
                         <p>célèbre économiste.</p>
                     </trait>
@@ -360,7 +363,7 @@
                 </item>
                 <item n="16" xml:id="CAT_000243_e16">
                     <num type="lot">16</num>
-                    <name type="author">DOMERGUE (François-Urbain)</name>
+                    <name type="author" ref="wd:Q1399737">DOMERGUE (François-Urbain)</name>
                     <trait>
                         <p>célèbre grammairien.</p>
                     </trait>
@@ -370,7 +373,7 @@
                 </item>
                 <item n="17" xml:id="CAT_000243_e17">
                     <num type="lot">17</num>
-                    <name type="author">DUCIS (Jean-François)</name>
+                    <name type="author" ref="wd:Q2500310">DUCIS (Jean-François)</name>
                     <trait>
                         <p>célèbre poète tragique.</p>
                     </trait>
@@ -382,7 +385,7 @@
                 </item>
                 <item n="18" xml:id="CAT_000243_e18">
                     <num type="lot">18</num>
-                    <name type="author">DUMAS (Alexandre)</name>
+                    <name type="author" ref="wd:Q38337">DUMAS (Alexandre)</name>
                     <trait>
                         <p>le célèbre écrivain.</p>
                     </trait>
@@ -391,7 +394,7 @@
                 </item>
                 <item n="19" xml:id="CAT_000243_e19">
                     <num type="lot">19</num>
-                    <name type="author">DUPANLOUP (Félix-Antoine-Philibert)</name>
+                    <name type="author" ref="wd:Q708846">DUPANLOUP (Félix-Antoine-Philibert)</name>
                     <trait>
                         <p>évêque d'Orléans.</p>
                     </trait>
@@ -400,7 +403,7 @@
                 </item>
                 <item n="20" xml:id="CAT_000243_e20">
                     <num type="lot">20</num>
-                    <name type="author">FAVRE (Claude-Gabriel-Jules)</name>
+                    <name type="author" ref="wd:Q923619">FAVRE (Claude-Gabriel-Jules)</name>
                     <trait>
                         <p>le célèbre orateur parlementaire.</p>
                     </trait>
@@ -421,7 +424,7 @@
                 </item>
                 <item n="22" xml:id="CAT_000243_e22">
                     <num type="lot">22</num>
-                    <name type="author">FEUILLET (Octave)</name>
+                    <name type="author" ref="wd:Q1091989">FEUILLET (Octave)</name>
                     <trait>
                         <p>célèbre romancier.</p>
                     </trait>
@@ -449,7 +452,7 @@
                 </item>
                 <item n="25" xml:id="CAT_000243_e25">
                     <num type="lot">25</num>
-                    <name type="author">LA HARPE (Jean-François de)</name>
+                    <name type="author" ref="wd:Q379022">LA HARPE (Jean-François de)</name>
                     <trait>
                         <p>le célèbre critique.</p>
                     </trait>
@@ -468,7 +471,7 @@
                 </item>
                 <item n="27" xml:id="CAT_000243_e27">
                     <num type="lot">27</num>
-                    <name type="author">LAUJON (Pierre)</name>
+                    <name type="author" ref="wd:Q3385814">LAUJON (Pierre)</name>
                     <trait>
                         <p>célèbre chansonnier.</p>
                     </trait>
@@ -478,7 +481,7 @@
                 </item>
                 <item n="28" xml:id="CAT_000243_e28">
                     <num type="lot">28</num>
-                    <name type="author">LITTRÉ (Maximilien-Paul-Emile)</name>
+                    <name type="author" ref="wd:Q286107">LITTRÉ (Maximilien-Paul-Emile)</name>
                     <trait>
                         <p>l'illustre auteur du Dictionnaire.</p>
                     </trait>
@@ -495,7 +498,7 @@
                 </item>
                 <item n="30" xml:id="CAT_000243_e30">
                     <num type="lot">30</num>
-                    <name type="author">MÉRIMÉE (Prosper)</name>
+                    <name type="author" ref="wd:Q160333">MÉRIMÉE (Prosper)</name>
                     <trait>
                         <p>le célèbre écrivain.</p>
                     </trait>
@@ -504,7 +507,7 @@
                 </item>
                 <item n="31" xml:id="CAT_000243_e31">
                     <num type="lot">31</num>
-                    <name type="author">MUSSET (Louis-Charles-Alfred de)</name>
+                    <name type="author" ref="wd:Q179680">MUSSET (Louis-Charles-Alfred de)</name>
                     <trait>
                         <p>le grand poète.</p>
                     </trait>
@@ -516,7 +519,7 @@
                 </item>
                 <item n="32" xml:id="CAT_000243_e32">
                     <num type="lot">32</num>
-                    <name type="author">NAIGEON (Jacques-André)</name>
+                    <name type="author" ref="wd:Q279912">NAIGEON (Jacques-André)</name>
                     <trait>
                         <p>célèbre philosophe.</p>
                     </trait>
@@ -528,7 +531,7 @@
                 </item>
                 <item n="33" xml:id="CAT_000243_e33">
                     <num type="lot">33</num>
-                    <name type="author">NODIER (Jean-Charles-Emmanuel)</name>
+                    <name type="author" ref="wd:Q336010">NODIER (Jean-Charles-Emmanuel)</name>
                     <trait>
                         <p>le célèbre conteur.</p>
                     </trait>
@@ -547,7 +550,7 @@
                 </item>
                 <item n="35" xml:id="CAT_000243_e35">
                     <num type="lot">35</num>
-                    <name type="author">ROYER-COLLARD (Pierre-Paul)</name>
+                    <name type="author" ref="wd:Q106598989">ROYER-COLLARD (Pierre-Paul)</name>
                     <trait>
                         <p>le célèbre philosophe.</p>
                     </trait>
@@ -565,7 +568,7 @@
                 </item>
                 <item n="37" xml:id="CAT_000243_e37">
                     <num type="lot">37</num>
-                    <name type="author">SAINT-PIERRE (Jacques-Bernardin-Henri de)</name>
+                    <name type="author" ref="wd:Q361976">SAINT-PIERRE (Jacques-Bernardin-Henri de)</name>
                     <trait>
                         <p>l'auteur de Paul et Virginie.</p>
                     </trait>
@@ -575,7 +578,7 @@
                 </item>
                 <item n="38" xml:id="CAT_000243_e38">
                     <num type="lot">38</num>
-                    <name type="author">SANDEAU (Léonard-Sylvain-Jules)</name>
+                    <name type="author" ref="wd:Q609039">SANDEAU (Léonard-Sylvain-Jules)</name>
                     <trait>
                         <p>célèbre romancier.</p>
                     </trait>
@@ -597,7 +600,7 @@
                 </item>
                 <item n="40" xml:id="CAT_000243_e40">
                     <num type="lot">40</num>
-                    <name type="author">THIERS (Marie-Joseph-Louis-Adolphe)</name>
+                    <name type="author" ref="wd:Q5738">THIERS (Marie-Joseph-Louis-Adolphe)</name>
                     <trait>
                         <p>premier président de la troisième République française.</p>
                     </trait>
@@ -616,7 +619,7 @@
                 </item>
                 <item n="42" xml:id="CAT_000243_e42">
                     <num type="lot">42</num>
-                    <name type="author">AUTEURS DRAMATIQUES.</name>
+                    <name type="author" ref="wd:Q2945525">AUTEURS DRAMATIQUES.</name>
                     <desc xml:id="CAT_000243_e42_d1">20 dossiers.</desc>
                     <note>Ancelot, Andrieux, Arnault, Brifaut, Cailhava, Doucet, Dupaty, Duval, Empis, Etienne, Guiraud, Labiche, Lebrun (Pierre), Legouvé (Ernest), Ponsard, Raynouard, Roger, Sardou, Scribe et Soumet.</note>
                 </item>
@@ -646,26 +649,26 @@
                 </item>
                 <item n="47" xml:id="CAT_000243_e47">
                     <num type="lot">47</num>
-                    <name type="author">HISTORIENS.</name>
+                    <name type="author" ref="wd:Q89460946">HISTORIENS.</name>
                     <desc xml:id="CAT_000243_e47_d1">10 dossiers.</desc>
                     <note>Barante, Carné, Champagny, Daru, Duvergier de Hauranne, Guixot, Lacretelle (Charles), Martin (Henri), Mignet et Salvandy</note>
                 </item>
                 <item n="48" xml:id="CAT_000243_e48">
                     <num type="lot">48</num>
-                    <name type="author">POÈTES</name>
+                    <name type="author" ref="wd:Q3403710">POÈTES</name>
                     <desc xml:id="CAT_000243_e48_d1">14 dossiers</desc>
                     <note>Autran, Baour-Lormian, Cambenon, Delille (l'abbé), Esménard, Fontanes, Lamartine, Laprade, Legouvé (Gabriel), Lemercier, Pongerville, Saint-Ange, Sully-Prudhomme et Viennet.</note>
                 </item>
                 <item n="49" xml:id="CAT_000243_e49">
                     <num type="lot">49</num>
-                    <name type="author">SAVANTS.</name>
+                    <name type="author" ref="wd:Q104535352">SAVANTS.</name>
                     <desc xml:id="CAT_000243_e49_d1">3 dossiers.</desc>
                     <note>Bernard (Claude), Dumas et Flourens.</note>
                 </item>
                 <note>ACADÉMIE DES INSCRIPTIONS</note>
                 <item n="50" xml:id="CAT_000243_e50">
                     <num type="lot">50</num>
-                    <name type="author">ANQUETIL (Louis-Pierre)</name>
+                    <name type="author" ref="wd:Q1871457">ANQUETIL (Louis-Pierre)</name>
                     <trait>
                         <p>célèbre historien.</p>
                     </trait>
@@ -675,7 +678,7 @@
                 </item>
                 <item n="51" xml:id="CAT_000243_e51">
                     <num type="lot">51</num>
-                    <name type="author">ANSSE DE VILLOISON (Jean-Baptiste-Gaspard d')</name>
+                    <name type="author" ref="wd:Q1684643">ANSSE DE VILLOISON (Jean-Baptiste-Gaspard d')</name>
                     <trait>
                         <p>célèbre érudit.</p>
                     </trait>
@@ -686,7 +689,7 @@
                 </item>
                 <item n="52" xml:id="CAT_000243_e52">
                     <num type="lot">52</num>
-                    <name type="author">BOISSONADE (Jean-François)</name>
+                    <name type="author" ref="wd:Q443239">BOISSONADE (Jean-François)</name>
                     <trait>
                         <p>célèbre helléniste.</p>
                     </trait>
@@ -704,7 +707,7 @@
                 </item>
                 <item n="54" xml:id="CAT_000243_e54">
                     <num type="lot">54</num>
-                    <name type="author">BONAPARTE (Joseph)</name>
+                    <name type="author" ref="wd:Q7726">BONAPARTE (Joseph)</name>
                     <trait>
                         <p>roi d'Espagne, frère aîné de Napoléon Ier.,</p>
                     </trait>
@@ -713,7 +716,7 @@
                 </item>
                 <item n="55" xml:id="CAT_000243_e55">
                     <num type="lot">55</num>
-                    <name type="author">BRIAL (dom Michel-Jean-Joseph)</name>
+                    <name type="author" ref="wd:Q27973521">BRIAL (dom Michel-Jean-Joseph)</name>
                     <trait>
                         <p>savant bénédictin.</p>
                     </trait>
@@ -723,7 +726,7 @@
                 </item>
                 <item n="56" xml:id="CAT_000243_e56">
                     <num type="lot">56</num>
-                    <name type="author">BURNOUF (Eugène)</name>
+                    <name type="author" ref="wd:Q700638">BURNOUF (Eugène)</name>
                     <trait>
                         <p>le grand orientaliste.</p>
                     </trait>
@@ -733,7 +736,7 @@
                 </item>
                 <item n="57" xml:id="CAT_000243_e57">
                     <num type="lot">57</num>
-                    <name type="author">CAMUS (Armand-Gaston)</name>
+                    <name type="author" ref="wd:Q677472">CAMUS (Armand-Gaston)</name>
                     <trait>
                         <p>célèbre constituant et conventionnel, organisateur des Archives nationales.</p>
                     </trait>
@@ -743,7 +746,7 @@
                 </item>
                 <item n="58" xml:id="CAT_000243_e58">
                     <num type="lot">58</num>
-                    <name type="author">CHAMPOLLION (Jean-François)</name>
+                    <name type="author" ref="wd:Q47410187">CHAMPOLLION (Jean-François)</name>
                     <trait>
                         <p>dit le Jeune, l'illustre interprète des hiéroglyphes.</p>
                     </trait>
@@ -754,7 +757,7 @@
                 </item>
                 <item n="59" xml:id="CAT_000243_e59">
                     <num type="lot">59</num>
-                    <name type="author">CREUZER (Georg-Friedrich)</name>
+                    <name type="author" ref="wd:Q69685">CREUZER (Georg-Friedrich)</name>
                     <trait>
                         <p>le grand archéologue allemand.</p>
                     </trait>
@@ -764,7 +767,7 @@
                 </item>
                 <item n="60" xml:id="CAT_000243_e60">
                     <num type="lot">60</num>
-                    <name type="author">DUPUIS (Charles-François)</name>
+                    <name type="author" ref="wd:Q650895">DUPUIS (Charles-François)</name>
                     <trait>
                         <p>conventionnel, auteur de l'Origine de tous les cultes.</p>
                     </trait>
@@ -774,7 +777,7 @@
                 </item>
                 <item n="61" xml:id="CAT_000243_e61">
                     <num type="lot">61</num>
-                    <name type="author">DUSAULX (Jean)</name>
+                    <name type="author" ref="wd:Q971395">DUSAULX (Jean)</name>
                     <trait>
                         <p>conventionnel, traducteur de Juvénal.</p>
                     </trait>
@@ -783,7 +786,7 @@
                 </item>
                 <item n="62" xml:id="CAT_000243_e62">
                     <num type="lot">62</num>
-                    <name type="author">FAURIEL (Charles-Claude)</name>
+                    <name type="author" ref="wd:Q994181">FAURIEL (Charles-Claude)</name>
                     <trait>
                         <p>le célèbre philologue.</p>
                     </trait>
@@ -794,7 +797,7 @@
                 </item>
                 <item n="63" xml:id="CAT_000243_e63">
                     <num type="lot">63</num>
-                    <name type="author">FOX (Charles-James)</name>
+                    <name type="author" ref="wd:Q438131">FOX (Charles-James)</name>
                     <trait>
                         <p>le célèbre homme d'État anglais.</p>
                     </trait>
@@ -805,7 +808,7 @@
                 </item>
                 <item n="64" xml:id="CAT_000243_e64">
                     <num type="lot">64</num>
-                    <name type="author">GAILLARD (Gabriel-Henri)</name>
+                    <name type="author" ref="wd:Q3093558">GAILLARD (Gabriel-Henri)</name>
                     <trait>
                         <p>célèbre historien.</p>
                     </trait>
@@ -817,7 +820,7 @@
                 </item>
                 <item n="65" xml:id="CAT_000243_e65">
                     <num type="lot">65</num>
-                    <name type="author">GRÉGOIRE (Henri)</name>
+                    <name type="author" ref="wd:Q561218">GRÉGOIRE (Henri)</name>
                     <trait>
                         <p>illustre conventionnel, évêque constitutionnel de Blois.</p>
                     </trait>
@@ -829,7 +832,7 @@
                 </item>
                 <item n="66" xml:id="CAT_000243_e66">
                     <num type="lot">66</num>
-                    <name type="author">GRIMM (Jacob-Ludwig)</name>
+                    <name type="author" ref="wd:Q6701">GRIMM (Jacob-Ludwig)</name>
                     <trait>
                         <p>le célèbre philologue.</p>
                     </trait>
@@ -838,7 +841,7 @@
                 </item>
                 <item n="67" xml:id="CAT_000243_e67">
                     <num type="lot">67</num>
-                    <name type="author">HUMBOLDT (Karl-Wilhem von)</name>
+                    <name type="author" ref="wd:Q109651">HUMBOLDT (Karl-Wilhem von)</name>
                     <trait>
                         <p>le célèbre homme d'État prussien.</p>
                     </trait>
@@ -848,7 +851,7 @@
                 </item>
                 <item n="68" xml:id="CAT_000243_e68">
                     <num type="lot">68</num>
-                    <name type="author">JEFFERSON (Thomas)</name>
+                    <name type="author" ref="wd:Q11812">JEFFERSON (Thomas)</name>
                     <trait>
                         <p>président des États-Unis.</p>
                     </trait>
@@ -860,7 +863,7 @@
                 </item>
                 <item n="69" xml:id="CAT_000243_e69">
                     <num type="lot">69</num>
-                    <name type="author">KLOPSTOCK (Friedrich-Gottlieb)</name>
+                    <name type="author" ref="wd:Q154367">KLOPSTOCK (Friedrich-Gottlieb)</name>
                     <trait>
                         <p>célèbre poète allemand, auteur de la Messiade.</p>
                     </trait>
@@ -870,7 +873,7 @@
                 </item>
                 <item n="70" xml:id="CAT_000243_e70">
                     <num type="lot">70</num>
-                    <name type="author">LOUVET (Jean-Baptiste)</name>
+                    <name type="author" ref="wd:Q1362457">LOUVET (Jean-Baptiste)</name>
                     <trait>
                         <p>conventionnel, l'auteur de Faublas.</p>
                     </trait>
@@ -880,7 +883,7 @@
                 </item>
                 <item n="71" xml:id="CAT_000243_e71">
                     <num type="lot">71</num>
-                    <name type="author">MERCIER (Sébastien-Louis)</name>
+                    <name type="author" ref="wd:Q709670">MERCIER (Sébastien-Louis)</name>
                     <trait>
                         <p>conventionnel, auteur du Tableau de Paris.</p>
                     </trait>
@@ -889,7 +892,7 @@
                 </item>
                 <item n="72" xml:id="CAT_000243_e72">
                     <num type="lot">72</num>
-                    <name type="author">NIEBUHR (Carsten)</name>
+                    <name type="author" ref="wd:Q60139607">NIEBUHR (Carsten)</name>
                     <trait>
                         <p>célèbre voyageur allemand.</p>
                     </trait>
@@ -899,7 +902,7 @@
                 </item>
                 <item n="73" xml:id="CAT_000243_e73">
                     <num type="lot">73</num>
-                    <name type="author">POUGENS (Marie-Charles-Joseph de)</name>
+                    <name type="author" ref="wd:Q2960678">POUGENS (Marie-Charles-Joseph de)</name>
                     <trait>
                         <p>écrivain et érudit, auteur de Jocko.</p>
                     </trait>
@@ -908,7 +911,7 @@
                 </item>
                 <item n="74" xml:id="CAT_000243_e74">
                     <num type="lot">74</num>
-                    <name type="author">REVELLIÈRE-LÉPEAUX (Louis-Marie)</name>
+                    <name type="author" ref="wd:Q1871443">REVELLIÈRE-LÉPEAUX (Louis-Marie)</name>
                     <trait>
                         <p>célèbre constituant, conventionnel et directeur, le pape des Théophilanthropes.</p>
                     </trait>
@@ -918,7 +921,7 @@
                 </item>
                 <item n="75" xml:id="CAT_000243_e75">
                     <num type="lot">75</num>
-                    <name type="author">TALLEYRAND-PÉRIGORD (Charles-Maurice de)</name>
+                    <name type="author" ref="wd:Q160499">TALLEYRAND-PÉRIGORD (Charles-Maurice de)</name>
                     <trait>
                         <p>le célèbre homme d'État.</p>
                     </trait>
@@ -928,7 +931,7 @@
                 </item>
                 <item n="76" xml:id="CAT_000243_e76">
                     <num type="lot">76</num>
-                    <name type="author">THIERRY (Jacques-Nicolas-Augustin)</name>
+                    <name type="author" ref="wd:Q381092">THIERRY (Jacques-Nicolas-Augustin)</name>
                     <trait>
                         <p>le grand historien.</p>
                     </trait>
@@ -938,7 +941,7 @@
                 </item>
                 <item n="77" xml:id="CAT_000243_e77">
                     <num type="lot">77</num>
-                    <name type="author">WIELAND (Christophe-Martin)</name>
+                    <name type="author" ref="wd:Q21450218">WIELAND (Christophe-Martin)</name>
                     <trait>
                         <p>le célèbre philosophea allemand.</p>
                     </trait>
@@ -990,13 +993,13 @@
                 </item>
                 <item n="85" xml:id="CAT_000243_e85">
                     <num type="lot">85</num>
-                    <name type="author">MEMBRES LIBRES.</name>
+                    <name type="author" ref="wd:Q30236486">MEMBRES LIBRES.</name>
                     <desc xml:id="CAT_000243_e85_d1">25 dossiers.</desc>
                     <note>Barbé-Marbois, Barchou de Penhoen, Baudry, Belancourt, Blacas d'Aulps, Cherrier. Cousinéry Dambray, Desnoyers, Eyriès, Fauris de Saint-Vincens, Forlia d'Urban, Garnier (Germain), Hauterive, La Rue (Germain de), Lévêque de Pouilly Martin, Miot, Nisard, Schweighaeuser, Seguier, Texier, Villedeuil, Villemarqué et Villeneuve-Trans.</note>
                 </item>
                 <item n="86" xml:id="CAT_000243_e86">
                     <num type="lot">86</num>
-                    <name type="author">ASSOCIÉS ÉTRANGERS.</name>
+                    <name type="author" ref="wd:Q2494">ASSOCIÉS ÉTRANGERS.</name>
                     <desc xml:id="CAT_000243_e86_d1">35 <term ana="#document_type_7">l. a. s.</term>
                     </desc>
                     <note>Amari, Boeckh, Boettiger, Bopp, Borchesi, Colebrooke, Dalberg, Fleischer, Gerhard, Gorresio, Hammer-Purgstall, Haughton, Heeren, Hermann, Heyne, Jacobs, Lassen, Lobeck, Madvig, Maï, Morelli, Muller (Max), Ouvaroff, Pertx, Peyron, Rennell, Ritschl, Ritter, Rossi, Sestini, Welcker, Wilson, Witte, Wolf et Wyttenbach.</note>
@@ -1004,7 +1007,7 @@
                 <note>ACADÉMIE DES SCIENCES.</note>
                 <item n="87" xml:id="CAT_000243_e87">
                     <num type="lot">87</num>
-                    <name type="author">ADANSON (Michel)</name>
+                    <name type="author" ref="wd:Q315861">ADANSON (Michel)</name>
                     <trait>
                         <p>célèbre naturaliste.</p>
                     </trait>
@@ -1013,7 +1016,7 @@
                 </item>
                 <item n="88" xml:id="CAT_000243_e88">
                     <num type="lot">88</num>
-                    <name type="author">AMPÈRE (André-Marie)</name>
+                    <name type="author" ref="wd:Q675">AMPÈRE (André-Marie)</name>
                     <trait>
                         <p>l'illustre mathématicien.</p>
                     </trait>
@@ -1022,7 +1025,7 @@
                 </item>
                 <item n="89" xml:id="CAT_000243_e89">
                     <num type="lot">89</num>
-                    <name type="author">ARAGO (Dominique-François-Jean)</name>
+                    <name type="author" ref="wd:Q154353">ARAGO (Dominique-François-Jean)</name>
                     <trait>
                         <p>le grand astronome.</p>
                     </trait>
@@ -1041,7 +1044,7 @@
                 </item>
                 <item n="91" xml:id="CAT_000243_e91">
                     <num type="lot">91</num>
-                    <name type="author">BERTHOUD (Ferdinand)</name>
+                    <name type="author" ref="wd:Q124411">BERTHOUD (Ferdinand)</name>
                     <trait>
                         <p>célèbre horloger et mécanicien.</p>
                     </trait>
@@ -1050,7 +1053,7 @@
                 </item>
                 <item n="92" xml:id="CAT_000243_e92">
                     <num type="lot">92</num>
-                    <name type="author">BERZÉLIUS (Jean-Jacques)</name>
+                    <name type="author" ref="wd:Q151911">BERZÉLIUS (Jean-Jacques)</name>
                     <trait>
                         <p>le grand chimiste suédois.</p>
                     </trait>
@@ -1059,7 +1062,7 @@
                 </item>
                 <item n="93" xml:id="CAT_000243_e93">
                     <num type="lot">93</num>
-                    <name type="author">BONAPARTE (Napoléon)</name>
+                    <name type="author" ref="wd:Q517">BONAPARTE (Napoléon)</name>
                     <trait>
                         <p>empereur des Français.</p>
                     </trait>
@@ -1068,7 +1071,7 @@
                 </item>
                 <item n="94" xml:id="CAT_000243_e94">
                     <num type="lot">94</num>
-                    <name type="author">BOSSUT (Charles)</name>
+                    <name type="author" ref="wd:Q860178">BOSSUT (Charles)</name>
                     <trait>
                         <p>célèbre géomètre.</p>
                     </trait>
@@ -1077,7 +1080,7 @@
                 </item>
                 <item n="95" xml:id="CAT_000243_e95">
                     <num type="lot">95</num>
-                    <name type="author">BOUGAINVILLE (Louis-Antoine de)</name>
+                    <name type="author" ref="wd:Q153911">BOUGAINVILLE (Louis-Antoine de)</name>
                     <trait>
                         <p>l'illustre navigateur.</p>
                     </trait>
@@ -1086,7 +1089,7 @@
                 </item>
                 <item n="96" xml:id="CAT_000243_e96">
                     <num type="lot">96</num>
-                    <name type="author">CANDOLLE (Auguste-Pyrame de)</name>
+                    <name type="author" ref="wd:Q123057">CANDOLLE (Auguste-Pyrame de)</name>
                     <trait>
                         <p>le célèbre botaniste suisse.</p>
                     </trait>
@@ -1095,7 +1098,7 @@
                 </item>
                 <item n="97" xml:id="CAT_000243_e97">
                     <num type="lot">97</num>
-                    <name type="author">CARNOT (Lazare-Nicolas-Marguerite)</name>
+                    <name type="author" ref="wd:Q310767">CARNOT (Lazare-Nicolas-Marguerite)</name>
                     <trait>
                         <p>l'illustre conventionnel.</p>
                     </trait>
@@ -1103,7 +1106,7 @@
                 </item>
                 <item n="98" xml:id="CAT_000243_e98">
                     <num type="lot">98</num>
-                    <name type="author">CHARLES (Jacques-Alexandre-César)</name>
+                    <name type="author" ref="wd:Q332105">CHARLES (Jacques-Alexandre-César)</name>
                     <trait>
                         <p>le célèbre physicien.</p>
                     </trait>
@@ -1115,7 +1118,7 @@
                 </item>
                 <item n="99" xml:id="CAT_000243_e99">
                     <num type="lot">99</num>
-                    <name type="author">CHEVREUL (Michel-Eugène)</name>
+                    <name type="author" ref="wd:Q271651">CHEVREUL (Michel-Eugène)</name>
                     <trait>
                         <p>le grand chimiste.</p>
                     </trait>
@@ -1124,7 +1127,7 @@
                 </item>
                 <item n="100" xml:id="CAT_000243_e100">
                     <num type="lot">100</num>
-                    <name type="author">DAUBENTON (Louis-Jean-Marie)</name>
+                    <name type="author" ref="wd:Q546443">DAUBENTON (Louis-Jean-Marie)</name>
                     <trait>
                         <p>célèbre naturaliste.</p>
                     </trait>
@@ -1133,7 +1136,7 @@
                 </item>
                 <item n="101" xml:id="CAT_000243_e101">
                     <num type="lot">101</num>
-                    <name type="author">DOLOMIEU (Déodat-Guy-Sylvain-Tancrède de GRATET de)</name>
+                    <name type="author" ref="wd:Q1092573">DOLOMIEU (Déodat-Guy-Sylvain-Tancrède de GRATET de)</name>
                     <trait>
                         <p>célèbre géologue.</p>
                     </trait>
@@ -1143,7 +1146,7 @@
                 </item>
                 <item n="102" xml:id="CAT_000243_e102">
                     <num type="lot">102</num>
-                    <name type="author">KLAPROTH (Martin-Heinrich)</name>
+                    <name type="author" ref="wd:Q160196">KLAPROTH (Martin-Heinrich)</name>
                     <trait>
                         <p>célèbre chimiste allemand.</p>
                     </trait>
@@ -1173,7 +1176,7 @@
                 </item>
                 <item n="105" xml:id="CAT_000243_e105">
                     <num type="lot">105</num>
-                    <name type="author">LALANDE (Joseph-Jérôme Le Français de)</name>
+                    <name type="author" ref="wd:Q168419">LALANDE (Joseph-Jérôme Le Français de)</name>
                     <trait>
                         <p>célèbre astronome.</p>
                     </trait>
@@ -1192,7 +1195,7 @@
                 </item>
                 <item n="107" xml:id="CAT_000243_e107">
                     <num type="lot">107</num>
-                    <name type="author">LESSEPS (Ferdinand-Marie de)</name>
+                    <name type="author" ref="wd:Q209169">LESSEPS (Ferdinand-Marie de)</name>
                     <trait>
                         <p>l'illustre promoteur du percement des isthmes de Suez et de Panama.</p>
                     </trait>
@@ -1201,7 +1204,7 @@
                 </item>
                 <item n="108" xml:id="CAT_000243_e108">
                     <num type="lot">108</num>
-                    <name type="author">MALUS (Etienne-Louis)</name>
+                    <name type="author" ref="wd:Q315391">MALUS (Etienne-Louis)</name>
                     <trait>
                         <p>le célèbre physicien.</p>
                     </trait>
@@ -1211,7 +1214,7 @@
                 </item>
                 <item n="109" xml:id="CAT_000243_e109">
                     <num type="lot">109</num>
-                    <name type="author">MARMONT (Auguste-Frédéric-Louis Viesse de)</name>
+                    <name type="author" ref="wd:Q312676">MARMONT (Auguste-Frédéric-Louis Viesse de)</name>
                     <trait>
                         <p>duc de Raguse, maréchal de France.</p>
                     </trait>
@@ -1220,7 +1223,7 @@
                 </item>
                 <item n="110" xml:id="CAT_000243_e110">
                     <num type="lot">110</num>
-                    <name type="author">MONGE (Gaspard)</name>
+                    <name type="author" ref="wd:Q206832">MONGE (Gaspard)</name>
                     <trait>
                         <p>l'illustre géomètre.</p>
                     </trait>
@@ -1230,7 +1233,7 @@
                 </item>
                 <item n="111" xml:id="CAT_000243_e111">
                     <num type="lot">111</num>
-                    <name type="author">MONTGOLFIER (Joseph-Michel)</name>
+                    <name type="author" ref="wd:Q2467332">MONTGOLFIER (Joseph-Michel)</name>
                     <trait>
                         <p>un des inventeurs des aérostats.</p>
                     </trait>
@@ -1241,7 +1244,7 @@
                 </item>
                 <item n="112" xml:id="CAT_000243_e112">
                     <num type="lot">112</num>
-                    <name type="author">OERSTED (Hans-Christian)</name>
+                    <name type="author" ref="wd:Q44412">OERSTED (Hans-Christian)</name>
                     <trait>
                         <p>le grand physicien danois.</p>
                     </trait>
@@ -1251,7 +1254,7 @@
                 </item>
                 <item n="113" xml:id="CAT_000243_e113">
                     <num type="lot">113</num>
-                    <name type="author">OLBERS (Heinrich-Wilhelm-Mathias)</name>
+                    <name type="author" ref="wd:Q21595090">OLBERS (Heinrich-Wilhelm-Mathias)</name>
                     <trait>
                         <p>le célèbre astronome allemand.</p>
                     </trait>
@@ -1261,7 +1264,7 @@
                 </item>
                 <item n="114" xml:id="CAT_000243_e114">
                     <num type="lot">114</num>
-                    <name type="author">PASTEUR (Louis)</name>
+                    <name type="author" ref="wd:Q34746629">PASTEUR (Louis)</name>
                     <trait>
                         <p>le grand chimiste.</p>
                     </trait>
@@ -1271,7 +1274,7 @@
                 </item>
                 <item n="115" xml:id="CAT_000243_e115">
                     <num type="lot">115</num>
-                    <name type="author">PIAZZI (Giuseppe)</name>
+                    <name type="author" ref="wd:Q14280">PIAZZI (Giuseppe)</name>
                     <trait>
                         <p>célèbre astronome italien.</p>
                     </trait>
@@ -1292,7 +1295,7 @@
                 </item>
                 <item n="117" xml:id="CAT_000243_e117">
                     <num type="lot">117</num>
-                    <name type="author">VOLTA (Alessandro)</name>
+                    <name type="author" ref="wd:Q680">VOLTA (Alessandro)</name>
                     <trait>
                         <p>l'illustre physicien italien.</p>
                     </trait>
@@ -1301,7 +1304,7 @@
                 </item>
                 <item n="118" xml:id="CAT_000243_e118">
                     <num type="lot">118</num>
-                    <name type="author">WATT (James)</name>
+                    <name type="author" ref="wd:Q27963893">WATT (James)</name>
                     <trait>
                         <p>l'illustre inventeur des machines à vapeur.</p>
                     </trait>
@@ -1312,67 +1315,67 @@
                 </item>
                 <item n="119" xml:id="CAT_000243_e119">
                     <num type="lot">119</num>
-                    <name type="author">AGRONOMES.</name>
+                    <name type="author" ref="wd:Q2432610">AGRONOMES.</name>
                     <desc xml:id="CAT_000243_e119_d1">14 dossiers.</desc>
                     <note>Audouin, Bouley, Boussingault, Cels, Mangon (Hervé), MorelVindé, Parmentier, Payen, Rayer, Silvestre, Tessier, Thénard (Paul), Turpin et Yvart.</note>
                 </item>
                 <item n="120" xml:id="CAT_000243_e120">
                     <num type="lot">120</num>
-                    <name type="author">ASTRONOMES.</name>
+                    <name type="author" ref="wd:Q85074935">ASTRONOMES.</name>
                     <desc xml:id="CAT_000243_e120_d1">20 dossiers.</desc>
                     <note>Airy, Bessel, Bouvard, Bdrckhardt, Cassini, Lalande, Laugier, Le Verrier, Liouville, Loewy, Maskelyne, Mathieu, Mauvais, Méchain, Messier, Mouchex, Plana, Savary, Tisserand, et Villarceau.</note>
                 </item>
                 <item n="121" xml:id="CAT_000243_e121">
                     <num type="lot">121</num>
-                    <name type="author">BOTANISTES.</name>
+                    <name type="author" ref="wd:Q108782827">BOTANISTES.</name>
                     <desc xml:id="CAT_000243_e121_d1">21 dossiers.</desc>
                     <note>Blanchard, Brongniart (Adolphe), Bromn (Robert), Candolle (A. de), Cassini, Chalin, Jussieu (A.-L. de), Jussieu (Adrien de), Labillardière, Mirbel, Montagne, Moquin-Tandon, Naudin, Palisot de Beauvois, Payer Petit-Thouars (Aubert du), Richard, Saint- Hilaire (A. de). Trécul, Tulasne, et Ventenat.</note>
                 </item>
                 <item n="122" xml:id="CAT_000243_e122">
                     <num type="lot">122</num>
-                    <name type="author">CHIMISTES.</name>
+                    <name type="author" ref="wd:Q27721589">CHIMISTES.</name>
                     <desc xml:id="CAT_000243_e122_d1">18 dossiers.</desc>
                     <note>Arcet (P.-J.-J. d'), Balard, Berthelot, Cahours, Chaptal, Liebig, Milscherlich, Peligot, Pelouze, Proust, Régnault, Robiquet, Sainte- Claire Depille (Henri), Serullas, Thenard, Vauquelin, Wohler et Wurtz.</note>
                 </item>
                 <item n="123" xml:id="CAT_000243_e123">
                     <num type="lot">123</num>
-                    <name type="author">GÉOGRAPHES ET NAVIGATEURS.</name>
+                    <name type="author" ref="wd:Q673550">GÉOGRAPHES ET NAVIGATEURS.</name>
                     <desc xml:id="CAT_000243_e123_d1">9 dossiers.</desc>
                     <note>Abbadie, Beautemps-Beaupré, Bravais, Buache, Jurien de la Grapière, Paris, Rossel, Roussin et Tessan.</note>
                 </item>
                 <item n="124" xml:id="CAT_000243_e124">
                     <num type="lot">124</num>
-                    <name type="author">GÉOMETRES.</name>
+                    <name type="author" ref="wd:Q294126">GÉOMETRES.</name>
                     <desc xml:id="CAT_000243_e124_d1">13 dossiers.</desc>
                     <note>Bertrand, Binet, Bonnet, Chasles, Lacroix, Lamé, Le Gendre, Libry, Poinsot, Puiseux, Puissant, Serret et Sturm.</note>
                 </item>
                 <item n="125" xml:id="CAT_000243_e125">
                     <num type="lot">125</num>
-                    <name type="author">MATHÉMATICIENS.</name>
+                    <name type="author" ref="wd:Q15734027">MATHÉMATICIENS.</name>
                     <desc xml:id="CAT_000243_e125_d1">18 dossiers.</desc>
                     <note>Bréguet, Cauchy, Clapeyron, Combes, Coriolis, Molard, Morin, Navier, Perier, Phillips, Piobert, Poncelet, Prony, Resal, Rolland, Saint-Venant, Sané et Tresca.</note>
                 </item>
                 <item n="126" xml:id="CAT_000243_e126">
                     <num type="lot">126</num>
-                    <name type="author">MÉDECINS.</name>
+                    <name type="author" ref="wd:Q3234109">MÉDECINS.</name>
                     <desc xml:id="CAT_000243_e126_d1">31 dossiers.</desc>
                     <note>Andral, Bert (Paul), Bouillaud, Boyer, Breschet, Chaussier, Civiale, Cloquet, Corvisart, Jobert de Lamballe, Lallemand, Larrey (Dominique-Jean), Larrey (Hipp.), Lassus, Laugier, Longet, Ma. gendie, Marey, Nélaton, Pariset, Pelletan, Percy, Pincel, Portaf, Roux, Sabatier, Scarpa, Sédillot, Serres, Velpeau et Vulpian.</note>
                 </item>
                 <item n="127" xml:id="CAT_000243_e127">
                     <num type="lot">127</num>
-                    <name type="author">MINÉRALOGISTES.</name>
+                    <name type="author" ref="wd:Q1918167">MINÉRALOGISTES.</name>
                     <desc xml:id="CAT_000243_e127_d1">12 dossiers.</desc>
                     <note>Archiac, Berthier, Beudant, Brochant de Villiers, Brongniart (Alexandre), Cordier, Lelièvre, Prévost (Constant), Ramond, Sage, Sainte-Claire Deville (Charles), et Sénarmont.</note>
                 </item>
                 <item n="128" xml:id="CAT_000243_e128">
                     <num type="lot">128</num>
-                    <name type="author">NATURALISTES.</name>
+                    <name type="author" ref="wd:Q2928061">NATURALISTES.</name>
                     <desc xml:id="CAT_000243_e128_d1">22 dossiers.</desc>
                     <note>Agassiz, Banks, Blainville, Blumenbach, Bory Saint-Vincent, Bosc, Broussonet, Coste, Cuvier (Frédéric), Lacaze-Duthiers, Latreille, Olivier, Owen (Richard), Quatrefages, Richard, Robin, Savigny, Tenon, Thouin, Tiedemann, Valenciennes et Young.</note>
                 </item>
                 <item n="129" xml:id="CAT_000243_e129">
                     <num type="lot">129</num>
-                    <name type="author">PHYSICIENS.</name>
+                    <name type="author" ref="wd:Q68689632">PHYSICIENS.</name>
                     <desc xml:id="CAT_000243_e129_d1">15 dossiers.</desc>
                     <note>Babinet, Becquerel (César), Becquerel (Edmond), Brewster, Brisson, Cornu, La Rive (Auguste de), Lefèvre-Gineau, Lévêque, Poisson, Pouillet, Priestley, Rochon, Savast et Wheastone.</note>
                 </item>
@@ -1390,14 +1393,14 @@
                 </item>
                 <item n="132" xml:id="CAT_000243_e132">
                     <num type="lot">132</num>
-                    <name type="author">MEMBRES LIBRES.</name>
+                    <name type="author" ref="wd:Q30236486">MEMBRES LIBRES.</name>
                     <desc xml:id="CAT_000243_e132_d1">12 dossiers.</desc>
                     <note>Andréossy, Belgrand, Bussy, Costaz, Cubières, Largeteau, La Rochefoucauld-Liancourt, Maurice, Rogniat, Roulin, Seguier, Vaillant (le maréchal).</note>
                 </item>
                 <note>ACADÉMIE DES BEAUX-ARS</note>
                 <item n="133" xml:id="CAT_000243_e133">
                     <num type="lot">133</num>
-                    <name type="author">APPIANI (Andrea)</name>
+                    <name type="author" ref="wd:Q493349">APPIANI (Andrea)</name>
                     <trait>
                         <p>célèbre peintre italien.</p>
                     </trait>
@@ -1407,7 +1410,7 @@
                 </item>
                 <item n="134" xml:id="CAT_000243_e134">
                     <num type="lot">134</num>
-                    <name type="author">BARYE (Antoine-Louis)</name>
+                    <name type="author" ref="wd:Q451489">BARYE (Antoine-Louis)</name>
                     <trait>
                         <p>le grand sculpteur.</p>
                     </trait>
@@ -1416,7 +1419,7 @@
                 </item>
                 <item n="135" xml:id="CAT_000243_e135">
                     <num type="lot">135</num>
-                    <name type="author">BERLIOZ (Louis-Hector)</name>
+                    <name type="author" ref="wd:Q1151">BERLIOZ (Louis-Hector)</name>
                     <trait>
                         <p>le grand compositeur de musique.</p>
                     </trait>
@@ -1425,7 +1428,7 @@
                 </item>
                 <item n="136" xml:id="CAT_000243_e136">
                     <num type="lot">136</num>
-                    <name type="author">BOIELDIEU (François-Adrien)</name>
+                    <name type="author" ref="wd:Q109875">BOIELDIEU (François-Adrien)</name>
                     <trait>
                         <p>le célèbre compositeur de musique.</p>
                     </trait>
@@ -1437,7 +1440,7 @@
                 </item>
                 <item n="137" xml:id="CAT_000243_e137">
                     <num type="lot">137</num>
-                    <name type="author">BONAPARTE (Jérôme-Napoléon)</name>
+                    <name type="author" ref="wd:Q151087">BONAPARTE (Jérôme-Napoléon)</name>
                     <trait>
                         <p>cousin de Napoléon III.</p>
                     </trait>
@@ -1446,7 +1449,7 @@
                 </item>
                 <item n="138" xml:id="CAT_000243_e138">
                     <num type="lot">138</num>
-                    <name type="author">CANOVA (Antonio)</name>
+                    <name type="author" ref="wd:Q5547">CANOVA (Antonio)</name>
                     <trait>
                         <p>le célèbre sculpteur italien.</p>
                     </trait>
@@ -1457,7 +1460,7 @@
                 </item>
                 <item n="139" xml:id="CAT_000243_e139">
                     <num type="lot">139</num>
-                    <name type="author">CHAUDET (Antoine-Denis)</name>
+                    <name type="author" ref="wd:Q601065">CHAUDET (Antoine-Denis)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1467,7 +1470,7 @@
                 </item>
                 <item n="140" xml:id="CAT_000243_e140">
                     <num type="lot">140</num>
-                    <name type="author">CHERUBINI (Louis)</name>
+                    <name type="author" ref="wd:Q20721">CHERUBINI (Louis)</name>
                     <trait>
                         <p>le célèbre compositeur de musique.</p>
                     </trait>
@@ -1477,7 +1480,7 @@
                 </item>
                 <item n="141" xml:id="CAT_000243_e141">
                     <num type="lot">141</num>
-                    <name type="author">CORNELIUS (Peter von)</name>
+                    <name type="author" ref="wd:Q58833">CORNELIUS (Peter von)</name>
                     <trait>
                         <p>le célèbre peintre allemand.</p>
                     </trait>
@@ -1486,7 +1489,7 @@
                 </item>
                 <item n="142" xml:id="CAT_000243_e142">
                     <num type="lot">142</num>
-                    <name type="author">DAVID (Jacques-Louis)</name>
+                    <name type="author" ref="wd:Q99305194">DAVID (Jacques-Louis)</name>
                     <trait>
                         <p>le grand peintre.</p>
                     </trait>
@@ -1498,7 +1501,7 @@
                 </item>
                 <item n="143" xml:id="CAT_000243_e143">
                     <num type="lot">143</num>
-                    <name type="author">DEJOUX (Claude)</name>
+                    <name type="author" ref="wd:Q2977260">DEJOUX (Claude)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1510,7 +1513,7 @@
                 </item>
                 <item n="144" xml:id="CAT_000243_e144">
                     <num type="lot">144</num>
-                    <name type="author">DELACROIX (Ferdinand-Victor-Eugène)</name>
+                    <name type="author" ref="wd:Q33477">DELACROIX (Ferdinand-Victor-Eugène)</name>
                     <trait>
                         <p>le grand peintre.</p>
                     </trait>
@@ -1520,7 +1523,7 @@
                 </item>
                 <item n="145" xml:id="CAT_000243_e145">
                     <num type="lot">145</num>
-                    <name type="author">DELAROCHE (Paul)</name>
+                    <name type="author" ref="wd:Q322582">DELAROCHE (Paul)</name>
                     <trait>
                         <p>célèbre peintre d'histoire.</p>
                     </trait>
@@ -1530,7 +1533,7 @@
                 </item>
                 <item n="146" xml:id="CAT_000243_e146">
                     <num type="lot">146</num>
-                    <name type="author">GIRODET-TRIOSON (Anne-Louis)</name>
+                    <name type="author" ref="wd:Q433434">GIRODET-TRIOSON (Anne-Louis)</name>
                     <trait>
                         <p>célèbre peintre.</p>
                     </trait>
@@ -1539,7 +1542,7 @@
                 </item>
                 <item n="147" xml:id="CAT_000243_e147">
                     <num type="lot">147</num>
-                    <name type="author">GOSSEC (François-Joseph)</name>
+                    <name type="author" ref="wd:Q313667">GOSSEC (François-Joseph)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -1549,7 +1552,7 @@
                 </item>
                 <item n="148" xml:id="CAT_000243_e148">
                     <num type="lot">148</num>
-                    <name type="author">GRÉTRY (André-Ernest-Modeste)</name>
+                    <name type="author" ref="wd:Q210962">GRÉTRY (André-Ernest-Modeste)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -1569,7 +1572,7 @@
                 </item>
                 <item n="150" xml:id="CAT_000243_e150">
                     <num type="lot">150</num>
-                    <name type="author">HALÉVY (Jacques-Fromental)</name>
+                    <name type="author" ref="wd:Q313917">HALÉVY (Jacques-Fromental)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -1578,7 +1581,7 @@
                 </item>
                 <item n="151" xml:id="CAT_000243_e151">
                     <num type="lot">151</num>
-                    <name type="author">HOUDON (Jean-Antoine)</name>
+                    <name type="author" ref="wd:Q318741">HOUDON (Jean-Antoine)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1587,7 +1590,7 @@
                 </item>
                 <item n="152" xml:id="CAT_000243_e152">
                     <num type="lot">152</num>
-                    <name type="author">INGRES (Jean-Auguste-Dominique)</name>
+                    <name type="author" ref="wd:Q23380">INGRES (Jean-Auguste-Dominique)</name>
                     <trait>
                         <p>le grand peintre d'histoire.</p>
                     </trait>
@@ -1596,7 +1599,7 @@
                 </item>
                 <item n="153" xml:id="CAT_000243_e153">
                     <num type="lot">153</num>
-                    <name type="author">JEUFFROY (Romain-Vincent)</name>
+                    <name type="author" ref="wd:Q3440576">JEUFFROY (Romain-Vincent)</name>
                     <trait>
                         <p>célèbre graveur.</p>
                     </trait>
@@ -1605,7 +1608,7 @@
                 </item>
                 <item n="154" xml:id="CAT_000243_e154">
                     <num type="lot">154</num>
-                    <name type="author">JULIEN (Pierre)</name>
+                    <name type="author" ref="wd:Q3385653">JULIEN (Pierre)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1615,7 +1618,7 @@
                 </item>
                 <item n="155" xml:id="CAT_000243_e155">
                     <num type="lot">155</num>
-                    <name type="author">MÉHUL (Étienne)</name>
+                    <name type="author" ref="wd:Q364020">MÉHUL (Étienne)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -1624,7 +1627,7 @@
                 </item>
                 <item n="156" xml:id="CAT_000243_e156">
                     <num type="lot">156</num>
-                    <name type="author">MEISSONIER (Jean-Louis-Ernest)</name>
+                    <name type="author" ref="wd:Q354786">MEISSONIER (Jean-Louis-Ernest)</name>
                     <trait>
                         <p>le célèbre peintre.</p>
                     </trait>
@@ -1633,7 +1636,7 @@
                 </item>
                 <item n="157" xml:id="CAT_000243_e157">
                     <num type="lot">157</num>
-                    <name type="author">MÉNAGEOT (François-Guillaume)</name>
+                    <name type="author" ref="wd:Q20880351">MÉNAGEOT (François-Guillaume)</name>
                     <trait>
                         <p>célèbre peintre.</p>
                     </trait>
@@ -1643,7 +1646,7 @@
                 </item>
                 <item n="158" xml:id="CAT_000243_e158">
                     <num type="lot">158</num>
-                    <name type="author">MONSIGNY (Pierre-Alexandre de)</name>
+                    <name type="author" ref="wd:Q705124">MONSIGNY (Pierre-Alexandre de)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -1652,7 +1655,7 @@
                 </item>
                 <item n="159" xml:id="CAT_000243_e159">
                     <num type="lot">159</num>
-                    <name type="author">OVERBECK (Johann-Friedrich)</name>
+                    <name type="author" ref="wd:Q169311">OVERBECK (Johann-Friedrich)</name>
                     <trait>
                         <p>célèbre peintre allemand.</p>
                     </trait>
@@ -1664,7 +1667,7 @@
                 </item>
                 <item n="160" xml:id="CAT_000243_e160">
                     <num type="lot">160</num>
-                    <name type="author">PAJOU (Augustin)</name>
+                    <name type="author" ref="wd:Q524291">PAJOU (Augustin)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1673,7 +1676,7 @@
                 </item>
                 <item n="161" xml:id="CAT_000243_e161">
                     <num type="lot">161</num>
-                    <name type="author">PAISIELLO (Giovanni)</name>
+                    <name type="author" ref="wd:Q202303">PAISIELLO (Giovanni)</name>
                     <trait>
                         <p>célèbre compositeur de musique italien.</p>
                     </trait>
@@ -1683,7 +1686,7 @@
                 </item>
                 <item n="162" xml:id="CAT_000243_e162">
                     <num type="lot">162</num>
-                    <name type="author">PRUD'HON (Pierre-Paul)</name>
+                    <name type="author" ref="wd:Q469056">PRUD'HON (Pierre-Paul)</name>
                     <trait>
                         <p>le grand peintre.</p>
                     </trait>
@@ -1692,7 +1695,7 @@
                 </item>
                 <item n="163" xml:id="CAT_000243_e163">
                     <num type="lot">163</num>
-                    <name type="author">RAUCH (Christian-Daniel)</name>
+                    <name type="author" ref="wd:Q714972">RAUCH (Christian-Daniel)</name>
                     <trait>
                         <p>célèbre sculpteur allemand.</p>
                     </trait>
@@ -1702,7 +1705,7 @@
                 </item>
                 <item n="164" xml:id="CAT_000243_e164">
                     <num type="lot">164</num>
-                    <name type="author">ROLAND (Philippe-Laurent)</name>
+                    <name type="author" ref="wd:Q3379186">ROLAND (Philippe-Laurent)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1711,7 +1714,7 @@
                 </item>
                 <item n="165" xml:id="CAT_000243_e165">
                     <num type="lot">165</num>
-                    <name type="author">ROSSINI (Gioacchino)</name>
+                    <name type="author" ref="wd:Q9726">ROSSINI (Gioacchino)</name>
                     <trait>
                         <p>le célèbre compositeur de musique.</p>
                     </trait>
@@ -1721,7 +1724,7 @@
                 </item>
                 <item n="166" xml:id="CAT_000243_e166">
                     <num type="lot">166</num>
-                    <name type="author">SALIERI (Antonio)</name>
+                    <name type="author" ref="wd:Q51088">SALIERI (Antonio)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -1731,7 +1734,7 @@
                 </item>
                 <item n="167" xml:id="CAT_000243_e167">
                     <num type="lot">167</num>
-                    <name type="author">SCHNETZ (Jean-Victor)</name>
+                    <name type="author" ref="wd:Q709379">SCHNETZ (Jean-Victor)</name>
                     <trait>
                         <p>célèbre peintre d'histoire.</p>
                     </trait>
@@ -1740,7 +1743,7 @@
                 </item>
                 <item n="168" xml:id="CAT_000243_e168">
                     <num type="lot">168</num>
-                    <name type="author">SPONTINI (Gaspard-Louis-Pacifique)</name>
+                    <name type="author" ref="wd:Q168485">SPONTINI (Gaspard-Louis-Pacifique)</name>
                     <trait>
                         <p>le grand compositeur de musique.</p>
                     </trait>
@@ -1749,7 +1752,7 @@
                 </item>
                 <item n="169" xml:id="CAT_000243_e169">
                     <num type="lot">169</num>
-                    <name type="author">STOUF (Jean Baptiste)</name>
+                    <name type="author" ref="wd:Q3164444">STOUF (Jean Baptiste)</name>
                     <trait>
                         <p>célèbre sculpteur.</p>
                     </trait>
@@ -1759,7 +1762,7 @@
                 </item>
                 <item n="170" xml:id="CAT_000243_e170">
                     <num type="lot">170</num>
-                    <name type="author">VERNET (Émile-Jean-Horace)</name>
+                    <name type="author" ref="wd:Q161145">VERNET (Émile-Jean-Horace)</name>
                     <trait>
                         <p>célèbre peintre de batailles.</p>
                     </trait>
@@ -1768,7 +1771,7 @@
                 </item>
                 <item n="171" xml:id="CAT_000243_e171">
                     <num type="lot">171</num>
-                    <name type="author">VIEN (Joseph-Marie)</name>
+                    <name type="author" ref="wd:Q647934">VIEN (Joseph-Marie)</name>
                     <trait>
                         <p>célèbre peintre.</p>
                     </trait>
@@ -1779,7 +1782,7 @@
                 </item>
                 <item n="172" xml:id="CAT_000243_e172">
                     <num type="lot">172</num>
-                    <name type="author">WEST (Benjamin)</name>
+                    <name type="author" ref="wd:Q313498">WEST (Benjamin)</name>
                     <trait>
                         <p>célèbre peintre américain.</p>
                     </trait>
@@ -1790,86 +1793,86 @@
                 </item>
                 <item n="173" xml:id="CAT_000243_e173">
                     <num type="lot">173</num>
-                    <name type="author">ARCHITECTES.</name>
+                    <name type="author" ref="wd:Q107820146">ARCHITECTES.</name>
                     <desc xml:id="CAT_000243_e173_d1">14 dossiers.</desc>
                     <note>Caristie, Fontaine, Gauthier, Hittorff, Hurtault, Huvé, La Barre, Lefuel, Le Sueur, Paris, Poyet, Rammond, Thibaull et Visconti</note>
                 </item>
                 <item n="174" xml:id="CAT_000243_e174">
                     <num type="lot">174</num>
-                    <name type="author">ARCHITECTES</name>
+                    <name type="author" ref="wd:Q107820146">ARCHITECTES</name>
                     <desc xml:id="CAT_000243_e174_d1">34 dossiers</desc>
                     <note>Abadie, Antoine, Bailly, Ballu, Baltard, Blouet, Bonnard, Boullée, Chaigrin, Debret, Delespine, Duban, Duc. Dufourny Garnier, Gilbert, Ginain, Gisors, Gondoin, Guenepin, Heurtier, Huyot, Labrouste, Lebas, Le Clère, Molinos, Percier, Peyre, Questel, Rondelet, Vaudoyer (Antoine-Laurent), Vaudoyer (Léon), Vaudremer et Wailly.</note>
                 </item>
                 <item n="175" xml:id="CAT_000243_e175">
                     <num type="lot">175</num>
-                    <name type="author">ARTISTES DRAMATIQUES.</name>
+                    <name type="author" ref="wd:Q78099469">ARTISTES DRAMATIQUES.</name>
                     <desc xml:id="CAT_000243_e175_d1">4 dossiers.</desc>
                     <note>Grand-Ménil, Molé, Monvel et Préville</note>
                 </item>
                 <item n="176" xml:id="CAT_000243_e176">
                     <num type="lot">176</num>
-                    <name type="author">COMPOSITEURS DE MUSIQUE.</name>
+                    <name type="author" ref="wd:Q101110863">COMPOSITEURS DE MUSIQUE.</name>
                     <desc xml:id="CAT_000243_e176_d1">11 dossiers.</desc>
                     <note>Bazin, Carafa, Clapisson, Gevaert, Kastner, Massé, Meyerbeer, Onslom, Reber, Reyer, Thomas (Ambroise).</note>
                 </item>
                 <item n="177" xml:id="CAT_000243_e177">
                     <num type="lot">177</num>
-                    <name type="author">COMPOSITEURS DE MUSIQUE.</name>
+                    <name type="author" ref="wd:Q101110863">COMPOSITEURS DE MUSIQUE.</name>
                     <desc xml:id="CAT_000243_e177_d1">12 dossiers.</desc>
                     <note>Adam, Auber, Berton, Catel, David, Gounod, Massenet, Mercadante, Paër, Reicha, Verdi et Zingarelli</note>
                 </item>
                 <item n="178" xml:id="CAT_000243_e178">
                     <num type="lot">178</num>
-                    <name type="author">GRAVEURS</name>
+                    <name type="author" ref="wd:Q3488167">GRAVEURS</name>
                     <desc xml:id="CAT_000243_e178_d1">13 dossiers</desc>
                     <note>Bertinot, Bervic, Desnoyers, Dumarest, Du Vivier, François, Forster, Galle, Gatteaux, Henriquel-Dupont, Martinet, Richomme et Tardieu.</note>
                 </item>
                 <item n="179" xml:id="CAT_000243_e179">
                     <num type="lot">179</num>
-                    <name type="author">PEINTRES.</name>
+                    <name type="author" ref="wd:Q30025379">PEINTRES.</name>
                     <desc xml:id="CAT_000243_e179_d1">9 dossiers.</desc>
                     <note>Baudry (Paul), Bonnat, Brascassat, Flandrin, Gérome, Hébert, Le Barbier, Van Spaendonck et Vernet (Carle).</note>
                 </item>
                 <item n="180" xml:id="CAT_000243_e180">
                     <num type="lot">180</num>
-                    <name type="author">PEINTRES</name>
+                    <name type="author" ref="wd:Q30025379">PEINTRES</name>
                     <desc xml:id="CAT_000243_e180_d1">16 dossiers</desc>
                     <note>Boulanger (Gustave), Cabat, Drolling, Guérin, Hesse (Alexandre), Hesse (Auguste), Langlois, Meynier, Muller, Picot, Pils, Régnault, Signol, Taunay, Thévenin, et Vincent.</note>
                 </item>
                 <item n="181" xml:id="CAT_000243_e181">
                     <num type="lot">181</num>
-                    <name type="author">PEINTRES</name>
+                    <name type="author" ref="wd:Q30025379">PEINTRES</name>
                     <desc xml:id="CAT_000243_e181_d1">19 dossiers</desc>
                     <note>Abel de Pujol, Alaux, Bidauld, Blondel, Bouguereau, Cabanel, Cogniet, Couder, Delaunay, Denon, Garnier, Gérard, Granet, Heim, Hersent, Lehmann, Lenepveu, Lethière et Robert-Fleury.</note>
                 </item>
                 <item n="182" xml:id="CAT_000243_e182">
                     <num type="lot">182</num>
-                    <name type="author">SCULPTEURS.</name>
+                    <name type="author" ref="wd:Q107820146">SCULPTEURS.</name>
                     <desc xml:id="CAT_000243_e182_d1">12 dossiers.</desc>
                     <note>Bonnassieux, Bosio, Cavelier, David d'Angers, Dubois (Paul), Dupaly, Duret, Jouffroy, Lemaire, Perraud, Pradier et Simart.</note>
                 </item>
                 <item n="183" xml:id="CAT_000243_e183">
                     <num type="lot">183</num>
-                    <name type="author">SCULPTEURS.</name>
+                    <name type="author" ref="wd:Q107820146">SCULPTEURS.</name>
                     <desc xml:id="CAT_000243_e183_d1">17 dossiers.</desc>
                     <note>Cartellier, Cortot, Dumont, Gois, Guillaume, Jaley, Le Comte, Lemot, Le Sueur, Moitte, Nanteuil, Petitot, Ramey (Claude), Ramey (Étienne-Jules), Roman, Seurre et Thomas.</note>
                 </item>
                 <item n="184" xml:id="CAT_000243_e184">
                     <num type="lot">184</num>
-                    <name type="author">MEMBRES LIBRES.</name>
+                    <name type="author" ref="wd:Q30236486">MEMBRES LIBRES.</name>
                     <desc xml:id="CAT_000243_e184_d1">32 dossiers.</desc>
                     <note>Barbet de Jouy, Cailleux, Cardaillac, Castellan, Chabrol, Chennevières, Clarac, Delaborde, Dumont, Forbin, Fould, Gruyer Haussmann, Houdetot, Lauriston, Lenoir, Mercey Montalivet, Nieuwerkerke, Pasloret, Pelletier Perrin, Pradel, Rambuteau, Senonnes, Siméon, Du Sommerard, Taylor, Turpin de Crissé, Vaublanc, Vaudreuil et Walewski.</note>
                 </item>
                 <item n="185" xml:id="CAT_000243_e185">
                     <num type="lot">185</num>
-                    <name type="author">ASSOCIÉS ÉTRANGERS.</name>
+                    <name type="author" ref="wd:Q2494">ASSOCIÉS ÉTRANGERS.</name>
                     <desc xml:id="CAT_000243_e185_d1">28 dossiers.</desc>
                     <note>Alvarez, Antolini, Calderari, Cambray Digny, Camuccini, Canina, Cockerell, Donaldson, Drake, Dupré, Felsing, Ferstel, Gallait, Hess, Klenxe, Longhi, Matejko, Millais, Morchen, Rietschel, Schinkel, Schnorr, Strack, Stuler, Tenerani, Thorvaldsen, Toschi et Vela.</note>
                 </item>
                 <note>ACADÉMIE DES SCIENCES MORALES ET POLITIQUES.</note>
                 <item n="186" xml:id="CAT_000243_e186">
                     <num type="lot">186</num>
-                    <name type="author">GLADSTONE (William-Ewart)</name>
+                    <name type="author" ref="wd:Q160852">GLADSTONE (William-Ewart)</name>
                     <trait>
                         <p>le grand homme d'État anglais.</p>
                     </trait>
@@ -1881,7 +1884,7 @@
                 </item>
                 <item n="187" xml:id="CAT_000243_e187">
                     <num type="lot">187</num>
-                    <name type="author">GROTE (George)</name>
+                    <name type="author" ref="wd:Q1364848">GROTE (George)</name>
                     <trait>
                         <p>le célèbre savant anglais.</p>
                     </trait>
@@ -1892,7 +1895,7 @@
                 </item>
                 <item n="188" xml:id="CAT_000243_e188">
                     <num type="lot">188</num>
-                    <name type="author">JOUFFROY (Théodore-Simon)</name>
+                    <name type="author" ref="wd:Q610240">JOUFFROY (Théodore-Simon)</name>
                     <trait>
                         <p>célèbre philosophe.</p>
                     </trait>
@@ -1901,7 +1904,7 @@
                 </item>
                 <item n="189" xml:id="CAT_000243_e189">
                     <num type="lot">189</num>
-                    <name type="author">LAKANAL (Joseph)</name>
+                    <name type="author" ref="wd:Q524840">LAKANAL (Joseph)</name>
                     <trait>
                         <p>l'illustre conventionnel.</p>
                     </trait>
@@ -1923,7 +1926,7 @@
                 </item>
                 <item n="191" xml:id="CAT_000243_e191">
                     <num type="lot">191</num>
-                    <name type="author">MALTHUS (Thomas-Robert)</name>
+                    <name type="author" ref="wd:Q13526">MALTHUS (Thomas-Robert)</name>
                     <trait>
                         <p>l'illustre économiste anglais.</p>
                     </trait>
@@ -1933,7 +1936,7 @@
                 </item>
                 <item n="192" xml:id="CAT_000243_e192">
                     <num type="lot">192</num>
-                    <name type="author">MICHELET (Jules)</name>
+                    <name type="author" ref="wd:Q310791">MICHELET (Jules)</name>
                     <trait>
                         <p>le grand écrivain.</p>
                     </trait>
@@ -1942,7 +1945,7 @@
                 </item>
                 <item n="193" xml:id="CAT_000243_e193">
                     <num type="lot">193</num>
-                    <name type="author">SCHELLING (Friedrich-Wilhelm-Josef von)</name>
+                    <name type="author" ref="wd:Q224198">SCHELLING (Friedrich-Wilhelm-Josef von)</name>
                     <trait>
                         <p>le célèbre philosophe allemand.</p>
                     </trait>
@@ -1953,25 +1956,25 @@
                 </item>
                 <item n="194" xml:id="CAT_000243_e194">
                     <num type="lot">194</num>
-                    <name type="author">ÉCONOMISTES</name>
+                    <name type="author" ref="wd:Q16655529">ÉCONOMISTES</name>
                     <desc xml:id="CAT_000243_e194_d1">13 dossiers</desc>
                     <note>Blanqui, Block, Chevalier, Faucher, Garnier (Joseph), Lavergne, Leroy-Beaulieu, Levasseur, Passy (Hipp.), Passy (Frédéric), Rossi, Say (Léon), et Wolowski.</note>
                 </item>
                 <item n="195" xml:id="CAT_000243_e195">
                     <num type="lot">195</num>
-                    <name type="author">HISTORIENS</name>
+                    <name type="author" ref="wd:Q89460946">HISTORIENS</name>
                     <desc xml:id="CAT_000243_e195_d1">9 dossiers</desc>
                     <note>Bignon, Carnot, Duruy, Geffroy, Picot, Rosseeum Saint-Hilaire, Ternaux (Mortimer), Thierry (Amédée), et Zeller.</note>
                 </item>
                 <item n="196" xml:id="CAT_000243_e196">
                     <num type="lot">196</num>
-                    <name type="author">JURISCONSULTES</name>
+                    <name type="author" ref="wd:Q64009679">JURISCONSULTES</name>
                     <desc xml:id="CAT_000243_e196_d1">14 dossiers</desc>
                     <note>Barthe, Berriat Saint-Prix, Delangle, Giraud, Hélie (Faustin), Larombière, Massé, Pellat, Pont, Portalis, Renouard, Troplong et Valette.</note>
                 </item>
                 <item n="197" xml:id="CAT_000243_e197">
                     <num type="lot">197</num>
-                    <name type="author">PHILOSOPHES</name>
+                    <name type="author" ref="wd:Q1672919">PHILOSOPHES</name>
                     <desc xml:id="CAT_000243_e197_d1">22 dossiers</desc>
                     <note>Beaussire, Bersot, Broussais, Damiron, Dunoyer, Edwards, Franck, Garnier (Adolphe), Gréard, Havet (Ernest), Janet, Laromiguière, Lélut, Lévèque, Lucas, Martha, Nourrisson, Reybaud, Saint-Hilaire (Barthélemy), Saisset, Vacherot et Villermé.</note>
                 </item>
@@ -1983,27 +1986,27 @@
                 </item>
                 <item n="199" xml:id="CAT_000243_e199">
                     <num type="lot">199</num>
-                    <name type="author">MEMBRES LIBRES.</name>
+                    <name type="author" ref="wd:Q30236486">MEMBRES LIBRES.</name>
                     <desc xml:id="CAT_000243_e199_d1">18 dossiers.</desc>
                     <note>Argout, Barrot (Odilon), Baude, Beaujour, Benoiston de Chateauneuf, Blondeau, Calmon, Carnot (Jos.-Fr.-Cl.), Casimir-Perier, Charton, Daru, Drouyn de Lhuys, Dubois, Dutens, Feuillet, Moreau de Jonnès, Say (Horace), et Vergé.</note>
                 </item>
                 <item n="200" xml:id="CAT_000243_e200">
                     <num type="lot">200</num>
-                    <name type="author">ASSOCIÉS ÉTRANGERS.</name>
+                    <name type="author" ref="wd:Q2494">ASSOCIÉS ÉTRANGERS.</name>
                     <desc xml:id="CAT_000243_e200_d1">16 dossiers.</desc>
                     <note>Ancillon, Brandis, Brougham, Hallam, Hibner, Livingston, MacCulloch, Minghetti, Quetelet, Ranke, Raumer, Savigny, Sclopis, Sismondi, Stanhope et Trendelenburg.</note>
                 </item>
                 <note>AUTOGRAPHES DIVERS</note>
                 <item n="201" xml:id="CAT_000243_e201">
                     <num type="lot">201</num>
-                    <name type="author">ARTISTES.</name>
+                    <name type="author" ref="wd:Q111435382">ARTISTES.</name>
                     <desc xml:id="CAT_000243_e201_d1">12 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Gavarni, Français, Bellangé, Viollet Le Duc, etc</note>
                 </item>
                 <item n="202" xml:id="CAT_000243_e202">
                     <num type="lot">202</num>
-                    <name type="author">BONAPARTE (famille)</name>
+                    <name type="author" ref="wd:Q112581">BONAPARTE (famille)</name>
                     <desc xml:id="CAT_000243_e202_d1">7 pièces</desc>
                     <note>Napoléon Ier, apostille coupée, Beauharnais (Eugène de), Mathilde (la princesse), etc.</note>
                 </item>
@@ -2016,7 +2019,7 @@
                 </item>
                 <item n="204" xml:id="CAT_000243_e204">
                     <num type="lot">204</num>
-                    <name type="author">FLORIAN (Jean-Pierre Claris de)</name>
+                    <name type="author" ref="wd:Q551740">FLORIAN (Jean-Pierre Claris de)</name>
                     <trait>
                         <p>célèbre fabuliste, membre de l'Académie française.</p>
                     </trait>
@@ -2026,7 +2029,7 @@
                 </item>
                 <item n="205" xml:id="CAT_000243_e205">
                     <num type="lot">205</num>
-                    <name type="author">GRIMOD DE LA REYNIÈRE (Alexandre-Balthazar-Laurent)</name>
+                    <name type="author" ref="wd:Q1231500">GRIMOD DE LA REYNIÈRE (Alexandre-Balthazar-Laurent)</name>
                     <trait>
                         <p>l'auteur de l'Almanach des gourmands.</p>
                     </trait>
@@ -2042,13 +2045,13 @@
                 </item>
                 <item n="207" xml:id="CAT_000243_e207">
                     <num type="lot">207</num>
-                    <name type="author">HOMMES POLITIQUES</name>
+                    <name type="author" ref="wd:Q60719460">HOMMES POLITIQUES</name>
                     <desc xml:id="CAT_000243_e207_d1">16 lettres</desc>
                     <note>Haussez, Cantagrel, Baroche, Rouland, Casimir-Perier, Morny, Magne, Herold, etc.</note>
                 </item>
                 <item n="208" xml:id="CAT_000243_e208">
                     <num type="lot">208</num>
-                    <name type="author">KEPLER (Johann)</name>
+                    <name type="author" ref="wd:Q60086314">KEPLER (Johann)</name>
                     <trait>
                         <p>le grand mathématicien allemand.</p>
                     </trait>
@@ -2057,7 +2060,7 @@
                 </item>
                 <item n="209" xml:id="CAT_000243_e209">
                     <num type="lot">209</num>
-                    <name type="author">LITTÉRATEURS</name>
+                    <name type="author" ref="wd:Q28806948">LITTÉRATEURS</name>
                     <desc xml:id="CAT_000243_e209_d1">34 lettres</desc>
                     <note>Vitel, Granier de Cassagnac, Desnoyers (Louis), Béranger, Arago (Etienne), Achard, Lacroix (Paul), Karr, Souza, etc.</note>
                 </item>
@@ -2073,13 +2076,13 @@
                 </item>
                 <item n="211" xml:id="CAT_000243_e211">
                     <num type="lot">211</num>
-                    <name type="author">RÉPUBLIQUE DE 1848.</name>
+                    <name type="author" ref="wd:Q61977661">RÉPUBLIQUE DE 1848.</name>
                     <desc xml:id="CAT_000243_e211_d1">20 lettres.</desc>
                     <note>Caraignac (Eugène), Marrast, Lagrange (Charles), Caussidière, Adam (Edmond), Recurt, Marie, Guinard, Senard, Carlier, etc.</note>
                 </item>
                 <item n="212" xml:id="CAT_000243_e212">
                     <num type="lot">212</num>
-                    <name type="author">ROUHER (Eugène)</name>
+                    <name type="author" ref="wd:Q3060162">ROUHER (Eugène)</name>
                     <trait>
                         <p>célèbre ministre de Napoléon III.</p>
                     </trait>
@@ -2088,7 +2091,7 @@
                 </item>
                 <item n="213" xml:id="CAT_000243_e213">
                     <num type="lot">213</num>
-                    <name type="author">VOLTAIRE (François-Marie AROUET de)</name>
+                    <name type="author" ref="wd:Q55899921">VOLTAIRE (François-Marie AROUET de)</name>
                     <trait>
                         <p>le grand écrivain.</p>
                     </trait>
@@ -2099,7 +2102,7 @@
                 </item>
                 <item n="214" xml:id="CAT_000243_e214">
                     <num type="lot">214</num>
-                    <name type="author">CANTON DE MAGNY</name>
+                    <name type="author" ref="wd:Q1704123">CANTON DE MAGNY</name>
                     <desc xml:id="CAT_000243_e214_d1">Recueil de pièces originales concernant le canton de Magny (Seine-et-Oise)</desc>
                     <note>Intéressante réunion où on trouve des autographes des La Rochefoucauld, de Du Plessis-Mornay, des Villeroy, de Villarceaux, de l'ingénieur Perronet, de l'architecte Fontaine, etc.</note>
                 </item>

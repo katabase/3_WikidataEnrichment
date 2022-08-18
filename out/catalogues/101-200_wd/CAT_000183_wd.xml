@@ -67,15 +67,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -220,7 +223,7 @@
                 <note>COLLECTION DES LETTRES AUTOGRAPHES ET CHARTES COMPOSANT LE CABINET DE FEU M. ADHÉMAR SAZERAC DE FORGE ET DONT LA VENTE AURA LIEU à PARIS, rue des BONS-ENFANTS, 28, Salle n° 2 LE LUNDI 24 JANVIER 1881 à 9 heures du soir PAR LE MINISTÈRE DE MO GEORGES BOULLAND Commissaire-Priseur, RUE NEUVE DES PETITS-CHAMPS, 26 ASSISTÉ dE M. ÉTIENNE CHARAVAY Archiviste-Paléographe, rue de Seine, 51.</note>
                 <item n="1" xml:id="CAT_000183_e1">
                     <num type="lot">1</num>
-                    <name type="author">Abd-el-Kader</name>
+                    <name type="author" ref="wd:Q2820892">Abd-el-Kader</name>
                     <trait>
                         <p>le célèbre émir des Arabes.</p>
                     </trait>
@@ -231,17 +234,17 @@
                 </item>
                 <item n="2" xml:id="CAT_000183_e2">
                     <num type="lot">2</num>
-                    <name type="author">Académie française</name>
+                    <name type="author" ref="wd:Q161806">Académie française</name>
                     <desc xml:id="CAT_000183_e2_d1">5 <term ana="#document_type_7">l. a. s.</term> Berryer., Cousin, Delavigne (Casimir), Dumas (Alexandre) et Sainte-Beuve</desc>
                 </item>
                 <item n="3" xml:id="CAT_000183_e3">
                     <num type="lot">3</num>
-                    <name type="author">Académie française</name>
+                    <name type="author" ref="wd:Q161806">Académie française</name>
                     <desc xml:id="CAT_000183_e3_d1">15 <term ana="#document_type_7">l. a. s.</term> Bigot de Préameneu, Cuvillier-Fleury, Etienne, Guizot, Janin, Mignet, Molé, Regnaud de Saint-Jean d'Angély, Sandeau, Scribe, Tocqueville, Vatout, Viennet, 2 let., et Villemain.</desc>
                 </item>
                 <item n="4" xml:id="CAT_000183_e4">
                     <num type="lot">4</num>
-                    <name type="author">Aguesseau (H.-Fr. d')</name>
+                    <name type="author" ref="wd:Q1278923">Aguesseau (H.-Fr. d')</name>
                     <trait>
                         <p>illustre chancelier de France.</p>
                     </trait>
@@ -272,14 +275,14 @@
                 </item>
                 <item n="7" xml:id="CAT_000183_e7">
                     <num type="lot">7</num>
-                    <name type="author">Angoumois</name>
+                    <name type="author" ref="wd:Q542638">Angoumois</name>
                     <desc xml:id="CAT_000183_e7_d1">Bulle, sur vélin, du pape ALEXANDRE III ; <date when="1172">1172</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_101">in-fol. obl</measure>ong. Déchirures dans les plis</desc>
                     <note>Relative aux églises de Gurat et de Blauzaguet et à la chapelle de Villebois.</note>
                 </item>
                 <item n="8" xml:id="CAT_000183_e8">
                     <num type="lot">8</num>
-                    <name type="author">Angoumois</name>
+                    <name type="author" ref="wd:Q542638">Angoumois</name>
                     <desc xml:id="CAT_000183_e8_d1">28 pièces des XVIIIe et XIX siècles. Intéressant dossier.</desc>
                 </item>
                 <item n="9" xml:id="CAT_000183_e9">
@@ -295,7 +298,7 @@
                 </item>
                 <item n="10" xml:id="CAT_000183_e10">
                     <num type="lot">10</num>
-                    <name type="author">Béranger (P.-J. de)</name>
+                    <name type="author" ref="wd:Q324998">Béranger (P.-J. de)</name>
                     <trait>
                         <p>le célèbre chansonnier.</p>
                     </trait>
@@ -304,7 +307,7 @@
                 </item>
                 <item n="11" xml:id="CAT_000183_e11">
                     <num type="lot">11</num>
-                    <name type="author">Berlioz (Hector)</name>
+                    <name type="author" ref="wd:Q1151">Berlioz (Hector)</name>
                     <trait>
                         <p>le grand compositeur de musique.</p>
                     </trait>
@@ -316,7 +319,7 @@
                 </item>
                 <item n="12" xml:id="CAT_000183_e12">
                     <num type="lot">12</num>
-                    <name type="author">Bonaparte (Jérôme)</name>
+                    <name type="author" ref="wd:Q62600457">Bonaparte (Jérôme)</name>
                     <trait>
                         <p>roi de Westphalie, le plus jeune des frères de Napoléon.</p>
                     </trait>
@@ -327,7 +330,7 @@
                 </item>
                 <item n="13" xml:id="CAT_000183_e13">
                     <num type="lot">13</num>
-                    <name type="author">Chateaubriand (le vicomte de)</name>
+                    <name type="author" ref="wd:Q49767">Chateaubriand (le vicomte de)</name>
                     <trait>
                         <p>l'illustre écrivain.</p>
                     </trait>
@@ -350,7 +353,7 @@
                 <note>LETTRES AUTOGRAPHES ET CHARTES 3</note>
                 <item n="16" xml:id="CAT_000183_e16">
                     <num type="lot">16</num>
-                    <name type="author">Dupont (le comte Pierre)</name>
+                    <name type="author" ref="wd:Q2735843">Dupont (le comte Pierre)</name>
                     <trait>
                         <p>général, fameux par la capitulation de Baylen, ministre de la guerre sous la 1re restauration.</p>
                     </trait>
@@ -381,12 +384,12 @@
                 </item>
                 <item n="19" xml:id="CAT_000183_e19">
                     <num type="lot">19</num>
-                    <name type="author">Femmes</name>
+                    <name type="author" ref="wd:Q2016301">Femmes</name>
                     <desc xml:id="CAT_000183_e19_d1">5 <term ana="#document_type_7">l. a. s.</term> et 1 l. aut. Blanchard (Mme), l'aéronaute, Campan (Henriette), Déjazet (Virginie), Genlis (la comtesse de), Lafarge (Mme), l. aut., Pomaré (la reine)</desc>
                 </item>
                 <item n="20" xml:id="CAT_000183_e20">
                     <num type="lot">20</num>
-                    <name type="author">Florian (J.-P. Claris de)</name>
+                    <name type="author" ref="wd:Q551740">Florian (J.-P. Claris de)</name>
                     <trait>
                         <p>un de nos meilleurs fabulistes, membre de l'Acad. fr.</p>
                     </trait>
@@ -397,7 +400,7 @@
                 </item>
                 <item n="21" xml:id="CAT_000183_e21">
                     <num type="lot">21</num>
-                    <name type="author">François Ier</name>
+                    <name type="author" ref="wd:Q129857">François Ier</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -409,7 +412,7 @@
                 </item>
                 <item n="22" xml:id="CAT_000183_e22">
                     <num type="lot">22</num>
-                    <name type="author">François Ier</name>
+                    <name type="author" ref="wd:Q129857">François Ier</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -418,12 +421,12 @@
                 </item>
                 <item n="23" xml:id="CAT_000183_e23">
                     <num type="lot">23</num>
-                    <name type="author">Généraux</name>
+                    <name type="author" ref="wd:Q431534">Généraux</name>
                     <desc xml:id="CAT_000183_e23_d1">9 <term ana="#document_type_7">l. a. s.</term> Belliard, Bertrand, Dejean, Dumas (Mathieu), Dupont, Kellermann fils, Mathieu (Maurice), Montholon et Valence.</desc>
                 </item>
                 <item n="24" xml:id="CAT_000183_e24">
                     <num type="lot">24</num>
-                    <name type="author">Grégoire (Henri)</name>
+                    <name type="author" ref="wd:Q561218">Grégoire (Henri)</name>
                     <trait>
                         <p>célèbre conventionnel, évêque de Blois.</p>
                     </trait>
@@ -435,7 +438,7 @@
                 <note>LETTRES AUTOGRAPHES ET CHARTES 4</note>
                 <item n="25" xml:id="CAT_000183_e25">
                     <num type="lot">25</num>
-                    <name type="author">Henri IV</name>
+                    <name type="author" ref="wd:Q936976">Henri IV</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -444,7 +447,7 @@
                 </item>
                 <item n="26" xml:id="CAT_000183_e26">
                     <num type="lot">26</num>
-                    <name type="author">Hommes poliques</name>
+                    <name type="author" ref="wd:Q2661374">Hommes poliques</name>
                     <desc xml:id="CAT_000183_e26_d1">10 <term ana="#document_type_7">l. a. s.</term> et 1 l. aut. Barbé-Marbois, Blanc (Louis), Constant (Benjamin), Decazes, Faure (L.-Jos), Flocon, Lagrange (Ch.), Mont-losier, Persigny, Peyronnet et Quinet, l. aut.</desc>
                 </item>
                 <item n="27" xml:id="CAT_000183_e27">
@@ -459,7 +462,7 @@
                 </item>
                 <item n="28" xml:id="CAT_000183_e28">
                     <num type="lot">28</num>
-                    <name type="author">Lacordaire (H.-Dom.)</name>
+                    <name type="author" ref="wd:Q605534">Lacordaire (H.-Dom.)</name>
                     <trait>
                         <p>l'illustre prédicateur.</p>
                     </trait>
@@ -470,7 +473,7 @@
                 </item>
                 <item n="29" xml:id="CAT_000183_e29">
                     <num type="lot">29</num>
-                    <name type="author">Lafayette (le marquis de)</name>
+                    <name type="author" ref="wd:Q186652">Lafayette (le marquis de)</name>
                     <trait>
                         <p>illustre général et député.</p>
                     </trait>
@@ -480,7 +483,7 @@
                 </item>
                 <item n="30" xml:id="CAT_000183_e30">
                     <num type="lot">30</num>
-                    <name type="author">Lamartine (A. de)</name>
+                    <name type="author" ref="wd:Q188697">Lamartine (A. de)</name>
                     <trait>
                         <p>le grand poète.</p>
                     </trait>
@@ -500,7 +503,7 @@
                 </item>
                 <item n="32" xml:id="CAT_000183_e32">
                     <num type="lot">32</num>
-                    <name type="author">La Mennais (F.-M. de)</name>
+                    <name type="author" ref="wd:Q3268543">La Mennais (F.-M. de)</name>
                     <trait>
                         <p>le grand écrivain</p>
                     </trait>
@@ -509,7 +512,7 @@
                 </item>
                 <item n="33" xml:id="CAT_000183_e33">
                     <num type="lot">33</num>
-                    <name type="author">Lannes (Jean)</name>
+                    <name type="author" ref="wd:Q273032">Lannes (Jean)</name>
                     <trait>
                         <p>duc de Montebello, illustre maréchal de l'Empire, tué à la bataille d'Essling.</p>
                     </trait>
@@ -530,7 +533,7 @@
                 </item>
                 <item n="35" xml:id="CAT_000183_e35">
                     <num type="lot">35</num>
-                    <name type="author">Ledru-Rollin</name>
+                    <name type="author" ref="wd:Q29559661">Ledru-Rollin</name>
                     <trait>
                         <p>célèbre homme d'État.</p>
                     </trait>
@@ -542,7 +545,7 @@
                 <note>LETTRES AUTOGRAPHES ET CHARTES 5</note>
                 <item n="36" xml:id="CAT_000183_e36">
                     <num type="lot">36</num>
-                    <name type="author">Littérateurs.</name>
+                    <name type="author" ref="wd:Q28806948">Littérateurs.</name>
                     <desc xml:id="CAT_000183_e36_d1">13 <term ana="#document_type_7">l. a. s.</term> Abrantès (la Duchesse d'), Barbier, (A.-A.), Deschamps (Emile), Deschanel, Ginguené, Karr (A.), Laponneraye, Lebrun, duc de Plaisance, Monmerqué, etc.</desc>
                 </item>
                 <item n="37" xml:id="CAT_000183_e37">
@@ -558,7 +561,7 @@
                 </item>
                 <item n="38" xml:id="CAT_000183_e38">
                     <num type="lot">38</num>
-                    <name type="author">Louis XVI</name>
+                    <name type="author" ref="wd:Q106654030">Louis XVI</name>
                     <trait>
                         <p>roi de France, décapité en 1793.</p>
                     </trait>
@@ -569,7 +572,7 @@
                 </item>
                 <item n="39" xml:id="CAT_000183_e39">
                     <num type="lot">39</num>
-                    <name type="author">Louis XVIII</name>
+                    <name type="author" ref="wd:Q52206740">Louis XVIII</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -591,7 +594,7 @@
                 </item>
                 <item n="41" xml:id="CAT_000183_e41">
                     <num type="lot">41</num>
-                    <name type="author">Malet (Ch.-Fr.)</name>
+                    <name type="author" ref="wd:Q54296680">Malet (Ch.-Fr.)</name>
                     <trait>
                         <p>général, chef d'une conspiration contre Napoléon Ier, fusillé en 1812.</p>
                     </trait>
@@ -603,7 +606,7 @@
                 </item>
                 <item n="42" xml:id="CAT_000183_e42">
                     <num type="lot">42</num>
-                    <name type="author">Malet (Ch.-Fr.)</name>
+                    <name type="author" ref="wd:Q54296680">Malet (Ch.-Fr.)</name>
                     <desc xml:id="CAT_000183_e42_d1">
                         <term ana="#document_type_7">L. a. s.</term> au ministre de la guerre ; les Sables d'Olonne, <date when="1804-08-05">16 thermidor an XII</date>, <measure type="length" unit="p" n="5">5 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>, vig. et tête impr</desc>
@@ -611,7 +614,7 @@
                 </item>
                 <item n="43" xml:id="CAT_000183_e43">
                     <num type="lot">43</num>
-                    <name type="author">Maréchaux de France.</name>
+                    <name type="author" ref="wd:Q3538900">Maréchaux de France.</name>
                     <desc xml:id="CAT_000183_e43_d1">5 lettres. Bugeaud, <term ana="#document_type_7">l. a. s.</term> et l. s., Drouet d'Erlon, 1. s., Mortier et Pérignon</desc>
                 </item>
                 <item n="44" xml:id="CAT_000183_e44">
@@ -627,7 +630,7 @@
                 </item>
                 <item n="45" xml:id="CAT_000183_e45">
                     <num type="lot">45</num>
-                    <name type="author">Marguerite de Valois</name>
+                    <name type="author" ref="wd:Q220845">Marguerite de Valois</name>
                     <trait>
                         <p>reine de France, première femme de Henri IV, auteur de Mémoires.</p>
                     </trait>
@@ -638,7 +641,7 @@
                 <note>LETTRES AUTOGRAPHES ET CHARTES 6</note>
                 <item n="46" xml:id="CAT_000183_e46">
                     <num type="lot">46</num>
-                    <name type="author">Marie-Amélie</name>
+                    <name type="author" ref="wd:Q231457">Marie-Amélie</name>
                     <trait>
                         <p>reine des Français.</p>
                     </trait>
@@ -648,7 +651,7 @@
                 </item>
                 <item n="47" xml:id="CAT_000183_e47">
                     <num type="lot">47</num>
-                    <name type="author">Meyerbeer (J.)</name>
+                    <name type="author" ref="wd:Q105237">Meyerbeer (J.)</name>
                     <trait>
                         <p>le grand compositeur de musique.</p>
                     </trait>
@@ -657,7 +660,7 @@
                 </item>
                 <item n="48" xml:id="CAT_000183_e48">
                     <num type="lot">48</num>
-                    <name type="author">Millevoye (Ch.-H.)</name>
+                    <name type="author" ref="wd:Q966425">Millevoye (Ch.-H.)</name>
                     <trait>
                         <p>célèbre poète élégiaque.</p>
                     </trait>
@@ -667,7 +670,7 @@
                 </item>
                 <item n="49" xml:id="CAT_000183_e49">
                     <num type="lot">49</num>
-                    <name type="author">Ministres</name>
+                    <name type="author" ref="wd:Q22499397">Ministres</name>
                     <desc xml:id="CAT_000183_e49_d1">3 <term ana="#document_type_7">l. a. s.</term> Maupeou, Maurepas et Vergennes.</desc>
                 </item>
                 <item n="50" xml:id="CAT_000183_e50">
@@ -695,7 +698,7 @@
                 </item>
                 <item n="52" xml:id="CAT_000183_e52">
                     <num type="lot">52</num>
-                    <name type="author">Muséum d'Histoire Naturelle</name>
+                    <name type="author" ref="wd:Q6035809">Muséum d'Histoire Naturelle</name>
                     <desc xml:id="CAT_000183_e52_d1">
                         <term ana="#document_type_9">L. s.</term> par Fourcroy, Haüy, Faujas, Lamarck, Vauquelin, Desfontaines, Geoffroy Saint-Hilaire, Cuvier, Thouin, Van-Spaendonck et Portal, tous-professeurs au Muséum d'histoire naturelle, à Lacépède ; Paris, <date when="1804-11-17">26 brumaire an XIII</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
@@ -704,7 +707,7 @@
                 </item>
                 <item n="53" xml:id="CAT_000183_e53">
                     <num type="lot">53</num>
-                    <name type="author">Napoléon Ier</name>
+                    <name type="author" ref="wd:Q42433148">Napoléon Ier</name>
                     <trait>
                         <p>empereur des Français.</p>
                     </trait>
@@ -713,7 +716,7 @@
                 </item>
                 <item n="54" xml:id="CAT_000183_e54">
                     <num type="lot">54</num>
-                    <name type="author">Ordre du Temple</name>
+                    <name type="author" ref="wd:Q1571099">Ordre du Temple</name>
                     <desc xml:id="CAT_000183_e54_d1">Dossier d'environ 75 lettres ou pièces du XIXe siècle concernant l'Ordre du Temple. Curieuse réunion</desc>
                 </item>
                 <item n="55" xml:id="CAT_000183_e55">
@@ -728,7 +731,7 @@
                 </item>
                 <item n="56" xml:id="CAT_000183_e56">
                     <num type="lot">56</num>
-                    <name type="author">Peignot (Gabriel)</name>
+                    <name type="author" ref="wd:Q3093907">Peignot (Gabriel)</name>
                     <trait>
                         <p>le fécond bibliographe.</p>
                     </trait>
@@ -738,7 +741,7 @@
                 <note>LETTRES AUTOGRAPHES ET CHARTES 7</note>
                 <item n="57" xml:id="CAT_000183_e57">
                     <num type="lot">57</num>
-                    <name type="author">Perrault (Claude)</name>
+                    <name type="author" ref="wd:Q78440051">Perrault (Claude)</name>
                     <trait>
                         <p>célèbre littérateur et architecte, l'auteur de la Colonnade du Louvre.</p>
                     </trait>
@@ -748,7 +751,7 @@
                 </item>
                 <item n="58" xml:id="CAT_000183_e58">
                     <num type="lot">58</num>
-                    <name type="author">Philippe V</name>
+                    <name type="author" ref="wd:Q170467">Philippe V</name>
                     <trait>
                         <p>dit le Long, roi de France.</p>
                     </trait>
@@ -758,7 +761,7 @@
                 </item>
                 <item n="59" xml:id="CAT_000183_e59">
                     <num type="lot">59</num>
-                    <name type="author">Philippe V</name>
+                    <name type="author" ref="wd:Q170467">Philippe V</name>
                     <trait>
                         <p>dit le Long.</p>
                     </trait>
@@ -768,7 +771,7 @@
                 </item>
                 <item n="60" xml:id="CAT_000183_e60">
                     <num type="lot">60</num>
-                    <name type="author">Pie IX</name>
+                    <name type="author" ref="wd:Q1892913">Pie IX</name>
                     <trait>
                         <p>pape.</p>
                     </trait>
@@ -779,7 +782,7 @@
                 </item>
                 <item n="61" xml:id="CAT_000183_e61">
                     <num type="lot">61</num>
-                    <name type="author">Piron (Alexis)</name>
+                    <name type="author" ref="wd:Q983437">Piron (Alexis)</name>
                     <trait>
                         <p>célèbre poète dramatique.</p>
                     </trait>
@@ -788,7 +791,7 @@
                 </item>
                 <item n="62" xml:id="CAT_000183_e62">
                     <num type="lot">62</num>
-                    <name type="author">Portalis (J.-Et.-M.)</name>
+                    <name type="author" ref="wd:Q519797">Portalis (J.-Et.-M.)</name>
                     <trait>
                         <p>illustre jurisconsulte, un des principaux rédacteurs du Code civil, membre de l'Académie française.</p>
                     </trait>
@@ -799,7 +802,7 @@
                 </item>
                 <item n="63" xml:id="CAT_000183_e63">
                     <num type="lot">63</num>
-                    <name type="author">Princes français</name>
+                    <name type="author" ref="wd:Q1051855">Princes français</name>
                     <desc xml:id="CAT_000183_e63_d1">3 <term ana="#document_type_4">pièces.</term> Beauharnais (Eugène), 1. s.;-Nemours (le duc de), l. aut. sig. de son initiale;-Orléans (Ferdinand, duc d'), note autographe.</desc>
                 </item>
                 <item n="64" xml:id="CAT_000183_e64">
@@ -813,12 +816,12 @@
                 </item>
                 <item n="65" xml:id="CAT_000183_e65">
                     <num type="lot">65</num>
-                    <name type="author">Révolution française. 9 lettres ou pièces</name>
+                    <name type="author" ref="wd:Q6534">Révolution française. 9 lettres ou pièces</name>
                     <desc xml:id="CAT_000183_e65_d1">Baudin des Ardennes, 1. a. s ;-Carnot, 1. s.;-Collot-d'Herbois, apostille sig.;-Fouché, 1. s.;-Maignet, p. a. s.;-Pache, <term ana="#document_type_7">l. a. s.</term>,-Piorry, <term ana="#document_type_7">l. a. s.</term>;-Roland, 1. s.;-Talleyrand, 1. s.</desc>
                 </item>
                 <item n="66" xml:id="CAT_000183_e66">
                     <num type="lot">66</num>
-                    <name type="author">Royer-Collard (P.-P.)</name>
+                    <name type="author" ref="wd:Q20661285">Royer-Collard (P.-P.)</name>
                     <trait>
                         <p>célèbre philosophe et homme d'État, de l'Académie française.</p>
                     </trait>
@@ -829,7 +832,7 @@
                 <note>8 LETTRES AUTOGRAPHES ET CHARTES</note>
                 <item n="67" xml:id="CAT_000183_e67">
                     <num type="lot">67</num>
-                    <name type="author">Saint-Just (L.-A. de)</name>
+                    <name type="author" ref="wd:Q323736">Saint-Just (L.-A. de)</name>
                     <trait>
                         <p>célèbre conventionnel, décapité avec Robespierre.</p>
                     </trait>
@@ -839,7 +842,7 @@
                 </item>
                 <item n="68" xml:id="CAT_000183_e68">
                     <num type="lot">68</num>
-                    <name type="author">Saintonge</name>
+                    <name type="author" ref="wd:Q3083">Saintonge</name>
                     <desc xml:id="CAT_000183_e68_d1">14 chartes originales, en latin, sur vélin; <date when="1308">1308</date>-400, <measure type="length" unit="p" n="14">14 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
@@ -847,7 +850,7 @@
                 </item>
                 <item n="69" xml:id="CAT_000183_e69">
                     <num type="lot">69</num>
-                    <name type="author">Sand (George)</name>
+                    <name type="author" ref="wd:Q3816">Sand (George)</name>
                     <trait>
                         <p>la grande romancière.</p>
                     </trait>
@@ -859,12 +862,12 @@
                 </item>
                 <item n="70" xml:id="CAT_000183_e70">
                     <num type="lot">70</num>
-                    <name type="author">Savants</name>
+                    <name type="author" ref="wd:Q104535352">Savants</name>
                     <desc xml:id="CAT_000183_e70_d1">5. <term ana="#document_type_7">l. a. s.</term> et 1 l. aut. Bougainville, l. aut., Boyer (Alexis), Broussais, De Candolle, Desfontaines et Thouin</desc>
                 </item>
                 <item n="71" xml:id="CAT_000183_e71">
                     <num type="lot">71</num>
-                    <name type="author">Soult (Jean de Dieu)</name>
+                    <name type="author" ref="wd:Q296023">Soult (Jean de Dieu)</name>
                     <trait>
                         <p>duc de Dalmatie, illustre maréchal de l'Empire.</p>
                     </trait>
@@ -874,7 +877,7 @@
                 </item>
                 <item n="72" xml:id="CAT_000183_e72">
                     <num type="lot">72</num>
-                    <name type="author">Thiers (Adolphe)</name>
+                    <name type="author" ref="wd:Q5738">Thiers (Adolphe)</name>
                     <trait>
                         <p>premier Président de la 3e République française.</p>
                     </trait>
@@ -883,7 +886,7 @@
                 </item>
                 <item n="73" xml:id="CAT_000183_e73">
                     <num type="lot">73</num>
-                    <name type="author">Turgot (A.-B.)</name>
+                    <name type="author" ref="wd:Q594007">Turgot (A.-B.)</name>
                     <trait>
                         <p>le grand économiste.</p>
                     </trait>
@@ -894,7 +897,7 @@
                 </item>
                 <item n="74" xml:id="CAT_000183_e74">
                     <num type="lot">74</num>
-                    <name type="author">Vigny (Alfred de)</name>
+                    <name type="author" ref="wd:Q309702">Vigny (Alfred de)</name>
                     <trait>
                         <p>célèbre poète, de l'Académie française.</p>
                     </trait>
@@ -904,7 +907,7 @@
                 </item>
                 <item n="75" xml:id="CAT_000183_e75">
                     <num type="lot">75</num>
-                    <name type="author">Voltaire (F.-M. AROUET de)</name>
+                    <name type="author" ref="wd:Q9068">Voltaire (F.-M. AROUET de)</name>
                     <trait>
                         <p>le grand écrivain.</p>
                     </trait>

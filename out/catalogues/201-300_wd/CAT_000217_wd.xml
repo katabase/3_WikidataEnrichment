@@ -69,15 +69,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -241,7 +244,7 @@
                 </item>
                 <item n="3" xml:id="CAT_000217_e3">
                     <num type="lot">3</num>
-                    <name type="author">ANNE D'AUTRICHE</name>
+                    <name type="author" ref="wd:Q151209">ANNE D'AUTRICHE</name>
                     <trait>
                         <p>reine et régente de France.</p>
                     </trait>
@@ -252,7 +255,7 @@
                 </item>
                 <item n="4" xml:id="CAT_000217_e4">
                     <num type="lot">4</num>
-                    <name type="author">ARGENSON (Ant.-René de Paülmy d')</name>
+                    <name type="author" ref="wd:Q2681326">ARGENSON (Ant.-René de Paülmy d')</name>
                     <trait>
                         <p>célèbre bibliophile, de l'Acad. fr.</p>
                     </trait>
@@ -264,7 +267,7 @@
                 </item>
                 <item n="5" xml:id="CAT_000217_e5">
                     <num type="lot">5</num>
-                    <name type="author">BAYLE (Pierre)</name>
+                    <name type="author" ref="wd:Q214816">BAYLE (Pierre)</name>
                     <trait>
                         <p>le grand philosophe.</p>
                     </trait>
@@ -275,7 +278,7 @@
                 </item>
                 <item n="6" xml:id="CAT_000217_e6">
                     <num type="lot">6</num>
-                    <name type="author">BAYLE (Pierre)</name>
+                    <name type="author" ref="wd:Q214816">BAYLE (Pierre)</name>
                     <desc xml:id="CAT_000217_e6_d1">
                         <term ana="#document_type_7">L. a. s.</term> à Monseigneur…; Rotterdam, <date when="1705-07-01">1er juillet 1705</date>, <measure type="length" unit="p" n="4">4 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
@@ -295,7 +298,7 @@
                 </item>
                 <item n="8" xml:id="CAT_000217_e8">
                     <num type="lot">8</num>
-                    <name type="author">BEAUVILLIER (Paul, duc de)</name>
+                    <name type="author" ref="wd:Q961218">BEAUVILLIER (Paul, duc de)</name>
                     <desc xml:id="CAT_000217_e8_d1">1° <term ana="#document_type_7">L. a. s.</term> (à Philippe V); <date when="1702-04-01">1er avril 1702</date>, <measure type="length" unit="p" n="3">3 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Recommandation en faveur du cardinal d'Arquien. 2° <term ana="#document_type_7">L. a. s.</term>; Tartas, 10 décembre, 2 p. in-4. Relative au cardinal Porto-Carrero.</desc>
                 </item>
@@ -310,7 +313,7 @@
                 </item>
                 <item n="10" xml:id="CAT_000217_e10">
                     <num type="lot">10</num>
-                    <name type="author">BOSSUET (J.-B.)</name>
+                    <name type="author" ref="wd:Q3158442">BOSSUET (J.-B.)</name>
                     <trait>
                         <p>l'illustre évêque de Meaux.</p>
                     </trait>
@@ -399,7 +402,7 @@
                 </item>
                 <item n="19" xml:id="CAT_000217_e19">
                     <num type="lot">19</num>
-                    <name type="author">BROTIER (le Père Gabriel)</name>
+                    <name type="author" ref="wd:Q2847021">BROTIER (le Père Gabriel)</name>
                     <trait>
                         <p>savant jésuite, né à Tonnay (Nivernais), 1723, m. 1789.</p>
                     </trait>
@@ -407,34 +410,34 @@
                 </item>
                 <item n="20" xml:id="CAT_000217_e20">
                     <num type="lot">20</num>
-                    <name type="author">BROTIER (le Père Gabriel).</name>
+                    <name type="author" ref="wd:Q2847021">BROTIER (le Père Gabriel).</name>
                     <desc xml:id="CAT_000217_e20_d1">1° 14 <term ana="#document_type_8">l. aut.</term>, dont 2 signées, à son neveu l'abbé Brotier; <date when="1773">1773-1779</date>, <measure type="length" unit="p" n="32">32 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4 o</measure>u in-8.-2° 2 <term ana="#document_type_8">l. aut.</term>, 4 p. in-4. (Coll. Parison.)</desc>
                     <note>Intéressante correspondance</note>
                 </item>
                 <item n="21" xml:id="CAT_000217_e21">
                     <num type="lot">21</num>
-                    <name type="author">BROTIER (le Père Gabriel).</name>
+                    <name type="author" ref="wd:Q2847021">BROTIER (le Père Gabriel).</name>
                     <desc xml:id="CAT_000217_e21_d1">68 <term ana="#document_type_8">l. aut.</term>, dont quelques-unes signées, à Guérin de la Tour, imprimeur-libraire; <date when="1763">1763-1768</date>, <measure type="length" unit="p" n="100">100 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> (Coll. Parison.)</desc>
                     <note>Correspondance bibliographique et littéraire des plus intéressantes.</note>
                 </item>
                 <item n="22" xml:id="CAT_000217_e22">
                     <num type="lot">22</num>
-                    <name type="author">BROTIER (le Père Gabriel)</name>
+                    <name type="author" ref="wd:Q2847021">BROTIER (le Père Gabriel)</name>
                     <desc xml:id="CAT_000217_e22_d1">Manuscrits <term ana="#document_type_15">autographes</term>, <measure type="length" unit="p" n="75">75 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> (Coll. Parison.)</desc>
                     <note>Liste des portraits de Daniel Dumonstier. Vie du pape Alexandre VII. Notice et chanson sur Adam Billaut. Notice sur les Daguesseau. Extrait du mémoire contre l'administration de M. de Calonne, etc.</note>
                 </item>
                 <item n="23" xml:id="CAT_000217_e23">
                     <num type="lot">23</num>
-                    <name type="author">BROTIER (le Père Gabriel).</name>
+                    <name type="author" ref="wd:Q2847021">BROTIER (le Père Gabriel).</name>
                     <desc xml:id="CAT_000217_e23_d1">1° 50 lettres de divers au Père Brotier, <measure type="length" unit="p" n="85">85 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_8">in-8 o</measure>u in-4. Intéressante réunion.-2° Pièces relatives à la maladie et à la mort du Père Brotier</desc>
                 </item>
                 <item n="24" xml:id="CAT_000217_e24">
                     <num type="lot">24</num>
-                    <name type="author">BRUNCK (Richard-Fr.-Fréd.)</name>
+                    <name type="author" ref="wd:Q37250221">BRUNCK (Richard-Fr.-Fréd.)</name>
                     <trait>
                         <p>célèbre philologue, né à Strasbourg.</p>
                     </trait>
@@ -445,7 +448,7 @@
                 </item>
                 <item n="25" xml:id="CAT_000217_e25">
                     <num type="lot">25</num>
-                    <name type="author">BUSSY-RABUTIN (Léonor de)</name>
+                    <name type="author" ref="wd:Q1017736">BUSSY-RABUTIN (Léonor de)</name>
                     <trait>
                         <p>gouverneur du Nivernais, père du suivant, oncle de Mme de Sévigné.</p>
                     </trait>
@@ -455,7 +458,7 @@
                 </item>
                 <item n="26" xml:id="CAT_000217_e26">
                     <num type="lot">26</num>
-                    <name type="author">BUSSY-RABUTIN (Roger comte de)</name>
+                    <name type="author" ref="wd:Q733246">BUSSY-RABUTIN (Roger comte de)</name>
                     <trait>
                         <p>célèbre auteur de l'Histoire amoureuse des Gaules, membre de l'Acad. fr.</p>
                     </trait>
@@ -466,14 +469,14 @@
                 </item>
                 <item n="27" xml:id="CAT_000217_e27">
                     <num type="lot">27</num>
-                    <name type="author">BUSSY-RABUTIN (Roger, comte de).</name>
+                    <name type="author" ref="wd:Q733246">BUSSY-RABUTIN (Roger, comte de).</name>
                     <desc xml:id="CAT_000217_e27_d1">1° Factum contre le nommé François Rivière (son gendre), 2° <term ana="#document_type_3">Pièce aut.</term>, <measure type="length" unit="p" n="5.5">5 p. 1/2</measure> in-fol. pièce aut., 12 p. <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>
                     </desc>
                     <note>Très curieux dossier. La première pièce est l'exposé de ses griefs contre Henri-François, comte de la Rivière, que sa fille avait épousée secrètement. -La seconde est une déposition au sujet d'un accouchement clandestin supposé de sa fille.</note>
                 </item>
                 <item n="28" xml:id="CAT_000217_e28">
                     <num type="lot">28</num>
-                    <name type="author">BUSSY-RABUTIN (Louise-Françoise de)</name>
+                    <name type="author" ref="wd:Q94623373">BUSSY-RABUTIN (Louise-Françoise de)</name>
                     <trait>
                         <p>fille du précédent, marquise de Coligny, qui a écrit la vie de saint François de Sales et de sainte Chantal.</p>
                     </trait>
@@ -483,7 +486,7 @@
                 </item>
                 <item n="29" xml:id="CAT_000217_e29">
                     <num type="lot">29</num>
-                    <name type="author">CASIMIR V</name>
+                    <name type="author" ref="wd:Q53452">CASIMIR V</name>
                     <trait>
                         <p>roi de Pologne, cardinal, époux de Marie de Gonzague, après la mort de laquelle il abdiqua et se retira dans l'abbaye de Saint-Germain-des-Prés.</p>
                     </trait>
@@ -494,7 +497,7 @@
                 </item>
                 <item n="30" xml:id="CAT_000217_e30">
                     <num type="lot">30</num>
-                    <name type="author">CAYLUS (Ch.-D.-G. de)</name>
+                    <name type="author" ref="wd:Q2960542">CAYLUS (Ch.-D.-G. de)</name>
                     <trait>
                         <p>évêque d'Auxerre, célèbre par son opposition à la bulle Unigenitus.</p>
                     </trait>
@@ -505,7 +508,7 @@
                 </item>
                 <item n="31" xml:id="CAT_000217_e31">
                     <num type="lot">31</num>
-                    <name type="author">CHAMILLART (Michel de)</name>
+                    <name type="author" ref="wd:Q1930683">CHAMILLART (Michel de)</name>
                     <trait>
                         <p>célèbre ministre de Louis XIV.</p>
                     </trait>
@@ -546,7 +549,7 @@
                 </item>
                 <item n="35" xml:id="CAT_000217_e35">
                     <num type="lot">35</num>
-                    <name type="author">CHAUMETTE (Pierre-Gaspard)</name>
+                    <name type="author" ref="wd:Q541643">CHAUMETTE (Pierre-Gaspard)</name>
                     <trait>
                         <p>célèbre procureur de la Commune, né à Nevers, décapité en 1794.</p>
                     </trait>
@@ -556,7 +559,7 @@
                 </item>
                 <item n="36" xml:id="CAT_000217_e36">
                     <num type="lot">36</num>
-                    <name type="author">CHAUMETTE (Pierre-Gaspard)</name>
+                    <name type="author" ref="wd:Q541643">CHAUMETTE (Pierre-Gaspard)</name>
                     <desc xml:id="CAT_000217_e36_d1">1° 2 l. s., dont une sig. G. P. Anaxagoras Chaumette; 1792, <measure type="length" unit="p" n="4">4 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, vig. et tètes impr. 2° Projet de <term ana="#document_type_8">lettre autographe</term>; <date when="1793-05">(mai 1793</date>), 2 p. in-4</desc>
                     <note>Réponse aux commissaires des 48 sections de Paris après la lecture de l'adresse contre les Girondins.</note>
@@ -628,7 +631,7 @@
                 </item>
                 <item n="43" xml:id="CAT_000217_e43">
                     <num type="lot">43</num>
-                    <name type="author">CONDILLAC (l'abbé Étienne BONNOT de)</name>
+                    <name type="author" ref="wd:Q272119">CONDILLAC (l'abbé Étienne BONNOT de)</name>
                     <trait>
                         <p>célèbre philosophe, membre de l'Acad. fr.</p>
                     </trait>
@@ -651,7 +654,7 @@
                 </item>
                 <item n="45" xml:id="CAT_000217_e45">
                     <num type="lot">45</num>
-                    <name type="author">CONRART (Valentin)</name>
+                    <name type="author" ref="wd:Q729533">CONRART (Valentin)</name>
                     <trait>
                         <p>célèbre écrivain, membre et secrétaire perpétuel de l'Académie française.</p>
                     </trait>
@@ -660,7 +663,7 @@
                 </item>
                 <item n="46" xml:id="CAT_000217_e46">
                     <num type="lot">46</num>
-                    <name type="author">COQUILLE (Guy)</name>
+                    <name type="author" ref="wd:Q3121680">COQUILLE (Guy)</name>
                     <trait>
                         <p>célèbre jurisconsulte et poète latin du XVIe siècle, né à Decize (Nièvre).</p>
                     </trait>
@@ -669,7 +672,7 @@
                 </item>
                 <item n="47" xml:id="CAT_000217_e47">
                     <num type="lot">47</num>
-                    <name type="author">CORBINELLI (Jean)</name>
+                    <name type="author" ref="wd:Q109833221">CORBINELLI (Jean)</name>
                     <trait>
                         <p>littérateur, ami de Mme de Sévigné et de Bussy-Rabutin.</p>
                     </trait>
@@ -680,7 +683,7 @@
                 </item>
                 <item n="48" xml:id="CAT_000217_e48">
                     <num type="lot">48</num>
-                    <name type="author">DIDEROT (Denis)</name>
+                    <name type="author" ref="wd:Q448">DIDEROT (Denis)</name>
                     <trait>
                         <p>le grand écrivain.</p>
                     </trait>
@@ -690,7 +693,7 @@
                 </item>
                 <item n="49" xml:id="CAT_000217_e49">
                     <num type="lot">49</num>
-                    <name type="author">DU BARRY (la comtesse)</name>
+                    <name type="author" ref="wd:Q22676705">DU BARRY (la comtesse)</name>
                     <trait>
                         <p>dernière maîtresse de Louis XV, décapitée en 1793.</p>
                     </trait>
@@ -699,7 +702,7 @@
                 </item>
                 <item n="50" xml:id="CAT_000217_e50">
                     <num type="lot">50</num>
-                    <name type="author">DUPIN (André-M.-J.-J.)</name>
+                    <name type="author" ref="wd:Q652688">DUPIN (André-M.-J.-J.)</name>
                     <trait>
                         <p>célèbre jurisconsulte et homme politique, né à Varzy (Nièvre).</p>
                     </trait>
@@ -708,7 +711,7 @@
                 </item>
                 <item n="51" xml:id="CAT_000217_e51">
                     <num type="lot">51</num>
-                    <name type="author">DUPIN (André-M.-J.-J.)</name>
+                    <name type="author" ref="wd:Q652688">DUPIN (André-M.-J.-J.)</name>
                     <desc xml:id="CAT_000217_e51_d1">
                         <term ana="#document_type_7">L. a. s.</term> au duc d'Otrante; Paris, <date when="1815-08-02">2 août 1815</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>, tête impr. (Coll Lajarriette.)</desc>
@@ -716,7 +719,7 @@
                 </item>
                 <item n="52" xml:id="CAT_000217_e52">
                     <num type="lot">52</num>
-                    <name type="author">DUPIN (André-M.-J.-J.)</name>
+                    <name type="author" ref="wd:Q652688">DUPIN (André-M.-J.-J.)</name>
                     <desc xml:id="CAT_000217_e52_d1">
                         <term ana="#document_type_7">L. a. s.</term> à un collègue; Raffigny, 11 octobre (<date when="1832">1832</date>), <measure type="length" unit="p" n="3.5">3 p. 1/2</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
@@ -725,7 +728,7 @@
                 </item>
                 <item n="53" xml:id="CAT_000217_e53">
                     <num type="lot">53</num>
-                    <name type="author">ÉLISABETH DE FRANCE. soeur de Louis XVI</name>
+                    <name type="author" ref="wd:Q274709">ÉLISABETH DE FRANCE. soeur de Louis XVI</name>
                     <trait>
                         <p>décapitée en 1794.</p>
                     </trait>
@@ -737,7 +740,7 @@
                 </item>
                 <item n="54" xml:id="CAT_000217_e54">
                     <num type="lot">54</num>
-                    <name type="author">ESTRÉES (Antoine d')</name>
+                    <name type="author" ref="wd:Q2856832">ESTRÉES (Antoine d')</name>
                     <trait>
                         <p>grand-maître de l'artillerie de France, père de la belle Gabrielle.</p>
                     </trait>
@@ -746,7 +749,7 @@
                 </item>
                 <item n="55" xml:id="CAT_000217_e55">
                     <num type="lot">55</num>
-                    <name type="author">EUDES (Jean)</name>
+                    <name type="author" ref="wd:Q441714">EUDES (Jean)</name>
                     <trait>
                         <p>écrivain ascétique frère de Mézeray, fondateur de la congrégation des Eudistes.</p>
                     </trait>
@@ -755,7 +758,7 @@
                 </item>
                 <item n="56" xml:id="CAT_000217_e56">
                     <num type="lot">56</num>
-                    <name type="author">FAUCHET (l'abbé Claude)</name>
+                    <name type="author" ref="wd:Q1096714">FAUCHET (l'abbé Claude)</name>
                     <trait>
                         <p>évêque constitutionnel du Calvados, conventionnel, impliqué dans le procès de Charlotte Corday, décapité avec les Girondins en 1793.</p>
                     </trait>
@@ -764,18 +767,18 @@
                 </item>
                 <item n="57" xml:id="CAT_000217_e57">
                     <num type="lot">57</num>
-                    <name type="author">FAUCHET (l'abbé Claude).</name>
+                    <name type="author" ref="wd:Q61874490">FAUCHET (l'abbé Claude).</name>
                     <desc xml:id="CAT_000217_e57_d1">1° Reçu aut. sig., comme prédicateur du Roi; Paris, 6 janv. 1779, 1/4 de p. <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>-2° <term ana="#document_type_7">L. a. s.</term>; Bayeux, 9 juil. 1791, <measure type="length" unit="p" n="1.25">1 p. 1/4</measure> in-4. Intéressante.-3° P. a. s., sig. aussi par Basire et Rovère; <date when="1792-09-20">20 sept. 1792</date>, 1 p. in-4, cachet</desc>
                 </item>
                 <item n="58" xml:id="CAT_000217_e58">
                     <num type="lot">58</num>
-                    <name type="author">FEMMES</name>
+                    <name type="author" ref="wd:Q2016301">FEMMES</name>
                     <desc xml:id="CAT_000217_e58_d1">19 lettres ou pièces</desc>
                     <note>Cottin (Sophie), Lambert (la marquise de), Estrées (la maréchale d'), Rochechouart (Louise de), etc.</note>
                 </item>
                 <item n="59" xml:id="CAT_000217_e59">
                     <num type="lot">59</num>
-                    <name type="author">FEVRET DE FONTETTE (Charles-Marie)</name>
+                    <name type="author" ref="wd:Q2958238">FEVRET DE FONTETTE (Charles-Marie)</name>
                     <trait>
                         <p>célèbre érudit, continuateur du Père Lelong. Sa collection d'estampes historiques est à la Bibliothèque nationale.</p>
                     </trait>
@@ -798,7 +801,7 @@
                 </item>
                 <item n="61" xml:id="CAT_000217_e61">
                     <num type="lot">61</num>
-                    <name type="author">FOUCHÉ (Joseph)</name>
+                    <name type="author" ref="wd:Q216958">FOUCHÉ (Joseph)</name>
                     <trait>
                         <p>duc d'Otrante, fameux convention61. nel et ministre de la police.</p>
                     </trait>
@@ -808,7 +811,7 @@
                 </item>
                 <item n="62" xml:id="CAT_000217_e62">
                     <num type="lot">62</num>
-                    <name type="author">FOUCQUET (Nicolas)</name>
+                    <name type="author" ref="wd:Q312794">FOUCQUET (Nicolas)</name>
                     <trait>
                         <p>l'illustre et infortuné surintendant des finances de Louis XIV.</p>
                     </trait>
@@ -830,7 +833,7 @@
                 </item>
                 <item n="64" xml:id="CAT_000217_e64">
                     <num type="lot">64</num>
-                    <name type="author">GRIGNAN (le comte de)</name>
+                    <name type="author" ref="wd:Q384722">GRIGNAN (le comte de)</name>
                     <trait>
                         <p>lieutenant-général de Provence, gendre de Mme de Sévigné.</p>
                     </trait>
@@ -859,7 +862,7 @@
                 </item>
                 <item n="67" xml:id="CAT_000217_e67">
                     <num type="lot">67</num>
-                    <name type="author">GUERCHY (Mlle de)</name>
+                    <name type="author" ref="wd:Q129485">GUERCHY (Mlle de)</name>
                     <trait>
                         <p>fille d'honneur d'Anne d'Autriche, fameuse par ses galanteries, chansonnée par Loret, rivale de Ninon de Lanclos.</p>
                     </trait>
@@ -880,7 +883,7 @@
                 </item>
                 <item n="69" xml:id="CAT_000217_e69">
                     <num type="lot">69</num>
-                    <name type="author">HAILLET DE COURONNE (Jean-Baptiste-Guillaume)</name>
+                    <name type="author" ref="wd:Q3164138">HAILLET DE COURONNE (Jean-Baptiste-Guillaume)</name>
                     <trait>
                         <p>littérateur distingué, secrétaire perpétuel de l'Académie de Rouen, n. à Rouen, 1727, m. 1810.</p>
                     </trait>
@@ -900,7 +903,7 @@
                 </item>
                 <item n="71" xml:id="CAT_000217_e71">
                     <num type="lot">71</num>
-                    <name type="author">HENRI III</name>
+                    <name type="author" ref="wd:Q82820890">HENRI III</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -911,7 +914,7 @@
                 </item>
                 <item n="72" xml:id="CAT_000217_e72">
                     <num type="lot">72</num>
-                    <name type="author">HENRIETTE-MARIE DE FRANCE</name>
+                    <name type="author" ref="wd:Q848615">HENRIETTE-MARIE DE FRANCE</name>
                     <trait>
                         <p>reine d'Angleterre, fille de Henri IV, femme de Charles Ier.</p>
                     </trait>
@@ -920,14 +923,14 @@
                 </item>
                 <item n="73" xml:id="CAT_000217_e73">
                     <num type="lot">73</num>
-                    <name type="author">HENRIETTE-MARIE DE FRANCE.</name>
+                    <name type="author" ref="wd:Q848615">HENRIETTE-MARIE DE FRANCE.</name>
                     <desc xml:id="CAT_000217_e73_d1">3 <term ana="#document_type_8">l. aut.</term> à la mère prieure des filles de la Visitation de Chaillot (Mlle de La Fayette); <date when="1651">1651-1664</date>, <measure type="length" unit="p" n="4">4 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cachets et soies.</desc>
                     <note>Superbes lettres pleines de détails intimes. Celle, datée de Londres, 15 décembre 1664, a été adressée à Mlle de La Fayette à son lit de mort et est remplie de la tendresse la plus délicate pour cette illustre pénitente « J'espère que le bon Dieu vous gardera pour sa gloire, estant fort persuadée qu'il vous a destinée pour cella... »</note>
                 </item>
                 <item n="74" xml:id="CAT_000217_e74">
                     <num type="lot">74</num>
-                    <name type="author">HENRIETTE-MARIE DE FRANCE.</name>
+                    <name type="author" ref="wd:Q848615">HENRIETTE-MARIE DE FRANCE.</name>
                     <desc xml:id="CAT_000217_e74_d1">
                         <term ana="#document_type_8">L. aut.</term> à la soeur Magdeleine Eugénie (Socratine Bertaut, soeur de Mme de Motteville), religieuse de la Visitation de Chaillot; Londres, <date when="1665-01-12">12 janv. 1665</date>, <measure type="length" unit="p" n="1">1 p.</measure> pl. <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>
                     </desc>
@@ -935,7 +938,7 @@
                 </item>
                 <item n="75" xml:id="CAT_000217_e75">
                     <num type="lot">75</num>
-                    <name type="author">HUET (Daniel)</name>
+                    <name type="author" ref="wd:Q68904893">HUET (Daniel)</name>
                     <trait>
                         <p>l'illustre évêque d'Avranches.</p>
                     </trait>
@@ -946,7 +949,7 @@
                 </item>
                 <item n="76" xml:id="CAT_000217_e76">
                     <num type="lot">76</num>
-                    <name type="author">HUET (Daniel)</name>
+                    <name type="author" ref="wd:Q68904893">HUET (Daniel)</name>
                     <desc xml:id="CAT_000217_e76_d1">
                         <term ana="#document_type_7">L. a. s.</term> à Mlle de Scudéry; Aunay, <date when="1684-09-09">9 sept. 1684</date>, <measure type="length" unit="p" n="2.5">2 p. 1/2</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
@@ -955,7 +958,7 @@
                 </item>
                 <item n="77" xml:id="CAT_000217_e77">
                     <num type="lot">77</num>
-                    <name type="author">HUET (Daniel).</name>
+                    <name type="author" ref="wd:Q1354027">HUET (Daniel).</name>
                     <desc xml:id="CAT_000217_e77_d1">
                         <term ana="#document_type_8">L. aut.</term> (à la duchesse de Montpensier) ; Aunay, <date when="1689-08-27">27 août 1689</date>, <measure type="length" unit="p" n="3.5">3 p. 1/2</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
@@ -964,7 +967,7 @@
                 </item>
                 <item n="78" xml:id="CAT_000217_e78">
                     <num type="lot">78</num>
-                    <name type="author">HUET (Daniel).</name>
+                    <name type="author" ref="wd:Q1354027">HUET (Daniel).</name>
                     <desc xml:id="CAT_000217_e78_d1">Minute de <term ana="#document_type_8">lettre autographe</term> au supérieur des Jésuites; <date when="1700-04-14">14 avril 1700</date>, <measure type="length" unit="p" n="3.5">3 p. 1/2</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -972,7 +975,7 @@
                 </item>
                 <item n="79" xml:id="CAT_000217_e79">
                     <num type="lot">79</num>
-                    <name type="author">HUET (Daniel)</name>
+                    <name type="author" ref="wd:Q68904893">HUET (Daniel)</name>
                     <desc xml:id="CAT_000217_e79_d1">3 <term ana="#document_type_8">l. aut.</term> à M. de Charsigné; <date when="1705">1705-1706</date>, <measure type="length" unit="p" n="10">10 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -980,14 +983,14 @@
                 </item>
                 <item n="80" xml:id="CAT_000217_e80">
                     <num type="lot">80</num>
-                    <name type="author">HUET (Daniel)</name>
+                    <name type="author" ref="wd:Q68904893">HUET (Daniel)</name>
                     <desc xml:id="CAT_000217_e80_d1">1° 2 l. a. s.; 1689, <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_8">in-8.</measure>-2° 4 l. aut., 11 <term ana="#document_type_3">p. in-8.-3° L. s., avec la souscript. aut.</term> ; Aunay, <date when="1705-08-27">27 août 1705</date>, 6 p. in-4. 4° 2 pièces aut., 4 p. in-4.-5° Dossier de manuscrits autographes ou avec corrections.-6° Notices sur Huet et sur les personnages qui ont été en correspondance avec lui</desc>
                     <note>Important dossier pour la biographie de cet illustre prélat.</note>
                 </item>
                 <item n="81" xml:id="CAT_000217_e81">
                     <num type="lot">81</num>
-                    <name type="author">JACQUES II</name>
+                    <name type="author" ref="wd:Q126188">JACQUES II</name>
                     <trait>
                         <p>roi d'Angleterre.</p>
                     </trait>
@@ -998,7 +1001,7 @@
                 </item>
                 <item n="82" xml:id="CAT_000217_e82">
                     <num type="lot">82</num>
-                    <name type="author">LA CHESNAYE-DESBOIS (Fr.-Alex. AUBERT de)</name>
+                    <name type="author" ref="wd:Q1499981">LA CHESNAYE-DESBOIS (Fr.-Alex. AUBERT de)</name>
                     <trait>
                         <p>le célèbre généalogiste.</p>
                     </trait>
@@ -1009,7 +1012,7 @@
                 </item>
                 <item n="83" xml:id="CAT_000217_e83">
                     <num type="lot">83</num>
-                    <name type="author">LAMOIGNON (Guillaume de)</name>
+                    <name type="author" ref="wd:Q551456">LAMOIGNON (Guillaume de)</name>
                     <trait>
                         <p>premier président au Parlement de Paris, illustre magistrat, n. 1617, m. 1677.</p>
                     </trait>
@@ -1019,7 +1022,7 @@
                 </item>
                 <item n="84" xml:id="CAT_000217_e84">
                     <num type="lot">84</num>
-                    <name type="author">LAMOIGNON (famille de).</name>
+                    <name type="author" ref="wd:Q3065858">LAMOIGNON (famille de).</name>
                     <desc xml:id="CAT_000217_e84_d1">58 lettres ou pièces de membres de cette illustre famille, des XVIIe et XVIIIe siècles.</desc>
                     <note>Dossier important réuni par M. Grangier dans l'intention de faire un travail sur la famille Lamoignon. On y trouve des lettres de Guillaume (n. 1617, m. 1677), de Chrétien-François (n. 1644, m. 1709), de Nicolas Lamoignon de Basville (n. 1648, m. 1724), de Guillaume II (n. 1683, m. 1772), de Chrétien-François II (n. 1735, m. 1789), etc.</note>
                 </item>
@@ -1036,7 +1039,7 @@
                 </item>
                 <item n="86" xml:id="CAT_000217_e86">
                     <num type="lot">86</num>
-                    <name type="author">LEBEUF (l'abbé Jean)</name>
+                    <name type="author" ref="wd:Q3173118">LEBEUF (l'abbé Jean)</name>
                     <trait>
                         <p>célèbre érudit et archéologue, historien d'Auxerre et de Paris.</p>
                     </trait>
@@ -1048,7 +1051,7 @@
                 </item>
                 <item n="87" xml:id="CAT_000217_e87">
                     <num type="lot">87</num>
-                    <name type="author">LE TELLIER (Michel)</name>
+                    <name type="author" ref="wd:Q554702">LE TELLIER (Michel)</name>
                     <trait>
                         <p>célèbre chancelier de France, un des principaux auteurs de la révocation de l'Edit de Nantes.</p>
                     </trait>
@@ -1059,7 +1062,7 @@
                 </item>
                 <item n="88" xml:id="CAT_000217_e88">
                     <num type="lot">88</num>
-                    <name type="author">LOUIS XV</name>
+                    <name type="author" ref="wd:Q1796419">LOUIS XV</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -1071,7 +1074,7 @@
                 </item>
                 <item n="89" xml:id="CAT_000217_e89">
                     <num type="lot">89</num>
-                    <name type="author">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
+                    <name type="author" ref="wd:Q838311">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
                     <trait>
                         <p>illustre magistrat, membre de l'Académie française, défenseur de Louis XVI, décapité en 1794.</p>
                     </trait>
@@ -1083,7 +1086,7 @@
                 </item>
                 <item n="90" xml:id="CAT_000217_e90">
                     <num type="lot">90</num>
-                    <name type="author">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de).</name>
+                    <name type="author" ref="wd:Q838311">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de).</name>
                     <desc xml:id="CAT_000217_e90_d1">
                         <term ana="#document_type_9">L. s.</term> à Voltaire; Versailles, <date when="1775-08-21">21 août 1775</date>, <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
@@ -1092,7 +1095,7 @@
                 </item>
                 <item n="91" xml:id="CAT_000217_e91">
                     <num type="lot">91</num>
-                    <name type="author">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
+                    <name type="author" ref="wd:Q838311">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
                     <desc xml:id="CAT_000217_e91_d1">
                         <term ana="#document_type_7">L. a. s.</term> à Louis XVI;, <date when="1776-04">(avril 1776</date>), <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> (Coll. Lajarriette.)</desc>
@@ -1100,26 +1103,26 @@
                 </item>
                 <item n="92" xml:id="CAT_000217_e92">
                     <num type="lot">92</num>
-                    <name type="author">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de).</name>
+                    <name type="author" ref="wd:Q838311">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de).</name>
                     <desc xml:id="CAT_000217_e92_d1">8 <term ana="#document_type_7">l. a. s.</term>; <date when="1752">1752-1771</date>, <measure type="length" unit="p" n="14">14 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Intéressante réunion</desc>
                 </item>
                 <item n="93" xml:id="CAT_000217_e93">
                     <num type="lot">93</num>
-                    <name type="author">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
+                    <name type="author" ref="wd:Q838311">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
                     <desc xml:id="CAT_000217_e93_d1">1° 2 l. aut., <measure type="length" unit="p" n="4.5">4 p. 1/2</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>-2° 6 l. s., 17 <term ana="#document_type_3">p. in-4.-3° 7 pièces aut.</term>, 35 p. in-4.</desc>
                     <note>Dossier intéressant.</note>
                 </item>
                 <item n="94" xml:id="CAT_000217_e94">
                     <num type="lot">94</num>
-                    <name type="author">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
+                    <name type="author" ref="wd:Q838311">MALESHERBES (Chrétien-Guillaume de LAMOIGNON de)</name>
                     <desc xml:id="CAT_000217_e94_d1">1° 49 lettres adressées par divers à Malesherbes, environ <measure type="length" unit="p" n="100">100 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> (Coll. Villenave.) Curieux dossier où on remarque des lettres d'Anquetil, de Marc-Michel Bousquet, de Madame de Senoxan, de le Moine de la Clartière, etc. 2° 13 pièces concernant l'exil de Malesherbes; <date when="1771">1771-1774</date>, 13 p. in-fol. (Coll. Lajarriette.) Cet intéressant dossier comprend trois ordres du roi, sept lettres du duc de la Vrillière et trois lettres du chancelier Maupeou.</desc>
                 </item>
                 <item n="95" xml:id="CAT_000217_e95">
                     <num type="lot">95</num>
-                    <name type="author">MANCINI (Marie)</name>
+                    <name type="author" ref="wd:Q242532">MANCINI (Marie)</name>
                     <trait>
                         <p>connétable Colonna, nièce de Mazarin, qui fut aimée de Louis XIV.</p>
                     </trait>
@@ -1130,7 +1133,7 @@
                 </item>
                 <item n="96" xml:id="CAT_000217_e96">
                     <num type="lot">96</num>
-                    <name type="author">MARCHANGY (L.-Ant.-Fr. de)</name>
+                    <name type="author" ref="wd:Q15981013">MARCHANGY (L.-Ant.-Fr. de)</name>
                     <trait>
                         <p>célèbre magistrat et écrivain, auteur de la Gaule poétique, né à Clamecy.</p>
                     </trait>
@@ -1139,7 +1142,7 @@
                 </item>
                 <item n="97" xml:id="CAT_000217_e97">
                     <num type="lot">97</num>
-                    <name type="author">MARIE CASIMIRE</name>
+                    <name type="author" ref="wd:Q240113">MARIE CASIMIRE</name>
                     <trait>
                         <p>reine de Pologne, épouse de Jean Sobieski.</p>
                     </trait>
@@ -1151,20 +1154,20 @@
                 </item>
                 <item n="98" xml:id="CAT_000217_e98">
                     <num type="lot">98</num>
-                    <name type="author">MARIE-CASIMIRE</name>
+                    <name type="author" ref="wd:Q240113">MARIE-CASIMIRE</name>
                     <desc xml:id="CAT_000217_e98_d1">6 <term ana="#document_type_7">l. a. s.</term>; <date when="1698">(1698-1699</date>), <measure type="length" unit="p" n="15.5">15 p. 1/2</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Une de ces lettres est incomplète du commencement</desc>
                     <note>Important dossier historique.</note>
                 </item>
                 <item n="99" xml:id="CAT_000217_e99">
                     <num type="lot">99</num>
-                    <name type="author">MARIE-CASIMIRE</name>
+                    <name type="author" ref="wd:Q240113">MARIE-CASIMIRE</name>
                     <desc xml:id="CAT_000217_e99_d1">1° 2 l. s.; <date when="1714">1714</date>, <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>-2° <term ana="#document_type_8">L. aut.</term>, 2 p. in-4. Incomplète de la fin.</desc>
                 </item>
                 <item n="100" xml:id="CAT_000217_e100">
                     <num type="lot">100</num>
-                    <name type="author">MARIE DE SAVOIE-NEMOURS</name>
+                    <name type="author" ref="wd:Q33188">MARIE DE SAVOIE-NEMOURS</name>
                     <trait>
                         <p>reine de Portugal, princesse énergique, qui détrôna son premier mari, Alphonse VI, pour épouser Pierre, dont elle fit un roi.</p>
                     </trait>
@@ -1175,7 +1178,7 @@
                 </item>
                 <item n="101" xml:id="CAT_000217_e101">
                     <num type="lot">101</num>
-                    <name type="author">MAZARIN (le cardinal Jules)</name>
+                    <name type="author" ref="wd:Q63861871">MAZARIN (le cardinal Jules)</name>
                     <trait>
                         <p>l'illustre ministre de Louis XIV.</p>
                     </trait>
@@ -1233,7 +1236,7 @@
                 </item>
                 <item n="107" xml:id="CAT_000217_e107">
                     <num type="lot">107</num>
-                    <name type="author">NEMOURS (Jeanne-Marie de)</name>
+                    <name type="author" ref="wd:Q33188">NEMOURS (Jeanne-Marie de)</name>
                     <trait>
                         <p>duchesse de Savoie, régente pendant la minorité de son fils Victor-Amédée II.</p>
                     </trait>
@@ -1304,7 +1307,7 @@
                 </item>
                 <item n="114" xml:id="CAT_000217_e114">
                     <num type="lot">114</num>
-                    <name type="author">PATIN (Guy)</name>
+                    <name type="author" ref="wd:Q973855">PATIN (Guy)</name>
                     <trait>
                         <p>l'illustre médecin et érudit.</p>
                     </trait>
@@ -1314,7 +1317,7 @@
                 </item>
                 <item n="115" xml:id="CAT_000217_e115">
                     <num type="lot">115</num>
-                    <name type="author">PATIN (Guy)</name>
+                    <name type="author" ref="wd:Q973855">PATIN (Guy)</name>
                     <desc xml:id="CAT_000217_e115_d1">
                         <term ana="#document_type_7">L. a. s.</term> à M. de Salins; Paris, <date when="1658-10-01">1er oct. 1658</date>, <measure type="length" unit="p" n="4">4 p.</measure> pl. <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
@@ -1322,7 +1325,7 @@
                 </item>
                 <item n="116" xml:id="CAT_000217_e116">
                     <num type="lot">116</num>
-                    <name type="author">POINTE (Noël)</name>
+                    <name type="author" ref="wd:Q3345872">POINTE (Noël)</name>
                     <trait>
                         <p>conventionnel, envoyé en mission dans la Nièvre, né près de Lyon.</p>
                     </trait>
@@ -1343,7 +1346,7 @@
                 </item>
                 <item n="118" xml:id="CAT_000217_e118">
                     <num type="lot">118</num>
-                    <name type="author">POLIGNAC (Melchior, cardinal de).</name>
+                    <name type="author" ref="wd:Q1247737">POLIGNAC (Melchior, cardinal de).</name>
                     <desc xml:id="CAT_000217_e118_d1">
                         <term ana="#document_type_8">L. aut.</term> (au cardinal de Bouillon) ; Varsovie, <date when="1697-07-20">20 juillet 1697</date>, <measure type="length" unit="p" n="28">28 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Tachée</desc>
@@ -1351,7 +1354,7 @@
                 </item>
                 <item n="119" xml:id="CAT_000217_e119">
                     <num type="lot">119</num>
-                    <name type="author">QUINAULT (Jeanne-Françoise)</name>
+                    <name type="author" ref="wd:Q3175927">QUINAULT (Jeanne-Françoise)</name>
                     <trait>
                         <p>la célèbre actrice.</p>
                     </trait>
@@ -1361,7 +1364,7 @@
                 </item>
                 <item n="120" xml:id="CAT_000217_e120">
                     <num type="lot">120</num>
-                    <name type="author">RACINE (Jean)</name>
+                    <name type="author" ref="wd:Q742">RACINE (Jean)</name>
                     <trait>
                         <p>le grand poète.</p>
                     </trait>
@@ -1370,7 +1373,7 @@
                 </item>
                 <item n="121" xml:id="CAT_000217_e121">
                     <num type="lot">121</num>
-                    <name type="author">RADONVILLIERS (l'abbé Cl.-Fr. de)</name>
+                    <name type="author" ref="wd:Q1104849">RADONVILLIERS (l'abbé Cl.-Fr. de)</name>
                     <trait>
                         <p>littérateur, sousprécepteur des Enfants de France, membre de l'Académie française.</p>
                     </trait>
@@ -1400,7 +1403,7 @@
                 </item>
                 <item n="124" xml:id="CAT_000217_e124">
                     <num type="lot">124</num>
-                    <name type="author">ROBESPIERRE (Maximilien de)</name>
+                    <name type="author" ref="wd:Q44197">ROBESPIERRE (Maximilien de)</name>
                     <trait>
                         <p>célèbre conventionnel et membre du Comité de salut public, décapité en 1794.</p>
                     </trait>
@@ -1412,7 +1415,7 @@
                 </item>
                 <item n="125" xml:id="CAT_000217_e125">
                     <num type="lot">125</num>
-                    <name type="author">SAINT-PIERRE (Bernardin de)</name>
+                    <name type="author" ref="wd:Q361976">SAINT-PIERRE (Bernardin de)</name>
                     <trait>
                         <p>auteur de Paul et Virginie, membre de l'Académie française.</p>
                     </trait>
@@ -1434,7 +1437,7 @@
                 </item>
                 <item n="127" xml:id="CAT_000217_e127">
                     <num type="lot">127</num>
-                    <name type="author">SAINTE-BEUVE (Charles-Augustin)</name>
+                    <name type="author" ref="wd:Q1063392">SAINTE-BEUVE (Charles-Augustin)</name>
                     <trait>
                         <p>célèbre poète et critique, de l'Académie française.</p>
                     </trait>
@@ -1443,7 +1446,7 @@
                 </item>
                 <item n="128" xml:id="CAT_000217_e128">
                     <num type="lot">128</num>
-                    <name type="author">SALINS (Hugues de)</name>
+                    <name type="author" ref="wd:Q3142611">SALINS (Hugues de)</name>
                     <trait>
                         <p>célèbre médecin et érudit.</p>
                     </trait>
@@ -1452,7 +1455,7 @@
                 </item>
                 <item n="129" xml:id="CAT_000217_e129">
                     <num type="lot">129</num>
-                    <name type="author">SAUTEREAU (J.)</name>
+                    <name type="author" ref="wd:Q27856728">SAUTEREAU (J.)</name>
                     <trait>
                         <p>député de la Nièvre à la Convention.</p>
                     </trait>
@@ -1463,7 +1466,7 @@
                 </item>
                 <item n="130" xml:id="CAT_000217_e130">
                     <num type="lot">130</num>
-                    <name type="author">SÉNAC (Jean-Baptiste)</name>
+                    <name type="author" ref="wd:Q437347">SÉNAC (Jean-Baptiste)</name>
                     <trait>
                         <p>premier médecin de Louis XV, membre de l'Académie des Sciences.</p>
                     </trait>
@@ -1475,7 +1478,7 @@
                 </item>
                 <item n="131" xml:id="CAT_000217_e131">
                     <num type="lot">131</num>
-                    <name type="author">SÉNAC DE MEILHAN (Gabriel)</name>
+                    <name type="author" ref="wd:Q3093966">SÉNAC DE MEILHAN (Gabriel)</name>
                     <trait>
                         <p>fils du précédent, célèbre publiciste et littérateur.</p>
                     </trait>
@@ -1498,7 +1501,7 @@
                 </item>
                 <item n="133" xml:id="CAT_000217_e133">
                     <num type="lot">133</num>
-                    <name type="author">SOBIESKI (Jacques-Louis-Henri)</name>
+                    <name type="author" ref="wd:Q507964">SOBIESKI (Jacques-Louis-Henri)</name>
                     <trait>
                         <p>fils de Jean Sobieski, auquel il ne put succéder.</p>
                     </trait>
@@ -1507,7 +1510,7 @@
                 </item>
                 <item n="134" xml:id="CAT_000217_e134">
                     <num type="lot">134</num>
-                    <name type="author">SPIFAME (Jacques-Paul)</name>
+                    <name type="author" ref="wd:Q3160030">SPIFAME (Jacques-Paul)</name>
                     <trait>
                         <p>évêque de Nevers, qui abjura la religion catholique, se rendit fameux par ses débauches et fut décapité comme traître à Genève en 1566.</p>
                     </trait>
@@ -1517,7 +1520,7 @@
                 </item>
                 <item n="135" xml:id="CAT_000217_e135">
                     <num type="lot">135</num>
-                    <name type="author">VICTOIRE DE FRANCE</name>
+                    <name type="author" ref="wd:Q1189979">VICTOIRE DE FRANCE</name>
                     <trait>
                         <p>fille de Louis XV.</p>
                     </trait>
@@ -1528,7 +1531,7 @@
                 <note>LETTRES ADRESSÉES A MÉNAGE</note>
                 <item n="136" xml:id="CAT_000217_e136">
                     <num type="lot">136</num>
-                    <name type="author">BAYLE (Pierre)</name>
+                    <name type="author" ref="wd:Q214816">BAYLE (Pierre)</name>
                     <trait>
                         <p>l'illustre écrivain et philosophe.</p>
                     </trait>
@@ -1538,7 +1541,7 @@
                 </item>
                 <item n="137" xml:id="CAT_000217_e137">
                     <num type="lot">137</num>
-                    <name type="author">BIGOT (Émeric)</name>
+                    <name type="author" ref="wd:Q15973723">BIGOT (Émeric)</name>
                     <trait>
                         <p>célèbre érudit, né à Rouen.</p>
                     </trait>
@@ -1548,7 +1551,7 @@
                 </item>
                 <item n="138" xml:id="CAT_000217_e138">
                     <num type="lot">138</num>
-                    <name type="author">HUET (Daniel)</name>
+                    <name type="author" ref="wd:Q68904893">HUET (Daniel)</name>
                     <trait>
                         <p>le savant évêque d'Avranches.</p>
                     </trait>
@@ -1559,14 +1562,14 @@
                 </item>
                 <item n="139" xml:id="CAT_000217_e139">
                     <num type="lot">139</num>
-                    <name type="author">HUET (Pierre-Daniel).</name>
+                    <name type="author" ref="wd:Q1354027">HUET (Pierre-Daniel).</name>
                     <desc xml:id="CAT_000217_e139_d1">Copie de lettres de Huet à Ménage, mss. de <measure type="length" unit="p" n="423">423 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cart.</desc>
                     <note>Correspondance des plus intéressantes, dont M. Grangier de la Mariniert a possédé les originaux.</note>
                 </item>
                 <item n="140" xml:id="CAT_000217_e140">
                     <num type="lot">140</num>
-                    <name type="author">LEFEBVRE (Tanneguy)</name>
+                    <name type="author" ref="wd:Q1229690">LEFEBVRE (Tanneguy)</name>
                     <trait>
                         <p>célèbre érudit et helléniste, père de Mme Dacier, né à Caen. </p>
                     </trait>
@@ -1577,7 +1580,7 @@
                 </item>
                 <item n="141" xml:id="CAT_000217_e141">
                     <num type="lot">141</num>
-                    <name type="author">NUBLÉ (Louis)</name>
+                    <name type="author" ref="wd:Q59209946">NUBLÉ (Louis)</name>
                     <trait>
                         <p>savant avocat, un des amis les plus fidèles de Ménage.</p>
                     </trait>
@@ -1593,14 +1596,14 @@
                 </item>
                 <item n="143" xml:id="CAT_000217_e143">
                     <num type="lot">143</num>
-                    <name type="author">MÉNAGE (Gilles)</name>
+                    <name type="author" ref="wd:Q3106416">MÉNAGE (Gilles)</name>
                     <desc xml:id="CAT_000217_e143_d1">Copie des lettres de Bigot à Ménage, mss. de <measure type="length" unit="p" n="436">436 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>
                     </desc>
                 </item>
                 <item n="144" xml:id="CAT_000217_e144">
                     <num type="lot">144</num>
-                    <name type="author">MÉNAGE (Gilles)</name>
+                    <name type="author" ref="wd:Q3106416">MÉNAGE (Gilles)</name>
                     <desc xml:id="CAT_000217_e144_d1">Copie de lettres de Ménage à divers et de divers à Ménage, environ <measure type="length" unit="p" n="200">200 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cart.; portrait de Ménage par Nanteuil</desc>
                     <note>Intéressant recueil où l'on trouveune série de lettres de Ménage à Mme de La Favette et des lettres de Gomberville, Rigault, Verjus, Cassagnes, Perrot d'Ablancourt, Catherinot, Racan, Chorier, d'Elbène, La Mesnardière, etc., à Ménage.</note>
@@ -1617,7 +1620,7 @@
                 </item>
                 <item n="146" xml:id="CAT_000217_e146">
                     <num type="lot">146</num>
-                    <name type="author">NEVERS (Louis de Gonzague, duc de)</name>
+                    <name type="author" ref="wd:Q969113">NEVERS (Louis de Gonzague, duc de)</name>
                     <desc xml:id="CAT_000217_e146_d1">9 <term ana="#document_type_9">l. s.</term>, avec la souscript. aut.; <date when="1574">1574-1588</date>, <measure type="length" unit="p" n="16">16 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
@@ -1646,7 +1649,7 @@
                 </item>
                 <item n="149" xml:id="CAT_000217_e149">
                     <num type="lot">149</num>
-                    <name type="author">NEVERS (Charles Ier de Gonzague, duc de).</name>
+                    <name type="author" ref="wd:Q547017">NEVERS (Charles Ier de Gonzague, duc de).</name>
                     <desc xml:id="CAT_000217_e149_d1">
                         <term ana="#document_type_7">L. a. s.</term> au duc de Longueville, son neveu; <date when="1630-01-15">15 janv. 1630</date>, <measure type="length" unit="p" n="3">3 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
@@ -1655,7 +1658,7 @@
                 </item>
                 <item n="150" xml:id="CAT_000217_e150">
                     <num type="lot">150</num>
-                    <name type="author">NEVERS (Charles Ier de Gonzague, duc de).</name>
+                    <name type="author" ref="wd:Q547017">NEVERS (Charles Ier de Gonzague, duc de).</name>
                     <desc xml:id="CAT_000217_e150_d1">
                         <measure type="length" unit="p" n="35">35 p.</measure> s., dont plusieurs sur vélin; <date when="1603">1603-1637</date>, 50 p. <measure type="format" unit="f" ana="#document_format_4">in-4 o</measure>u in-fol. Intéressant dossier.</desc>
                 </item>
@@ -1671,7 +1674,7 @@
                 </item>
                 <item n="152" xml:id="CAT_000217_e152">
                     <num type="lot">152</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE</name>
                     <trait>
                         <p>reine de Pologne, qui fut aimée par Cinq-Mars, n. 1612, m. 1667.</p>
                     </trait>
@@ -1682,7 +1685,7 @@
                 </item>
                 <item n="153" xml:id="CAT_000217_e153">
                     <num type="lot">153</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e153_d1">
                         <term ana="#document_type_7">L. a. s.</term> au cardinal de Richelieu ; <date when="1638-03">(mars 1638</date>), <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cachets brisés</desc>
@@ -1690,7 +1693,7 @@
                 </item>
                 <item n="154" xml:id="CAT_000217_e154">
                     <num type="lot">154</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE</name>
                     <desc xml:id="CAT_000217_e154_d1">
                         <term ana="#document_type_7">L. a. s.</term> (à Mazarin); <date when="1645-09">sept. 1645</date>, <measure type="length" unit="p" n="3">3 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, fragments de cachets</desc>
@@ -1698,7 +1701,7 @@
                 </item>
                 <item n="155" xml:id="CAT_000217_e155">
                     <num type="lot">155</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e155_d1">
                         <term ana="#document_type_7">L. a. s.</term> au duc de Longueville; <date when="1662-11-09">(9 nov. 1662</date>), <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cachets et soies. (Coll. Parison.)</desc>
@@ -1706,27 +1709,27 @@
                 </item>
                 <item n="156" xml:id="CAT_000217_e156">
                     <num type="lot">156</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE</name>
                     <desc xml:id="CAT_000217_e156_d1">4 <term ana="#document_type_8">l. aut.</term>, dont une signée, au duc de Gramont; <date when="1655">1655-1656</date>, <measure type="length" unit="p" n="9">9 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4 o</measure>u in-fol., cachets et soies.</desc>
                     <note>Correspondance historique des plus intéressantes</note>
                 </item>
                 <item n="157" xml:id="CAT_000217_e157">
                     <num type="lot">157</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e157_d1">1° L. a. s. à l'évêque de Mantoue ; Nevers, 25 déc. 1636, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cachets et soies.-2° L. a. s. (à l'intendant de Moulins), 1 <term ana="#document_type_3">p. in-4.-3° L. aut.</term> au comte de Brienne; 7 juin (1661), 1 p. 1/2 in-4, cachets et soies. Belle et intéressante lettre. 4° 2 1. s.; <date when="1648">1648-1657</date>, 2 p. in-fol.</desc>
                 </item>
                 <item n="158" xml:id="CAT_000217_e158">
                     <num type="lot">158</num>
-                    <name type="author">MARIE-LOUISE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q80055669">MARIE-LOUISE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e158_d1">18 lettres originales à elle adressées par divers; <date when="1646">1646-1653</date>, <measure type="length" unit="p" n="30">30 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4 o</measure>u in-fol.</desc>
                     <note>IMPORTANT DOSSIER, qui comprend des lettres de la maréchale de Gramont, l'impératrice d'Allemagne Eléonore, l'empereur Ferdinand III, le duc de Gramont, le roi de Hongrie Ferdinand IV, la maréchale de Guébriant, Mme de Fiennes, la duchesse Nicole de Lorraine, etc.</note>
                 </item>
                 <item n="159" xml:id="CAT_000217_e159">
                     <num type="lot">159</num>
-                    <name type="author">ANNE DE GONZAGUE</name>
+                    <name type="author" ref="wd:Q2556248">ANNE DE GONZAGUE</name>
                     <trait>
                         <p>soeur de la précédente, célèbre par sa vie galante, princesse Palatine, dont Bossuet prononça l'oraison funèbre, n. 1616, m. 1684.</p>
                     </trait>
@@ -1737,7 +1740,7 @@
                 </item>
                 <item n="160" xml:id="CAT_000217_e160">
                     <num type="lot">160</num>
-                    <name type="author">ANNE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q2556248">ANNE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e160_d1">
                         <term ana="#document_type_7">L. a. s.</term> à son neveu le duc de Mantoue; <date when="1654-04-14">14 avril 1654</date>, <measure type="length" unit="p" n="8">8 p.</measure> pl. <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -1745,27 +1748,27 @@
                 </item>
                 <item n="161" xml:id="CAT_000217_e161">
                     <num type="lot">161</num>
-                    <name type="author">ANNE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q2556248">ANNE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e161_d1">
                         <term ana="#document_type_7">L. a. s.</term> à la princesse de Mantoue, sa belle-soeur ; <date when="1646-01-20">20 janv. 1646</date>, 2p. <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure> Légère déchirure enlevant deux ou trois mots</desc>
                     <note>Superbe lettre remplie de détails curieux sur sa situation. Elle n'espère qu'en la protection de Son Altesse et supplie qu'on ne cesse de lui servir sa pension qui est son unique ressource.</note>
                 </item>
                 <item n="162" xml:id="CAT_000217_e162">
                     <num type="lot">162</num>
-                    <name type="author">ANNE DE GONZAGUE</name>
+                    <name type="author" ref="wd:Q2556248">ANNE DE GONZAGUE</name>
                     <desc xml:id="CAT_000217_e162_d1">3 <term ana="#document_type_7">l. a. s.</term> et 2 l. aut. à sa soeur la reine de Pologne; <date when="1647">1647-1651</date>, <measure type="length" unit="p" n="24">24 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Une d'elles est incomplète</desc>
                     <note>Correspondance intime des plus intéressantes.</note>
                 </item>
                 <item n="163" xml:id="CAT_000217_e163">
                     <num type="lot">163</num>
-                    <name type="author">ANNE DE GONZAGUE.</name>
+                    <name type="author" ref="wd:Q2556248">ANNE DE GONZAGUE.</name>
                     <desc xml:id="CAT_000217_e163_d1">1° L. a. s. à Phelipeaux; Nevers, 7 août 1644, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_104">in-4 obl</measure>ong, cachets brisés.-2° <term ana="#document_type_4">P. s.</term>, sur vélin; 1681, 1 p. in-8 oblong.-3° <term ana="#document_type_4">P. s.</term>; <date when="1663">1663</date>, 4 p. 1/2 in-fol.</desc>
                 </item>
                 <item n="164" xml:id="CAT_000217_e164">
                     <num type="lot">164</num>
-                    <name type="author">BÉNÉDICTE DE GONZAGUE</name>
+                    <name type="author" ref="wd:Q84500720">BÉNÉDICTE DE GONZAGUE</name>
                     <trait>
                         <p>soeur des précédentes, abbesse d'Avenay, m. 1637.</p>
                     </trait>
@@ -1784,19 +1787,19 @@
                 </item>
                 <item n="166" xml:id="CAT_000217_e166">
                     <num type="lot">166</num>
-                    <name type="author">GONZAGUE (Maison de)</name>
+                    <name type="author" ref="wd:Q3278762">GONZAGUE (Maison de)</name>
                     <desc xml:id="CAT_000217_e166_d1">54 pièces du XVIIe siècle, dont plusieurs sur vélin</desc>
                     <note>Important dossier qui comprend des pièces de Ludovic, duc de Nevers.</note>
                 </item>
                 <item n="167" xml:id="CAT_000217_e167">
                     <num type="lot">167</num>
-                    <name type="author">COUR DE PARLEMENT.</name>
+                    <name type="author" ref="wd:Q108796027">COUR DE PARLEMENT.</name>
                     <desc xml:id="CAT_000217_e167_d1">Arrêt de la cour de Parlement prononcé par messire Mathieu Molé, chevalier, premier président du Parlement et garde des sceaux de France, au profit de Monsieur le duc de Mantoue contre la reyne de Pologne et Madame la princesse Palatine, ensemble les plaidoiers de Monsieur l'advocat général Bignon et des avodcats des partyes, manuscrit du XVIIe siècle, 262 feuillets <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>, rel. v.</desc>
                     <note>L'arrêt est du 3 août 1651.</note>
                 </item>
                 <item n="168" xml:id="CAT_000217_e168">
                     <num type="lot">168</num>
-                    <name type="author">GONZAGUE/DE POLOGNE</name>
+                    <name type="author" ref="wd:Q80055669">GONZAGUE/DE POLOGNE</name>
                     <desc xml:id="CAT_000217_e168_d1">Le cabinet des Dames, extrait d'un livre manuscrit trouvé dans le cabinet de la deffunte sérénissime Reyne de Pologne et de Suède Louise-Marie de Conzague après son décès, mss. de <measure type="length" unit="p" n="210">210 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, cart</desc>
                     <note>Livre contenant une quantité de remèdes et recettes. (On sait que Marie-Louise de Conzague était d'une santé délicate et fort souvent malade.)</note>
@@ -1815,14 +1818,14 @@
                 </item>
                 <item n="170" xml:id="CAT_000217_e170">
                     <num type="lot">170</num>
-                    <name type="author">BOUILLON (Henri de La Tour d'Auvergne, duc de)</name>
+                    <name type="author" ref="wd:Q966628">BOUILLON (Henri de La Tour d'Auvergne, duc de)</name>
                     <desc xml:id="CAT_000217_e170_d1">5 minutes de lettres <term ana="#document_type_15">autographes</term>, <measure type="length" unit="p" n="16">16 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure> (Coll. Villenave.)</desc>
                     <note>Intéressantes lettres politiques.</note>
                 </item>
                 <item n="171" xml:id="CAT_000217_e171">
                     <num type="lot">171</num>
-                    <name type="author">BOUILLON (Henri de La Tour d'Auvergne, duc de)</name>
+                    <name type="author" ref="wd:Q966628">BOUILLON (Henri de La Tour d'Auvergne, duc de)</name>
                     <desc xml:id="CAT_000217_e171_d1">
                         <measure type="length" unit="p" n="30">30 p.</measure> s.; <date when="1610">1610-1622</date>, 30 p. <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -1839,7 +1842,7 @@
                 </item>
                 <item n="173" xml:id="CAT_000217_e173">
                     <num type="lot">173</num>
-                    <name type="author">BOUILLON (Élisabeth de Nassau, duchesse de)</name>
+                    <name type="author" ref="wd:Q5311305">BOUILLON (Élisabeth de Nassau, duchesse de)</name>
                     <desc xml:id="CAT_000217_e173_d1">
                         <measure type="length" unit="p" n="43">43 p.</measure> s.; <date when="1602">1602-1613</date>, 43 p. <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -1856,7 +1859,7 @@
                 </item>
                 <item n="175" xml:id="CAT_000217_e175">
                     <num type="lot">175</num>
-                    <name type="author">BOUILLON (Frédéric-Maurice de La TOUR D'AUVERGNE, duc de)</name>
+                    <name type="author" ref="wd:Q1471436">BOUILLON (Frédéric-Maurice de La TOUR D'AUVERGNE, duc de)</name>
                     <desc xml:id="CAT_000217_e175_d1">
                         <measure type="length" unit="p" n="11">11 p.</measure> s.; <date when="1623">1623-1646</date>, 11 p. <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -1873,21 +1876,21 @@
                 </item>
                 <item n="177" xml:id="CAT_000217_e177">
                     <num type="lot">177</num>
-                    <name type="author">BOUILLON (Maison de).</name>
+                    <name type="author" ref="wd:Q217216">BOUILLON (Maison de).</name>
                     <desc xml:id="CAT_000217_e177_d1">350 pièces ou dossiers des XVIIe et XVIIIe siècles.</desc>
                     <note>Important dossier, provenant des papiers de la Maison de Bouillon.</note>
                 </item>
                 <note>DOCUMENTS</note>
                 <item n="178" xml:id="CAT_000217_e178">
                     <num type="lot">178</num>
-                    <name type="author">BOURBONNAIS</name>
+                    <name type="author" ref="wd:Q591233">BOURBONNAIS</name>
                     <desc xml:id="CAT_000217_e178_d1">Pièce, sur vélin, en latin; <date when="1281">1281</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_104">in-4 obl</measure>ong</desc>
                     <note>Armand de Banassat, damoiseau, reconnaît devoir à P. Richard, chapelain de l'église Saint-Ceorges de Saint-Pourçain, une rente de 70 livres tournois assise sur sa maison de « Puy Agulon », son étang, son moulin, etc., en présence d'Étienne Jocelin, clerc, et de Hugues Goyra.</note>
                 </item>
                 <item n="179" xml:id="CAT_000217_e179">
                     <num type="lot">179</num>
-                    <name type="author">BOURBONNAIS</name>
+                    <name type="author" ref="wd:Q591233">BOURBONNAIS</name>
                     <desc xml:id="CAT_000217_e179_d1">Pièce, sur vélin; <date when="1454-07-08">8 juillet 1454</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
@@ -1895,20 +1898,20 @@
                 </item>
                 <item n="180" xml:id="CAT_000217_e180">
                     <num type="lot">180</num>
-                    <name type="author">BRETAGNE.</name>
+                    <name type="author" ref="wd:Q327">BRETAGNE.</name>
                     <desc xml:id="CAT_000217_e180_d1">Monstre et reveue, faite près du château de Fretoy en Bretagne, d'une compagnie de soixante-quatre cavaliers armés à la légère, commandée par le capitaine Ch. de Vaucelles, sieur de La Varenne, sous les ordres du prince de Dombes, pièce sur vélin ; <date when="1590-01-05">5 janvier 1590</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
                 </item>
                 <item n="181" xml:id="CAT_000217_e181">
                     <num type="lot">181</num>
-                    <name type="author">BRIE.</name>
+                    <name type="author" ref="wd:Q193411">BRIE.</name>
                     <desc xml:id="CAT_000217_e181_d1">1° Charte de Philippe, duc d'Orléans; Paris, 27 avril 1372, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_101">in-fol. obl</measure>ong. Il fait savoir que Jean Des Mares lui a fait hommage à cause de sa maison appelée la Chaucée, en Brie située dans la châtellenie de Coulommiers. Jean Des Mares était conseiller au parlement de Paris : Bourquelot a publié sur lui un curieux travail.) 2° Charte de Venceslas de Bohême, duc de Brabant; Paris, <date when="1383-05-04">4 mai 1383</date>, 1 p. in-fol. oblong. Pierre Des Mares, fils du précédent, rend hommage pour le même fief de la Chaucée.</desc>
                 </item>
                 <item n="182" xml:id="CAT_000217_e182">
                     <num type="lot">182</num>
-                    <name type="author">CHATEAUNEUF-SUR-LOIRE.</name>
+                    <name type="author" ref="wd:Q819934">CHATEAUNEUF-SUR-LOIRE.</name>
                     <desc xml:id="CAT_000217_e182_d1">24 chartes des XIIIe XIVe et XVe siècles, dont plusieurs avec sceaux, 1 vol. <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
                     <note>Intéressant recueil concernant la ville de Châteauneuf-sur-Loire (Loiret). Il provient de la collection du bibliophile Jacob (Paul Lacroix).</note>
@@ -1925,7 +1928,7 @@
                 </item>
                 <item n="184" xml:id="CAT_000217_e184">
                     <num type="lot">184</num>
-                    <name type="author">FÉNELON (François de Salignac de La Mothe)</name>
+                    <name type="author" ref="wd:Q310002">FÉNELON (François de Salignac de La Mothe)</name>
                     <trait>
                         <p>l'illustre archevêque de Cambrai.</p>
                     </trait>
@@ -1935,20 +1938,20 @@
                 </item>
                 <item n="185" xml:id="CAT_000217_e185">
                     <num type="lot">185</num>
-                    <name type="other">MÉDECINE</name>
+                    <name type="other" ref="wd:Q3332441">MÉDECINE</name>
                     <desc xml:id="CAT_000217_e185_d1">65 chartes ou pièces du XIVe au XVIIe siècle, dont plusieurs avec sceaux, 1 vol. <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>
                     </desc>
                     <note>PRÉCIEUX RECUEIL, concernant l'histoire de la médecine et provenant du bibliophile Jacob. Il comprend des lettres de Louis d'Orléans et de son fils Charles (dont deux avec signatures), des quittances de médecins, des notes intéressantes, etc. La plupart des pièces proviennent des archives des ducs d'Orléans.</note>
                 </item>
                 <item n="186" xml:id="CAT_000217_e186">
                     <num type="lot">186</num>
-                    <name type="other">POLOGNE.</name>
+                    <name type="other" ref="wd:Q549121">POLOGNE.</name>
                     <desc xml:id="CAT_000217_e186_d1">Memoriale rerum gestarum in Polonia morte Sigismundi tertii inchoatum et continuatum, <date when="1632">levi calamo et raptim descriptum anno 1632</date>; initium datum ab Alberto Stanislao Radximil, supremo cancellario M. D. Lithuaniae, manuscrit de <measure type="length" unit="p" n="947">947 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure>, rel.</desc>
                 </item>
                 <item n="187" xml:id="CAT_000217_e187">
                     <num type="lot">187</num>
-                    <name type="other">SAINT-GERMAIN-EN-LAYE.</name>
+                    <name type="other" ref="wd:Q60847808">SAINT-GERMAIN-EN-LAYE.</name>
                     <desc xml:id="CAT_000217_e187_d1">Antiquités de Saint-Germain-en-Laye et de ses environs, mss. du XVIIIe siècle, <measure type="length" unit="p" n="91">91 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4</measure>
                     </desc>
@@ -1956,7 +1959,7 @@
                 </item>
                 <item n="188" xml:id="CAT_000217_e188">
                     <num type="lot">188</num>
-                    <name type="other">XVIIIe SIÈCLE.</name>
+                    <name type="other" ref="wd:Q2945806">XVIIIe SIÈCLE.</name>
                     <desc xml:id="CAT_000217_e188_d1">Deux lettres anonymes; Paris, 17 et 18 mars (<date when="1778">1778</date>), <measure type="length" unit="p" n="5">5 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>
                     </desc>
@@ -1971,7 +1974,7 @@
                 </item>
                 <item n="190" xml:id="CAT_000217_e190">
                     <num type="lot">190</num>
-                    <name type="author">BUSSY-RABUTIN</name>
+                    <name type="author" ref="wd:Q1017736">BUSSY-RABUTIN</name>
                     <desc xml:id="CAT_000217_e190_d1">Histoire amoureuse de France, par Bussy-Rabutin, <date when="1666">1666</date>, mss. <measure type="format" unit="f" ana="#document_format_4">in-4</measure>, rel. vél.</desc>
                     <note>Ce manuscrit offre quelques variantes.</note>
                 </item>
@@ -1983,12 +1986,12 @@
                 </item>
                 <item n="192" xml:id="CAT_000217_e192">
                     <num type="lot">192</num>
-                    <name type="other">CACHETS</name>
+                    <name type="other" ref="wd:Q94286429">CACHETS</name>
                     <desc xml:id="CAT_000217_e192_d1">Collection de cachets en cire, collés sur des cartons.</desc>
                 </item>
                 <item n="193" xml:id="CAT_000217_e193">
                     <num type="lot">193</num>
-                    <name type="other">FAC-SIMILÉ</name>
+                    <name type="other" ref="wd:Q94495106">FAC-SIMILÉ</name>
                     <desc xml:id="CAT_000217_e193_d1">300 fac-similés divers.</desc>
                 </item>
                 <note>NIVERNAIS</note>
@@ -2008,14 +2011,14 @@
                 </item>
                 <item n="196" xml:id="CAT_000217_e196">
                     <num type="lot">196</num>
-                    <name type="other">NIVERNAIS.</name>
+                    <name type="other" ref="wd:Q1468519">NIVERNAIS.</name>
                     <desc xml:id="CAT_000217_e196_d1">
                         <date when="1457">16 chartes de 1457 à 1575</date>.</desc>
                     <note>Relatives au château de la Motte-Josserand, en Nivernais.</note>
                 </item>
                 <item n="197" xml:id="CAT_000217_e197">
                     <num type="lot">197</num>
-                    <name type="author">NEVERS (Jean Ier, comte de)</name>
+                    <name type="author" ref="wd:Q166997">NEVERS (Jean Ier, comte de)</name>
                     <desc xml:id="CAT_000217_e197_d1">Pièce, sur vélin ; 25 mars 1495 (<date when="1496">1496</date>, n. st.), <measure type="length" unit="p" n="42">42 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-fol.</measure> cart. (Coll. Joursanvault.)</desc>
                     <note>Enquête touchant la succession de Jean Ier, comte de Nevers.</note>
@@ -2035,7 +2038,7 @@
                 </item>
                 <item n="200" xml:id="CAT_000217_e200">
                     <num type="lot">200</num>
-                    <name type="author">LANGERON (le marquis et le comte de)</name>
+                    <name type="author" ref="wd:Q766364">LANGERON (le marquis et le comte de)</name>
                     <trait>
                         <p>généraux sous Louis XV.</p>
                     </trait>
@@ -2054,7 +2057,7 @@
                 </item>
                 <item n="202" xml:id="CAT_000217_e202">
                     <num type="lot">202</num>
-                    <name type="other">COLLECTION SUR LE NIVERNAIS</name>
+                    <name type="other" ref="wd:Q1468519">COLLECTION SUR LE NIVERNAIS</name>
                     <desc xml:id="CAT_000217_e202_d1">Collection de documents originaux, chartes et <term ana="#document_type_15">autographes</term>, concernant le Nivernais et comprenant environ-39 » 600 pièces du XIIe au XIXe siècle, contenues dans 8 cartons <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Recueil unique, que M. Grangier de La Marinière a mis quarante ans à former. Il comprend une série précieuse de chartes des XIIe XIIIe et XIVe siècles, des documents de toute nature, actes, contrats de vente, correspondances publiques et privées. On y trouve des <term ana="#document_type_15">autographes</term> de presque tous les personnages célèbres de la province et des députés et fonctionnaires.</desc>
                     <note>Cette précieuse collection pourra être vendue dans son ensemble. Il serait déplorable qu'elle fût morcelée, et on doit espérer qu'un dépôt public, soit à Paris, soit dans le département de la Nièvre, s'en rendra acquéreur.</note>
                 </item>

@@ -71,15 +71,18 @@
                documents for sale. All text preceding or succeeding the list of documents for sale
                is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -249,7 +252,7 @@
             <list>
                 <item n="1" xml:id="CAT_000110_e1">
                     <num type="lot">1</num>
-                    <name type="author">Adelung (J.-Christ.)</name>
+                    <name type="author" ref="wd:Q21506766">Adelung (J.-Christ.)</name>
                     <trait>
                         <p>illustre grammairien et philologue allemand</p>
                     </trait>
@@ -260,7 +263,7 @@
                 </item>
                 <item n="2" xml:id="CAT_000110_e2">
                     <num type="lot">2</num>
-                    <name type="author">Affre (Denis-Auguste)</name>
+                    <name type="author" ref="wd:Q737359">Affre (Denis-Auguste)</name>
                     <trait>
                         <p>archevêque de Paris, né à Saint-Rome-de-Tarn (Aveyron) en 1793, mort victime de
                      son dévoûment pendant les journées de juin 1848</p>
@@ -277,7 +280,7 @@
                 </item>
                 <item n="3" xml:id="CAT_000110_e3">
                     <num type="lot">3</num>
-                    <name type="author">Aguesseau (H.-Pr., d')</name>
+                    <name type="author" ref="wd:Q1278923">Aguesseau (H.-Pr., d')</name>
                     <trait>
                         <p>illustre chancelier de France, né en 1668, mort en 1751</p>
                     </trait>
@@ -288,7 +291,7 @@
                 </item>
                 <item n="4" xml:id="CAT_000110_e4">
                     <num type="lot">4</num>
-                    <name type="author">Albani (le cardinal Joseph)</name>
+                    <name type="author" ref="wd:Q22676705">Albani (le cardinal Joseph)</name>
                     <trait>
                         <p>soupçonné de complicité dans l'assassinat de Blesseville, ministre de Pie VIII,
                      musicien, né en 1750, mort en 1834</p>
@@ -305,7 +308,7 @@
                 </item>
                 <item n="5" xml:id="CAT_000110_e5">
                     <num type="lot">5</num>
-                    <name type="author">Alexandre VII (Fabio Chigi)</name>
+                    <name type="author" ref="wd:Q127254">Alexandre VII (Fabio Chigi)</name>
                     <trait>
                         <p>pape célèbre par ses démêlés avec Louis XIV, né en 1599, mort en 1667</p>
                     </trait>
@@ -316,7 +319,7 @@
                 </item>
                 <item n="6" xml:id="CAT_000110_e6">
                     <num type="lot">6</num>
-                    <name type="author">Alexandre VIII (Pietro Ottoboni)</name>
+                    <name type="author" ref="wd:Q101294">Alexandre VIII (Pietro Ottoboni)</name>
                     <trait>
                         <p>pape connu par sa modération et à qui Louis XIV rendit le Comtat-Venaissin, né
                      en 1610, mort en 1691</p>
@@ -328,13 +331,13 @@
                 </item>
                 <item n="7" xml:id="CAT_000110_e7">
                     <num type="lot">7</num>
-                    <name type="author">Amédée de Savoie (Ferdinand-Marie)</name>
+                    <name type="author" ref="wd:Q2707152">Amédée de Savoie (Ferdinand-Marie)</name>
                     <desc xml:id="CAT_000110_e7_d1">duc d'Aoste, ex-roi d'Espagne, fils du roi Victor-Emmanuel, né 2 7) 7 V (2 II.l obl. Papier à son chiffre. Au sujet des victimes de Casamicciola.</desc>
                     <measure commodity="currency" unit="FRF" quantity="20">20</measure>
                 </item>
                 <item n="8" xml:id="CAT_000110_e8">
                     <num type="lot">8</num>
-                    <name type="author">Arlincourt (le vicomte d')</name>
+                    <name type="author" ref="wd:Q1393517">Arlincourt (le vicomte d')</name>
                     <trait>
                         <p>célèbre romancier, né près de Versailles en 1789, mort en 1856</p>
                     </trait>
@@ -346,7 +349,7 @@
                 </item>
                 <item n="9" xml:id="CAT_000110_e9">
                     <num type="lot">9</num>
-                    <name type="author">Arnaud d'Andilly (Robert)</name>
+                    <name type="author" ref="wd:Q55416895">Arnaud d'Andilly (Robert)</name>
                     <trait>
                         <p>un des plus célèbres solitaires et écrivains de Port-Royal</p>
                     </trait>
@@ -360,7 +363,7 @@
                 </item>
                 <item n="10" xml:id="CAT_000110_e10">
                     <num type="lot">10</num>
-                    <name type="author">Arnauld de Pomponne (H.-Ch.)</name>
+                    <name type="author" ref="wd:Q3130819">Arnauld de Pomponne (H.-Ch.)</name>
                     <trait>
                         <p>abbé de Saint-Médard de Soissons, aumônier ordinaire du Roi, ambassadeur à
                      Venise, troisième fils de M. de Pomponne, né en 1669, mort le 26 juin 1756</p>
@@ -376,7 +379,7 @@
                 </item>
                 <item n="11" xml:id="CAT_000110_e11">
                     <num type="lot">11</num>
-                    <name type="author">Aubry (Etienne)</name>
+                    <name type="author" ref="wd:Q3592049">Aubry (Etienne)</name>
                     <trait>
                         <p>célèbre peintre du XVIIIe siècle, élève de Vien, membre de l'Académie de
                      peinture, né à Versailles en 1745, mort en 1781</p>
@@ -417,7 +420,7 @@
                 </item>
                 <item n="14" xml:id="CAT_000110_e14">
                     <num type="lot">14</num>
-                    <name type="author">Avaux (Claude de Mesmes, comte d')</name>
+                    <name type="author" ref="wd:Q445780">Avaux (Claude de Mesmes, comte d')</name>
                     <trait>
                         <p>célèbre diplomate, négociateur de la paix de Munster, ami de Balzac, né en
                      1595, mort en 1650</p>
@@ -432,7 +435,7 @@
                 </item>
                 <item n="15" xml:id="CAT_000110_e15">
                     <num type="lot">15</num>
-                    <name type="author">Azeglio (le chevalier Massimo d')</name>
+                    <name type="author" ref="wd:Q469134">Azeglio (le chevalier Massimo d')</name>
                     <trait>
                         <p>illustre homme d'Etat et littérateur italien</p>
                     </trait>
@@ -444,7 +447,7 @@
                 </item>
                 <item n="16" xml:id="CAT_000110_e16">
                     <num type="lot">16</num>
-                    <name type="author">Babeuf (Emile)</name>
+                    <name type="author" ref="wd:Q3588315">Babeuf (Emile)</name>
                     <trait>
                         <p>fils de Gracchus, à la mort de son père adopté par Le Peletier de
                      Saint-Fargeau, libraire et journaliste, né en 1785</p>
@@ -455,14 +458,14 @@
                 </item>
                 <item n="17" xml:id="CAT_000110_e17">
                     <num type="lot">17</num>
-                    <name type="author">Banville (Théodore de)</name>
+                    <name type="author" ref="wd:Q312630">Banville (Théodore de)</name>
                     <desc xml:id="CAT_000110_e17_d1">célèbre poète contemporain. Odes funambulesques, Occidentale première, Le Mirecourt, <term ana="#document_type_3">pièce aut.</term>, <date when="1846-10">octobre 1846</date>, <measure type="length" unit="p" n="3">3 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-f.</measure> Un peu fatiguée.</desc>
                     <measure commodity="currency" unit="FRF" quantity="15">15</measure>
                 </item>
                 <item n="18" xml:id="CAT_000110_e18">
                     <num type="lot">18</num>
-                    <name type="author">Barbés (A.)</name>
+                    <name type="author" ref="wd:Q677193">Barbés (A.)</name>
                     <trait>
                         <p>le célèbre révolutionnaire, né à la Guadeloupe en 1809, mort en 1870</p>
                     </trait>
@@ -479,7 +482,7 @@
                 </item>
                 <item n="19" xml:id="CAT_000110_e19">
                     <num type="lot">19</num>
-                    <name type="author">Barbier (Auguste)</name>
+                    <name type="author" ref="wd:Q548181">Barbier (Auguste)</name>
                     <trait>
                         <p>célèbre poète satirique, auteur des Iambes, né en 1805, mort récemment</p>
                     </trait>
@@ -490,7 +493,7 @@
                 </item>
                 <item n="20" xml:id="CAT_000110_e20">
                     <num type="lot">20</num>
-                    <name type="author">Barral (J.-A.)</name>
+                    <name type="author" ref="wd:Q2149015">Barral (J.-A.)</name>
                     <trait>
                         <p>savant chimiste et physicien, né à Metz en 1819</p>
                     </trait>
@@ -506,7 +509,7 @@
                 </item>
                 <item n="21" xml:id="CAT_000110_e21">
                     <num type="lot">21</num>
-                    <name type="author">Barras (Paul)</name>
+                    <name type="author" ref="wd:Q333843">Barras (Paul)</name>
                     <trait>
                         <p>célèbre conventionnel, président du Directoire exécutif, né à Fox-Amphoux (Var)
                      en 1755, mort en 1829</p>
@@ -522,7 +525,7 @@
                 </item>
                 <item n="22" xml:id="CAT_000110_e22">
                     <num type="lot">22</num>
-                    <name type="author">Baste (Pierre)</name>
+                    <name type="author" ref="wd:Q3383891">Baste (Pierre)</name>
                     <trait>
                         <p>célèbre amiral français, commandant de la flottille de Boulogne, appelé par
                      Napoléon à servir sur terre comme général de brigade, il fut blessé
@@ -536,7 +539,7 @@
                 </item>
                 <item n="23" xml:id="CAT_000110_e23">
                     <num type="lot">23</num>
-                    <name type="author">Bastien-Lepage (Jules)</name>
+                    <name type="author" ref="wd:Q541859">Bastien-Lepage (Jules)</name>
                     <trait>
                         <p>peintre distingué, né à Damvillers (Meuse) en 1848</p>
                     </trait>
@@ -547,7 +550,7 @@
                 </item>
                 <item n="24" xml:id="CAT_000110_e24">
                     <num type="lot">24</num>
-                    <name type="author">Batta (Alex.)</name>
+                    <name type="author" ref="wd:Q106604588">Batta (Alex.)</name>
                     <trait>
                         <p>violoncelliste et compositeur, né à Maëstricht en 1816</p>
                     </trait>
@@ -557,7 +560,7 @@
                 </item>
                 <item n="25" xml:id="CAT_000110_e25">
                     <num type="lot">25</num>
-                    <name type="author">Baudry (Paul)</name>
+                    <name type="author" ref="wd:Q911575">Baudry (Paul)</name>
                     <trait>
                         <p>le célèbre peintre, né à la Roche-sur-Yon en 1828, mort récemment</p>
                     </trait>
@@ -573,7 +576,7 @@
                 </item>
                 <item n="26" xml:id="CAT_000110_e26">
                     <num type="lot">26</num>
-                    <name type="author">Bawr (Mme de)</name>
+                    <name type="author" ref="wd:Q527477">Bawr (Mme de)</name>
                     <trait>
                         <p>célèbre romancière, veuve du réformateur Saint-Simon</p>
                     </trait>
@@ -585,7 +588,7 @@
                 </item>
                 <item n="27" xml:id="CAT_000110_e27">
                     <num type="lot">27</num>
-                    <name type="author">Bayle (Pierre)</name>
+                    <name type="author" ref="wd:Q214816">Bayle (Pierre)</name>
                     <trait>
                         <p>philosophe et critique, un des plus grands écrivains du XVIIe siècle, auteur
                      d'un Dictionnaire, né au Carlat (Ariège) en 1647, k. mort en 1706</p>
@@ -601,7 +604,7 @@
                 </item>
                 <item n="28" xml:id="CAT_000110_e28">
                     <num type="lot">28</num>
-                    <name type="author">Beaugrand (Mlle L.)</name>
+                    <name type="author" ref="wd:Q27022819">Beaugrand (Mlle L.)</name>
                     <trait>
                         <p>célèbre danseuse de l'Opéra</p>
                     </trait>
@@ -612,7 +615,7 @@
                 </item>
                 <item n="29" xml:id="CAT_000110_e29">
                     <num type="lot">29</num>
-                    <name type="author">Beethoven (Ludwig von)</name>
+                    <name type="author" ref="wd:Q255">Beethoven (Ludwig von)</name>
                     <trait>
                         <p>le grand compositeur allemand</p>
                     </trait>
@@ -625,7 +628,7 @@
                 </item>
                 <item n="30" xml:id="CAT_000110_e30">
                     <num type="lot">30</num>
-                    <name type="author">Belot (Adolphe)</name>
+                    <name type="author" ref="wd:Q2824774">Belot (Adolphe)</name>
                     <trait>
                         <p>célèbre auteur dramatique et romancier contemporain, né en 1829</p>
                     </trait>
@@ -639,7 +642,7 @@
                 </item>
                 <item n="31" xml:id="CAT_000110_e31">
                     <num type="lot">31</num>
-                    <name type="author">Benoit (Pierre)</name>
+                    <name type="author" ref="wd:Q733063">Benoit (Pierre)</name>
                     <trait>
                         <p>célèbre compositeur de musique contemporain, chef de l'école flamande, né en
                      Belgique en 1834</p>
@@ -655,7 +658,7 @@
                 </item>
                 <item n="32" xml:id="CAT_000110_e32">
                     <num type="lot">32</num>
-                    <name type="author">Bentham (Jérémie)</name>
+                    <name type="author" ref="wd:Q30334777">Bentham (Jérémie)</name>
                     <trait>
                         <p>jurisconsulte et moraliste anglais, le plus grand criminaliste de ce siècle, né
                      en 1748, mort en 1832</p>
@@ -679,7 +682,7 @@
                 </item>
                 <item n="34" xml:id="CAT_000110_e34">
                     <num type="lot">34</num>
-                    <name type="author">Bernard (Martin)</name>
+                    <name type="author" ref="wd:Q3295342">Bernard (Martin)</name>
                     <trait>
                         <p>ami et compagnon d'infortune de Barbès, représentant de la Seine en 1871, mort
                      récemment</p>
@@ -692,7 +695,7 @@
                 </item>
                 <item n="35" xml:id="CAT_000110_e35">
                     <num type="lot">35</num>
-                    <name type="author">Berquin (Arnaud)</name>
+                    <name type="author" ref="wd:Q350566">Berquin (Arnaud)</name>
                     <trait>
                         <p>célèbre écrivain, surnommé l'Ami des Enfants, né à Bordeaux vers 1749, mort en
                      1791</p>
@@ -707,7 +710,7 @@
                 </item>
                 <item n="36" xml:id="CAT_000110_e36">
                     <num type="lot">36</num>
-                    <name type="author">Berri (Marie-Caroline, duchesse de)</name>
+                    <name type="author" ref="wd:Q234931">Berri (Marie-Caroline, duchesse de)</name>
                     <trait>
                         <p>mère du comte de Chambord</p>
                     </trait>
@@ -718,7 +721,7 @@
                 </item>
                 <item n="37" xml:id="CAT_000110_e37">
                     <num type="lot">37</num>
-                    <name type="author">Berruyer</name>
+                    <name type="author" ref="wd:Q56537719">Berruyer</name>
                     <trait>
                         <p>seigneur de Mauselmont, conseiller et intendant, chargé des intérêts domaniaux
                      de Louis XIII en Belgique, envoyé près du prince d'Orange en 1632.</p>
@@ -736,7 +739,7 @@
                 </item>
                 <item n="38" xml:id="CAT_000110_e38">
                     <num type="lot">38</num>
-                    <name type="author">Berthet (Elie)</name>
+                    <name type="author" ref="wd:Q3056188">Berthet (Elie)</name>
                     <trait>
                         <p>romancier contemporain</p>
                     </trait>
@@ -748,7 +751,7 @@
                 </item>
                 <item n="39" xml:id="CAT_000110_e39">
                     <num type="lot">39</num>
-                    <name type="author">Bertin (le chevalier Antoine)</name>
+                    <name type="author" ref="wd:Q2853673">Bertin (le chevalier Antoine)</name>
                     <trait>
                         <p>célèbre poète érotique, ami et émule de Parny, né en 1752, mort en 1790</p>
                     </trait>
@@ -759,7 +762,7 @@
                 </item>
                 <item n="40" xml:id="CAT_000110_e40">
                     <num type="lot">40</num>
-                    <name type="author">Bertius (Pierre)</name>
+                    <name type="author" ref="wd:Q2712134">Bertius (Pierre)</name>
                     <trait>
                         <p>historiographe de Louis XIII, lecteur et professeur au collège de France. A
                      l'occassion de la digue de La Rochelle, il écrivit un livre sur les ponts et
@@ -771,7 +774,7 @@
                 </item>
                 <item n="41" xml:id="CAT_000110_e41">
                     <num type="lot">41</num>
-                    <name type="author">Bertrand (H.-G., comte)</name>
+                    <name type="author" ref="wd:Q63475">Bertrand (H.-G., comte)</name>
                     <trait>
                         <p>général français, compagnon d'inforture de Napoléon à Saint-Hélène, né à
                      Châteauroux en 1773, mort en 1844</p>
@@ -804,7 +807,7 @@
                 </item>
                 <item n="43" xml:id="CAT_000110_e43">
                     <num type="lot">43</num>
-                    <name type="author">Blanc (Louis)</name>
+                    <name type="author" ref="wd:Q355112">Blanc (Louis)</name>
                     <trait>
                         <p>historien et homme d'Etat, né en 1811, mort en 1882</p>
                     </trait>
@@ -846,7 +849,7 @@
                 </item>
                 <item n="45" xml:id="CAT_000110_e45">
                     <num type="lot">45</num>
-                    <name type="author">Blavet (Emile)</name>
+                    <name type="author" ref="wd:Q274933">Blavet (Emile)</name>
                     <trait>
                         <p>littérateur, auteur du Bravo</p>
                     </trait>
@@ -858,7 +861,7 @@
                 </item>
                 <item n="46" xml:id="CAT_000110_e46">
                     <num type="lot">46</num>
-                    <name type="author">Bochsa (N.-Ch.)</name>
+                    <name type="author" ref="wd:Q251397">Bochsa (N.-Ch.)</name>
                     <trait>
                         <p>célèbre harpiste et compositeur, né à Montmédy (Meuse) en 1789, mort en
                      1856</p>
@@ -884,7 +887,7 @@
                 </item>
                 <item n="48" xml:id="CAT_000110_e48">
                     <num type="lot">48</num>
-                    <name type="author">Boieldieu (Adrien)</name>
+                    <name type="author" ref="wd:Q109875">Boieldieu (Adrien)</name>
                     <trait>
                         <p>célèbre compositeur, auteur de la Dame Blanche, né à Rouen en 1775, mort en
                      1834</p>
@@ -901,7 +904,7 @@
                 </item>
                 <item n="49" xml:id="CAT_000110_e49">
                     <num type="lot">49</num>
-                    <name type="author">Boieldieu (Adrien)</name>
+                    <name type="author" ref="wd:Q109875">Boieldieu (Adrien)</name>
                     <desc xml:id="CAT_000110_e49_d1">Morceau de musique aut., <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_108">in-8 obl.</measure>
                     </desc>
@@ -910,7 +913,7 @@
                 </item>
                 <item n="50" xml:id="CAT_000110_e50">
                     <num type="lot">50</num>
-                    <name type="author">Boissier (Gaston)</name>
+                    <name type="author" ref="wd:Q106941622">Boissier (Gaston)</name>
                     <trait>
                         <p>littérateur distingué, de l'Acad. fr., né à Nîmes en 1823</p>
                     </trait>
@@ -921,7 +924,7 @@
                 </item>
                 <item n="51" xml:id="CAT_000110_e51">
                     <num type="lot">51</num>
-                    <name type="author">Bonaparte (Pauline)</name>
+                    <name type="author" ref="wd:Q152785">Bonaparte (Pauline)</name>
                     <trait>
                         <p>épouse du général Leclerc, puis princesse Borghèse, duchesse de Guastalla,
                      seconde soeur de Napoléon 1er, née en 1780, morte en 1825</p>
@@ -938,7 +941,7 @@
                 </item>
                 <item n="52" xml:id="CAT_000110_e52">
                     <num type="lot">52</num>
-                    <name type="author">Bonaparte (Catherine)</name>
+                    <name type="author" ref="wd:Q75305240">Bonaparte (Catherine)</name>
                     <trait>
                         <p>reine de Westphalie, femme de Jérôme, princesse célèbre par sa beauté et son
                      dévoûment à son mari, née en 1783, morte en 1835</p>
@@ -956,7 +959,7 @@
                 </item>
                 <item n="53" xml:id="CAT_000110_e53">
                     <num type="lot">53</num>
-                    <name type="author">Bonaparte-Wyse (William)</name>
+                    <name type="author" ref="wd:Q3049525">Bonaparte-Wyse (William)</name>
                     <trait>
                         <p>poète provençal, un des félibres, fils de Thomas Wyse, membre catholique du
                      parlement anglais, et de Laetitia Bonaparte, petit-fils de Lucien</p>
@@ -986,7 +989,7 @@
                 </item>
                 <item n="55" xml:id="CAT_000110_e55">
                     <num type="lot">55</num>
-                    <name type="author">Bouffé (Marie)</name>
+                    <name type="author" ref="wd:Q3142514">Bouffé (Marie)</name>
                     <trait>
                         <p>célèbre acteur des Variétés, créateur du rôle du Gamin de Paris, né en 1800</p>
                     </trait>
@@ -996,7 +999,7 @@
                 </item>
                 <item n="56" xml:id="CAT_000110_e56">
                     <num type="lot">56</num>
-                    <name type="author">Boufflers (Stanislas, chevalier de)</name>
+                    <name type="author" ref="wd:Q918355">Boufflers (Stanislas, chevalier de)</name>
                     <trait>
                         <p>célèbre poète et philosophe du XVIIIe siècle, de l'Acad. fr.</p>
                     </trait>
@@ -1008,7 +1011,7 @@
                 </item>
                 <item n="57" xml:id="CAT_000110_e57">
                     <num type="lot">57</num>
-                    <name type="author">Boulogne (Bon)</name>
+                    <name type="author" ref="wd:Q2909823">Boulogne (Bon)</name>
                     <trait>
                         <p>peintre du XVIIe siècle, de l'Académie de peintnre, né en 1649, mort en
                      1717</p>
@@ -1020,7 +1023,7 @@
                 </item>
                 <item n="58" xml:id="CAT_000110_e58">
                     <num type="lot">58</num>
-                    <name type="author">Bourbon (Ch.-Louis de)</name>
+                    <name type="author" ref="wd:Q36234">Bourbon (Ch.-Louis de)</name>
                     <trait>
                         <p>duc de Lucques, puis de Parme, détrôné en 1848, il abdiqua en 1849, fils de
                      Louis, roi d'Étrurie et de Marie-Louise d'Espagne, né en 1799</p>
@@ -1032,7 +1035,7 @@
                 </item>
                 <item n="59" xml:id="CAT_000110_e59">
                     <num type="lot">59</num>
-                    <name type="author">Bracquemond (Joseph-Félix)</name>
+                    <name type="author" ref="wd:Q633574">Bracquemond (Joseph-Félix)</name>
                     <trait>
                         <p>peintre et aquafortiste très-distingué, né en 1833.</p>
                     </trait>
@@ -1043,7 +1046,7 @@
                 </item>
                 <item n="60" xml:id="CAT_000110_e60">
                     <num type="lot">60</num>
-                    <name type="author">Brazza (P. Savorgnan de)</name>
+                    <name type="author" ref="wd:Q319834">Brazza (P. Savorgnan de)</name>
                     <trait>
                         <p>officier de marine, d'origine italienne, mais naturalisé français à l'époque de
                      la guerre de 1870, célèbre voyageur au Congo dont il vient d'être nommé
@@ -1068,7 +1071,7 @@
                 </item>
                 <item n="62" xml:id="CAT_000110_e62">
                     <num type="lot">62</num>
-                    <name type="author">Broca (Paul)</name>
+                    <name type="author" ref="wd:Q311276">Broca (Paul)</name>
                     <trait>
                         <p>célèbre chirurgien et anthropologiste, membre de l'Académie de Médecine né à
                      Sainte-Foy-la-Grande (Gironde) en 1824</p>
@@ -1091,7 +1094,7 @@
                 </item>
                 <item n="63" xml:id="CAT_000110_e63">
                     <num type="lot">63</num>
-                    <name type="author">Brulart (Charles)</name>
+                    <name type="author" ref="wd:Q94896205">Brulart (Charles)</name>
                     <trait>
                         <p>prieur de Léon, qui accompagna le Père Joseph à la diète de Ratisbonne</p>
                     </trait>
@@ -1105,7 +1108,7 @@
                 </item>
                 <item n="64" xml:id="CAT_000110_e64">
                     <num type="lot">64</num>
-                    <name type="author">Buloz (Fr.)</name>
+                    <name type="author" ref="wd:Q3084141">Buloz (Fr.)</name>
                     <trait>
                         <p>littérateur, directeur de la Revue des Deux-Mondes, né près de Genève en 1803,
                      mort en 1877</p>
@@ -1138,7 +1141,7 @@
                 </item>
                 <item n="66" xml:id="CAT_000110_e66">
                     <num type="lot">66</num>
-                    <name type="author">Calamatta (L.)</name>
+                    <name type="author" ref="wd:Q1244195">Calamatta (L.)</name>
                     <trait>
                         <p>illustre graveur italien</p>
                     </trait>
@@ -1153,7 +1156,7 @@
                 </item>
                 <item n="67" xml:id="CAT_000110_e67">
                     <num type="lot">67</num>
-                    <name type="author">Calonne (Charles-Alexandre de)</name>
+                    <name type="author" ref="wd:Q437832">Calonne (Charles-Alexandre de)</name>
                     <trait>
                         <p>fameux contrôleur général des finances sous Louis XVI, né à Douai</p>
                     </trait>
@@ -1179,7 +1182,7 @@
                 </item>
                 <item n="69" xml:id="CAT_000110_e69">
                     <num type="lot">69</num>
-                    <name type="author">Ganning (George)</name>
+                    <name type="author" ref="wd:Q15997522">Ganning (George)</name>
                     <trait>
                         <p>illustre homme d'Etat anglais, né en 1770, mort en en 1827</p>
                     </trait>
@@ -1194,7 +1197,7 @@
                 </item>
                 <item n="70" xml:id="CAT_000110_e70">
                     <num type="lot">70</num>
-                    <name type="author">Carmontel (Louis-Charles de)</name>
+                    <name type="author" ref="wd:Q982053">Carmontel (Louis-Charles de)</name>
                     <trait>
                         <p>peintre et auteur dramatique, créateur du genre des Proverbes, né en 1717. mort
                      en 1806</p>
@@ -1208,7 +1211,7 @@
                 </item>
                 <item n="71" xml:id="CAT_000110_e71">
                     <num type="lot">71</num>
-                    <name type="author">Carmouche (P.-F.)</name>
+                    <name type="author" ref="wd:Q37457309">Carmouche (P.-F.)</name>
                     <trait>
                         <p>spirituel vaudevilliste, né à Lyon</p>
                     </trait>
@@ -1220,7 +1223,7 @@
                 </item>
                 <item n="72" xml:id="CAT_000110_e72">
                     <num type="lot">72</num>
-                    <name type="author">Caro (E.)</name>
+                    <name type="author" ref="wd:Q682706">Caro (E.)</name>
                     <trait>
                         <p>philosophe, membre de l'Académie française, né à Poitiers</p>
                     </trait>
@@ -1232,7 +1235,7 @@
                 </item>
                 <item n="73" xml:id="CAT_000110_e73">
                     <num type="lot">73</num>
-                    <name type="author">Cartigny (Ch.-Cl.)</name>
+                    <name type="author" ref="wd:Q2976676">Cartigny (Ch.-Cl.)</name>
                     <trait>
                         <p>acteur distingué de la Comédie-Française, né en 1782, mort en 1852</p>
                     </trait>
@@ -1242,7 +1245,7 @@
                 </item>
                 <item n="74" xml:id="CAT_000110_e74">
                     <num type="lot">74</num>
-                    <name type="author">Carvalho (Mme C. Miolan)</name>
+                    <name type="author" ref="wd:Q56922570">Carvalho (Mme C. Miolan)</name>
                     <trait>
                         <p>cantatrice contemporaine, née à Marseille en 1827</p>
                     </trait>
@@ -1255,7 +1258,7 @@
                 </item>
                 <item n="75" xml:id="CAT_000110_e75">
                     <num type="lot">75</num>
-                    <name type="author">Castelar (Emilio)</name>
+                    <name type="author" ref="wd:Q718209">Castelar (Emilio)</name>
                     <trait>
                         <p>le célèbre orateur et homme politique espagnol, né en 1832</p>
                     </trait>
@@ -1268,7 +1271,7 @@
                 </item>
                 <item n="76" xml:id="CAT_000110_e76">
                     <num type="lot">76</num>
-                    <name type="author">Castelnau (Michel de)</name>
+                    <name type="author" ref="wd:Q3132450">Castelnau (Michel de)</name>
                     <trait>
                         <p>célèbre guerrier et diplomate français qui joua un grand rôle dans les guerres
                      de religion du XVIe siècle, auteur de Mémoires très-estimés, né vers 1520 à la
@@ -1285,7 +1288,7 @@
                 </item>
                 <item n="77" xml:id="CAT_000110_e77">
                     <num type="lot">77</num>
-                    <name type="author">Catherine de Navarre</name>
+                    <name type="author" ref="wd:Q268652">Catherine de Navarre</name>
                     <trait>
                         <p>duchesse de Bar, soeur de Henri IV, célèbre par son attachement au
                      Protestantisme, née en 1558, morte à Nancy en 1604.</p>
@@ -1302,7 +1305,7 @@
                 </item>
                 <item n="78" xml:id="CAT_000110_e78">
                     <num type="lot">78</num>
-                    <name type="author">Caumont la Force (Jacques Nompar, duc de)</name>
+                    <name type="author" ref="wd:Q2563750">Caumont la Force (Jacques Nompar, duc de)</name>
                     <trait>
                         <p>maréchal de France, un des plus illustres capitaines protestants des règnes de
                      Henri IV et de Louis XIII, sauvé sur le cadavre de son père à la
@@ -1321,7 +1324,7 @@
                 </item>
                 <item n="79" xml:id="CAT_000110_e79">
                     <num type="lot">79</num>
-                    <name type="author">Chabannes (Ant. de)</name>
+                    <name type="author" ref="wd:Q43967513">Chabannes (Ant. de)</name>
                     <trait>
                         <p>comte de Dammartin en Goêle, célèbre compagnon de Jeanne d'Arc dans ses
                      expéditions et qui fut l'ennemi de Louis XI durant la Praguerie et la guerre du
@@ -1337,7 +1340,7 @@
                 </item>
                 <item n="80" xml:id="CAT_000110_e80">
                     <num type="lot">80</num>
-                    <name type="author">Chabot (Philippe de)</name>
+                    <name type="author" ref="wd:Q288094">Chabot (Philippe de)</name>
                     <trait>
                         <p>connu sous le nom d'amiral de Brion comte de Charni et de Busançay, célèbre
                      général et ministre de François Ier, mort en 1543</p>
@@ -1365,7 +1368,7 @@
                 </item>
                 <item n="82" xml:id="CAT_000110_e82">
                     <num type="lot">82</num>
-                    <name type="author">Chapelain (Jean)</name>
+                    <name type="author" ref="wd:Q7293752">Chapelain (Jean)</name>
                     <trait>
                         <p>célèbre poète, auteur de la Pucelle, membre de l'Académie française, né en
                      1595, mort en 1674</p>
@@ -1377,7 +1380,7 @@
                 </item>
                 <item n="83" xml:id="CAT_000110_e83">
                     <num type="lot">83</num>
-                    <name type="author">Chaptal (Jean-Ant.)</name>
+                    <name type="author" ref="wd:Q708011">Chaptal (Jean-Ant.)</name>
                     <trait>
                         <p>illustre chimiste et homme d'Etat, de l'Institut, né à Nogaret (Lozère) en
                      1756, mort en 1832</p>
@@ -1396,7 +1399,7 @@
                 </item>
                 <item n="84" xml:id="CAT_000110_e84">
                     <num type="lot">84</num>
-                    <name type="author">Charles VI</name>
+                    <name type="author" ref="wd:Q150665">Charles VI</name>
                     <trait>
                         <p>empereur d'Allemagne, né en 1685, mort en 1740.</p>
                     </trait>
@@ -1410,7 +1413,7 @@
                 </item>
                 <item n="85" xml:id="CAT_000110_e85">
                     <num type="lot">85</num>
-                    <name type="author">Charlotte-Elisabeth de Bavière</name>
+                    <name type="author" ref="wd:Q57221">Charlotte-Elisabeth de Bavière</name>
                     <trait>
                         <p>dite la princesse Palatine, seconde femme de Philippe, duc d'Orléans, et mère
                      du Régent, dont on a publié les Lettres, née en 1652, morte en 1722</p>
@@ -1424,7 +1427,7 @@
                 </item>
                 <item n="86" xml:id="CAT_000110_e86">
                     <num type="lot">86</num>
-                    <name type="author">Chaudruc de Crazannes (J.-M.-C.-A., baron)</name>
+                    <name type="author" ref="wd:Q3165286">Chaudruc de Crazannes (J.-M.-C.-A., baron)</name>
                     <trait>
                         <p>littérateur et archéologue distingué, correspondant de l'Académie des
                      Inscriptions, né près de Saintes en 1782, mort en 1862</p>
@@ -1449,7 +1452,7 @@
                 </item>
                 <item n="88" xml:id="CAT_000110_e88">
                     <num type="lot">88</num>
-                    <name type="author">Cherubini (L.)</name>
+                    <name type="author" ref="wd:Q20721">Cherubini (L.)</name>
                     <trait>
                         <p>l'illustre compositeur, né à Florence en 1760, mort en 1842</p>
                     </trait>
@@ -1460,7 +1463,7 @@
                 </item>
                 <item n="89" xml:id="CAT_000110_e89">
                     <num type="lot">89</num>
-                    <name type="author">Cladel (Léon)</name>
+                    <name type="author" ref="wd:Q1398171">Cladel (Léon)</name>
                     <trait>
                         <p>romancier réaliste contemporain, né à Montauban en 1835</p>
                     </trait>
@@ -1490,7 +1493,7 @@
                 </item>
                 <item n="91" xml:id="CAT_000110_e91">
                     <num type="lot">91</num>
-                    <name type="author">Collé (Ch.)</name>
+                    <name type="author" ref="wd:Q2404425">Collé (Ch.)</name>
                     <trait>
                         <p>le véritable créateur du vaudeville en France, le La Fontaine de la chanson, né
                      en 1709, mort en 1783</p>
@@ -1508,7 +1511,7 @@
                 </item>
                 <item n="92" xml:id="CAT_000110_e92">
                     <num type="lot">92</num>
-                    <name type="author">Comettant (Oscar)</name>
+                    <name type="author" ref="wd:Q16665081">Comettant (Oscar)</name>
                     <trait>
                         <p>littérateur et compositeur de musique</p>
                     </trait>
@@ -1520,7 +1523,7 @@
                 </item>
                 <item n="93" xml:id="CAT_000110_e93">
                     <num type="lot">93</num>
-                    <name type="author">Condé (Louis II de Bourbon, prince de)</name>
+                    <name type="author" ref="wd:Q27967072">Condé (Louis II de Bourbon, prince de)</name>
                     <trait>
                         <p>dit le Grand</p>
                     </trait>
@@ -1537,7 +1540,7 @@
                 </item>
                 <item n="94" xml:id="CAT_000110_e94">
                     <num type="lot">94</num>
-                    <name type="author">Condé (L.-H.-J. de Bourbon, prince de)</name>
+                    <name type="author" ref="wd:Q310837">Condé (L.-H.-J. de Bourbon, prince de)</name>
                     <trait>
                         <p>père du duc d'Enghien, né en 1756, mort par suicide le 27 août 1830</p>
                     </trait>
@@ -1548,7 +1551,7 @@
                 </item>
                 <item n="95" xml:id="CAT_000110_e95">
                     <num type="lot">95</num>
-                    <name type="author">Condillac (l'abbé Etienne Bonnot de)</name>
+                    <name type="author" ref="wd:Q272119">Condillac (l'abbé Etienne Bonnot de)</name>
                     <trait>
                         <p>célèbre métaphysicien, chef de l'école sensualiste, membre de l'Académie
                      française, né à Grenoble en 1715, mort en 1780</p>
@@ -1566,7 +1569,7 @@
                 </item>
                 <item n="96" xml:id="CAT_000110_e96">
                     <num type="lot">96</num>
-                    <name type="author">Consalvi (le cardinal Hercule)</name>
+                    <name type="author" ref="wd:Q28028988">Consalvi (le cardinal Hercule)</name>
                     <trait>
                         <p>ami et premier ministre de Pie VII, signataire du Concordat avec Napoléon, né
                      en 1757, mort en 1824</p>
@@ -1583,7 +1586,7 @@
                 </item>
                 <item n="97" xml:id="CAT_000110_e97">
                     <num type="lot">97</num>
-                    <name type="author">Conscience (Henri)</name>
+                    <name type="author" ref="wd:Q21618478">Conscience (Henri)</name>
                     <trait>
                         <p>le romancier national de la Belgique, mort récemment</p>
                     </trait>
@@ -1599,7 +1602,7 @@
                 </item>
                 <item n="98" xml:id="CAT_000110_e98">
                     <num type="lot">98</num>
-                    <name type="author">Conscience (Henri)</name>
+                    <name type="author" ref="wd:Q21618478">Conscience (Henri)</name>
                     <desc xml:id="CAT_000110_e98_d1">
                         <term ana="#document_type_9">Let. sig.</term> à M. Duval Lecamus ; Anvers, <date when="1840">1840</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure>
@@ -1609,7 +1612,7 @@
                 </item>
                 <item n="99" xml:id="CAT_000110_e99">
                     <num type="lot">99</num>
-                    <name type="author">Constant (Benjamin)</name>
+                    <name type="author" ref="wd:Q123089">Constant (Benjamin)</name>
                     <trait>
                         <p>célèbre publiciste et orateur parlementaire, né à Lausanne en 1767, mort en
                      1830</p>
@@ -1627,7 +1630,7 @@
                 </item>
                 <item n="100" xml:id="CAT_000110_e100">
                     <num type="lot">100</num>
-                    <name type="author">Contat (Louise)</name>
+                    <name type="author" ref="wd:Q3263717">Contat (Louise)</name>
                     <trait>
                         <p>actrice distinguée de la Comédie-Française, épouse du neveu de Parny, née en
                      1760, morte en 1813</p>
@@ -1639,7 +1642,7 @@
                 </item>
                 <item n="101" xml:id="CAT_000110_e101">
                     <num type="lot">101</num>
-                    <name type="author">Conti (Francesco)</name>
+                    <name type="author" ref="wd:Q691763">Conti (Francesco)</name>
                     <trait>
                         <p>célèbre compositeur italien du commencement du XVIIIe siècle et l'un des plus
                      habiles théorbistes qui aient existé, protégé par l'empereur Charles VI, né à
@@ -1654,7 +1657,7 @@
                 </item>
                 <item n="102" xml:id="CAT_000110_e102">
                     <num type="lot">102</num>
-                    <name type="author">Coppée (Fr.)</name>
+                    <name type="author" ref="wd:Q2896471">Coppée (Fr.)</name>
                     <trait>
                         <p>poète contemporain, de l'Acad. fr., ne en 1842</p>
                     </trait>
@@ -1685,7 +1688,7 @@
                 </item>
                 <item n="104" xml:id="CAT_000110_e104">
                     <num type="lot">104</num>
-                    <name type="author">Corneille (Jeanne-Marie)</name>
+                    <name type="author" ref="wd:Q469335">Corneille (Jeanne-Marie)</name>
                     <trait>
                         <p>descendante de l'illustre écrivain, pupille de Malesherbes, pensionnée par
                      Louis XVI, née à Pernes (Vaucluse) en 1765</p>
@@ -1703,7 +1706,7 @@
                 </item>
                 <item n="105" xml:id="CAT_000110_e105">
                     <num type="lot">105</num>
-                    <name type="author">Couché (François-Louis)</name>
+                    <name type="author" ref="wd:Q3085204">Couché (François-Louis)</name>
                     <trait>
                         <p>dessinateur et graveur vignettiste, qui a illustré Norvins, Dulaure, etc, né
                      vers 1782</p>
@@ -1717,7 +1720,7 @@
                 </item>
                 <item n="106" xml:id="CAT_000110_e106">
                     <num type="lot">106</num>
-                    <name type="author">Courbet (Gustave)</name>
+                    <name type="author" ref="wd:Q34618">Courbet (Gustave)</name>
                     <trait>
                         <p>le célèbre peintre réaliste, membre de la Commune de Paris, né à Ornans en
                      1819, mort en 1877</p>
@@ -1740,14 +1743,14 @@
                 </item>
                 <item n="107" xml:id="CAT_000110_e107">
                     <num type="lot">107</num>
-                    <name type="author">Courbet (Gustave) -</name>
+                    <name type="author" ref="wd:Q34618">Courbet (Gustave) -</name>
                     <desc xml:id="CAT_000110_e107_d1">Sa carte photographie avec dédicace <term ana="#document_type_15">aut. sig.</term>, <measure type="format" unit="f" ana="#document_format_18">in-18.</measure>
                     </desc>
                     <measure commodity="currency" unit="FRF" quantity="20">20</measure>
                 </item>
                 <item n="108" xml:id="CAT_000110_e108">
                     <num type="lot">108</num>
-                    <name type="author">Coypel (Noël)</name>
+                    <name type="author" ref="wd:Q975135">Coypel (Noël)</name>
                     <trait>
                         <p>célèbre peintre d'histoire, surnommé Coypel-le-Poussin, directeur de l'Académie
                      de Peinture, né en 1623, mort en 1707</p>
@@ -1759,7 +1762,7 @@
                 </item>
                 <item n="109" xml:id="CAT_000110_e109">
                     <num type="lot">109</num>
-                    <name type="author">Crébillon (Prosper Joliot de)</name>
+                    <name type="author" ref="wd:Q55001628">Crébillon (Prosper Joliot de)</name>
                     <trait>
                         <p>célèbre poète tragique, de l'Acad. fr.</p>
                     </trait>
@@ -1769,7 +1772,7 @@
                 </item>
                 <item n="110" xml:id="CAT_000110_e110">
                     <num type="lot">110</num>
-                    <name type="author">Créquy (la marquise de)</name>
+                    <name type="author" ref="wd:Q473153">Créquy (la marquise de)</name>
                     <trait>
                         <p>une des femmes les plus célèbres du XVIIIe siècle, amie de J.-J. Rousseau</p>
                     </trait>
@@ -1780,7 +1783,7 @@
                 </item>
                 <item n="111" xml:id="CAT_000110_e111">
                     <num type="lot">111</num>
-                    <name type="author">Crescentini (Girolamo)</name>
+                    <name type="author" ref="wd:Q552124">Crescentini (Girolamo)</name>
                     <trait>
                         <p>célèbre sopraniste italien, né en 1766, mort en 1846</p>
                     </trait>
@@ -1790,7 +1793,7 @@
                 </item>
                 <item n="112" xml:id="CAT_000110_e112">
                     <num type="lot">112</num>
-                    <name type="author">Danès (Jean)</name>
+                    <name type="author" ref="wd:Q6170804">Danès (Jean)</name>
                     <trait>
                         <p>avocat au</p>
                     </trait>
@@ -1813,7 +1816,7 @@
                 </item>
                 <item n="114" xml:id="CAT_000110_e114">
                     <num type="lot">114</num>
-                    <name type="author">Daubigny (C.)</name>
+                    <name type="author" ref="wd:Q252357">Daubigny (C.)</name>
                     <trait>
                         <p>un de nos plus célèbres peintres paysagistes et graveurs contemporains, né en
                      1817, mort en 1878</p>
@@ -1828,7 +1831,7 @@
                 </item>
                 <item n="115" xml:id="CAT_000110_e115">
                     <num type="lot">115</num>
-                    <name type="author">Daumas (E.)</name>
+                    <name type="author" ref="wd:Q705910">Daumas (E.)</name>
                     <trait>
                         <p>célèbre général et écrivain militaire, né en 1803, mort en 1871</p>
                     </trait>
@@ -1841,7 +1844,7 @@
                 </item>
                 <item n="116" xml:id="CAT_000110_e116">
                     <num type="lot">116</num>
-                    <name type="author">Decazes (L.-C.-E.-A., duc)</name>
+                    <name type="author" ref="wd:Q587962">Decazes (L.-C.-E.-A., duc)</name>
                     <trait>
                         <p>homme politique français, fils du ministre de la Restauration, né en 1819</p>
                     </trait>
@@ -1853,7 +1856,7 @@
                 </item>
                 <item n="117" xml:id="CAT_000110_e117">
                     <num type="lot">117</num>
-                    <name type="author">Delacroix (Eugène)</name>
+                    <name type="author" ref="wd:Q33477">Delacroix (Eugène)</name>
                     <trait>
                         <p>le grand peintre d'histoire</p>
                     </trait>
@@ -1867,7 +1870,7 @@
                 </item>
                 <item n="118" xml:id="CAT_000110_e118">
                     <num type="lot">118</num>
-                    <name type="author">Delavigne (Casimir)</name>
+                    <name type="author" ref="wd:Q126961">Delavigne (Casimir)</name>
                     <trait>
                         <p>célèbre poète, auteur des Messéniennes, de l'Acad. fr. né au Havre en 1793,
                      mort en 1843</p>
@@ -1878,7 +1881,7 @@
                 </item>
                 <item n="119" xml:id="CAT_000110_e119">
                     <num type="lot">119</num>
-                    <name type="author">Delestre-Poirson (C.-G.)</name>
+                    <name type="author" ref="wd:Q2958089">Delestre-Poirson (C.-G.)</name>
                     <trait>
                         <p>spirituel vaudevilliste</p>
                     </trait>
@@ -1889,7 +1892,7 @@
                 </item>
                 <item n="120" xml:id="CAT_000110_e120">
                     <num type="lot">120</num>
-                    <name type="author">Delvau (Alfred)</name>
+                    <name type="author" ref="wd:Q2644856">Delvau (Alfred)</name>
                     <trait>
                         <p>littérateur et auteur dramatique, né en 1825, mort en 1867</p>
                     </trait>
@@ -1908,7 +1911,7 @@
                 </item>
                 <item n="121" xml:id="CAT_000110_e121">
                     <num type="lot">121</num>
-                    <name type="author">Des Alleurs (le comte)</name>
+                    <name type="author" ref="wd:Q3164218">Des Alleurs (le comte)</name>
                     <trait>
                         <p>célèbre diplomate du XVIIIe siècle, ambassadeur à Berlin en 1697, puis à
                      Constantinople, envoyé secrètement près de Ragoczi en 1704, né en Normandie</p>
@@ -1941,7 +1944,7 @@
                 </item>
                 <item n="123" xml:id="CAT_000110_e123">
                     <num type="lot">123</num>
-                    <name type="author">Desforges-Maillard (Paul)</name>
+                    <name type="author" ref="wd:Q3371054">Desforges-Maillard (Paul)</name>
                     <trait>
                         <p>poète distingué, surnommé par Voltaire l'Apollon de Bretagne, né au Croisic en
                      1699, mort en 1772</p>
@@ -1959,7 +1962,7 @@
                 </item>
                 <item n="124" xml:id="CAT_000110_e124">
                     <num type="lot">124</num>
-                    <name type="author">Detaille (Edouard)</name>
+                    <name type="author" ref="wd:Q724148">Detaille (Edouard)</name>
                     <trait>
                         <p>célèbre peintre, qui a conquis le premier rang dans la peinture de genre
                      militaire, élève de Meissonier, né à Paris le 5 octobre 1848</p>
@@ -1972,7 +1975,7 @@
                 </item>
                 <item n="125" xml:id="CAT_000110_e125">
                     <num type="lot">125</num>
-                    <name type="author">Diderot (Denis)</name>
+                    <name type="author" ref="wd:Q59347126">Diderot (Denis)</name>
                     <trait>
                         <p>le plus hardi des philosophes du XVIIIe siècle, né à Langres en 1713, mort en
                      1784</p>
@@ -1988,7 +1991,7 @@
                 </item>
                 <item n="126" xml:id="CAT_000110_e126">
                     <num type="lot">126</num>
-                    <name type="author">Dilke (sir Ch.)</name>
+                    <name type="author" ref="wd:Q338114">Dilke (sir Ch.)</name>
                     <trait>
                         <p>homme d'Etat anglais, directeur de l'Athenoeum, né en 1843</p>
                     </trait>
@@ -2000,7 +2003,7 @@
                 </item>
                 <item n="127" xml:id="CAT_000110_e127">
                     <num type="lot">127</num>
-                    <name type="author">Disraeli (Benjamin)</name>
+                    <name type="author" ref="wd:Q82006">Disraeli (Benjamin)</name>
                     <trait>
                         <p>lord Beaconsfield, illustre homme d'Etat anglais contemporain, né en 1805</p>
                     </trait>
@@ -2015,7 +2018,7 @@
                 </item>
                 <item n="128" xml:id="CAT_000110_e128">
                     <num type="lot">128</num>
-                    <name type="author">Doni (J.-B.)</name>
+                    <name type="author" ref="wd:Q2862076">Doni (J.-B.)</name>
                     <trait>
                         <p>compositeur de musique italien, du XVIIe siècle, auteur de plusieurs ouvrages
                      spéciaux sur son art, né en 1594, mort en 1647</p>
@@ -2027,7 +2030,7 @@
                 </item>
                 <item n="129" xml:id="CAT_000110_e129">
                     <num type="lot">129</num>
-                    <name type="author">Donizetti (Gaetano)</name>
+                    <name type="author" ref="wd:Q101698">Donizetti (Gaetano)</name>
                     <trait>
                         <p>célèbre compositeur, né en 1798, mort en 1848</p>
                     </trait>
@@ -2041,7 +2044,7 @@
                 </item>
                 <item n="130" xml:id="CAT_000110_e130">
                     <num type="lot">130</num>
-                    <name type="author">Dorat (Cl.-Jos.)</name>
+                    <name type="author" ref="wd:Q361456">Dorat (Cl.-Jos.)</name>
                     <trait>
                         <p>poète célèbre du XVIIIe siècle, auteur des Baisers, né en 1734, mort en
                      1780</p>
@@ -2058,7 +2061,7 @@
                 </item>
                 <item n="131" xml:id="CAT_000110_e131">
                     <num type="lot">131</num>
-                    <name type="author">Dorval (Marie)</name>
+                    <name type="author" ref="wd:Q2636224">Dorval (Marie)</name>
                     <trait>
                         <p>la célèbre actrice de drame, née à Lorient vers 1801. morte en 1849</p>
                     </trait>
@@ -2072,7 +2075,7 @@
                 </item>
                 <item n="132" xml:id="CAT_000110_e132">
                     <num type="lot">132</num>
-                    <name type="author">Drumont (Ed.)</name>
+                    <name type="author" ref="wd:Q274297">Drumont (Ed.)</name>
                     <trait>
                         <p>publiciste et littérateur, auteur de la France juive, né en 1844</p>
                     </trait>
@@ -2084,7 +2087,7 @@
                 </item>
                 <item n="133" xml:id="CAT_000110_e133">
                     <num type="lot">133</num>
-                    <name type="author">Du Barry (Marie -Jeanne Gomard de Vaubernier, comtesse)</name>
+                    <name type="author" ref="wd:Q22676705">Du Barry (Marie -Jeanne Gomard de Vaubernier, comtesse)</name>
                     <trait>
                         <p>la célèbre maîtresse de Louis XV, née à Vaucouleurs en 1746, guillotinée le 7
                      décembre 1793</p>
@@ -2095,7 +2098,7 @@
                 </item>
                 <item n="134" xml:id="CAT_000110_e134">
                     <num type="lot">134</num>
-                    <name type="author">Duboccage (Anne-Marie' Lepage, dame Fiquet-)</name>
+                    <name type="author" ref="wd:Q2850913">Duboccage (Anne-Marie' Lepage, dame Fiquet-)</name>
                     <trait>
                         <p>femme poète du XVIIIe siècle, célèbre par son amabilité et les charmes de son
                      esprit, née à Rouen en 1710, morte en 1802</p>
@@ -2115,7 +2118,7 @@
                 </item>
                 <item n="135" xml:id="CAT_000110_e135">
                     <num type="lot">135</num>
-                    <name type="author">Ducange (Victor)</name>
+                    <name type="author" ref="wd:Q7192058">Ducange (Victor)</name>
                     <trait>
                         <p>célèbre romancier et dramaturge auteur de Trente ans ou la Vie d'un joueur, né
                      en 1783, mort en 1833</p>
@@ -2148,7 +2151,7 @@
                 </item>
                 <item n="137" xml:id="CAT_000110_e137">
                     <num type="lot">137</num>
-                    <name type="author">Du Châtel (Tanneguy)</name>
+                    <name type="author" ref="wd:Q13298880">Du Châtel (Tanneguy)</name>
                     <trait>
                         <p>vicomte de La Bellière, neveu du fameux prévôt de Paris, célèbre homme de
                      guerre et négociateur, blessé mortellement à côté de Louis XI au siège de Bou-
@@ -2163,7 +2166,7 @@
                 </item>
                 <item n="138" xml:id="CAT_000110_e138">
                     <num type="lot">138</num>
-                    <name type="author">Ducrest (le marquis)</name>
+                    <name type="author" ref="wd:Q105139779">Ducrest (le marquis)</name>
                     <trait>
                         <p>ingénieur, frère de Mme de Genlis, chancelier du duc d'Orléans</p>
                     </trait>
@@ -2175,7 +2178,7 @@
                 </item>
                 <item n="139" xml:id="CAT_000110_e139">
                     <num type="lot">139</num>
-                    <name type="author">Dulac (l'abbé)</name>
+                    <name type="author" ref="wd:Q3184885">Dulac (l'abbé)</name>
                     <trait>
                         <p>un des protégés de Richelieu qui l'avait chargé de revoir. de concert avec
                      l'abbé de Boursez ses oeuvres polémiques et de défendre ses prétentions à
@@ -2193,7 +2196,7 @@
                 </item>
                 <item n="140" xml:id="CAT_000110_e140">
                     <num type="lot">140</num>
-                    <name type="author">Dumont-d'Urville (J.-S.-C.)</name>
+                    <name type="author" ref="wd:Q60116380">Dumont-d'Urville (J.-S.-C.)</name>
                     <trait>
                         <p>l'illustre et infortuné navigateur, né à Condé-sur-Noireau en 1790, mort en
                      1842</p>
@@ -2205,7 +2208,7 @@
                 </item>
                 <item n="141" xml:id="CAT_000110_e141">
                     <num type="lot">141</num>
-                    <name type="author">Dupanloup (Félix)</name>
+                    <name type="author" ref="wd:Q708846">Dupanloup (Félix)</name>
                     <trait>
                         <p>le célèbre évêque d'Orléans, de l'Académie française</p>
                     </trait>
@@ -2221,7 +2224,7 @@
                 </item>
                 <item n="142" xml:id="CAT_000110_e142">
                     <num type="lot">142</num>
-                    <name type="author">Dupetit-Méré (Fréd.)</name>
+                    <name type="author" ref="wd:Q3089778">Dupetit-Méré (Fréd.)</name>
                     <trait>
                         <p>célèbre et fécond auteur dramatique du commencement de ce siècle, né en 1785,
                      mort en 1825</p>
@@ -2236,7 +2239,7 @@
                 </item>
                 <item n="143" xml:id="CAT_000110_e143">
                     <num type="lot">143</num>
-                    <name type="author">Du Plessis-Besançon</name>
+                    <name type="author" ref="wd:Q2898855">Du Plessis-Besançon</name>
                     <trait>
                         <p>ingénieur et inventeur de plusieurs machines pour l'armée et la marine,
                      secrétaire du connétable de Lesdiguières, familier de Richelieu, puis de Gaston
@@ -2250,7 +2253,7 @@
                 </item>
                 <item n="144" xml:id="CAT_000110_e144">
                     <num type="lot">144</num>
-                    <name type="author">Dussek (J.-L.)</name>
+                    <name type="author" ref="wd:Q357172">Dussek (J.-L.)</name>
                     <trait>
                         <p>célèbre pianiste et compositeur, né en Bohème en 1761, mort en 1812</p>
                     </trait>
@@ -2264,7 +2267,7 @@
                 </item>
                 <item n="145" xml:id="CAT_000110_e145">
                     <num type="lot">145</num>
-                    <name type="author">Duvergier de Hauranne (Prosper)</name>
+                    <name type="author" ref="wd:Q1042506">Duvergier de Hauranne (Prosper)</name>
                     <trait>
                         <p>célèbre publiciste et homme politique, auteur de l'Histoire du Gouvernement
                      parlementaire, de l'Académie française; né à Rouen en 1798, mort en 1881</p>
@@ -2281,7 +2284,7 @@
                 </item>
                 <item n="146" xml:id="CAT_000110_e146">
                     <num type="lot">146</num>
-                    <name type="author">Elbeuf (Charles II de Lorraine, duc d')</name>
+                    <name type="author" ref="wd:Q2021651">Elbeuf (Charles II de Lorraine, duc d')</name>
                     <trait>
                         <p>époux de Catherine-Henriette, fille legitimée de Henri IV et de Gabrielle
                      d'Estrées, déclaré criminel de lèse-majesté à cause des intrigues de sa femme
@@ -2297,7 +2300,7 @@
                 </item>
                 <item n="147" xml:id="CAT_000110_e147">
                     <num type="lot">147</num>
-                    <name type="author">Eon (le chevalier d')</name>
+                    <name type="author" ref="wd:Q715027">Eon (le chevalier d')</name>
                     <trait>
                         <p>personnage célèbre par le mystère qui a plané sur son véritable sexe, né à
                      Tonnerre en 1728, mort en 1810</p>
@@ -2309,7 +2312,7 @@
                 </item>
                 <item n="148" xml:id="CAT_000110_e148">
                     <num type="lot">148</num>
-                    <name type="author">Epinay (Mme d')</name>
+                    <name type="author" ref="wd:Q103882371">Epinay (Mme d')</name>
                     <trait>
                         <p>femme célèbre du XVIIIe siècle, l'amie de J.-J. Rousseau</p>
                     </trait>
@@ -2321,7 +2324,7 @@
                 </item>
                 <item n="149" xml:id="CAT_000110_e149">
                     <num type="lot">149</num>
-                    <name type="author">Escousse (Victor)</name>
+                    <name type="author" ref="wd:Q661692">Escousse (Victor)</name>
                     <trait>
                         <p>poète et célèbre dramaturge, auteur de Farruck le Maure, né en 1813, mort par
                      suicide le 24 février, 1832</p>
@@ -2341,7 +2344,7 @@
                 </item>
                 <item n="150" xml:id="CAT_000110_e150">
                     <num type="lot">150</num>
-                    <name type="author">Estrades (Godefroy, comte d') </name>
+                    <name type="author" ref="wd:Q3109699">Estrades (Godefroy, comte d') </name>
                     <trait>
                         <p>célèbre maréchal de France et habile négociateur, né à Agen en 1607, mort en
                      1686</p>
@@ -2356,7 +2359,7 @@
                 </item>
                 <item n="151" xml:id="CAT_000110_e151">
                     <num type="lot">151</num>
-                    <name type="author">Faidherbe (L.)</name>
+                    <name type="author" ref="wd:Q56857600">Faidherbe (L.)</name>
                     <trait>
                         <p>grand chancelier de la Légion d'honneur, sénateur, général en chef de l'armée
                      du Nord pendant la guerre de 1870, né à Lille en 1818</p>
@@ -2369,7 +2372,7 @@
                 </item>
                 <item n="152" xml:id="CAT_000110_e152">
                     <num type="lot">152</num>
-                    <name type="author">Fargis (Charles d'Angennes de Rochepot, comte du)</name>
+                    <name type="author" ref="wd:Q37484245">Fargis (Charles d'Angennes de Rochepot, comte du)</name>
                     <trait>
                         <p>diplomate du XVIIe siècle, ambassadeur en Espagne. Richelieu parle souvent de
                      son imprudence et de son incapacité dans ses mémoires. Il le ménageait parce
@@ -2383,7 +2386,7 @@
                 </item>
                 <item n="153" xml:id="CAT_000110_e153">
                     <num type="lot">153</num>
-                    <name type="author">Fénelon (François de Salignac de La Motte)</name>
+                    <name type="author" ref="wd:Q310002">Fénelon (François de Salignac de La Motte)</name>
                     <trait>
                         <p>l'illustre archevêque de Cambrai, de l'Académie française né en Périgord en
                      1651, mort en 1715</p>
@@ -2403,7 +2406,7 @@
                 </item>
                 <item n="154" xml:id="CAT_000110_e154">
                     <num type="lot">154</num>
-                    <name type="author">Ferdinand Ier</name>
+                    <name type="author" ref="wd:Q150611">Ferdinand Ier</name>
                     <trait>
                         <p>roi de Naples, prince fameux par ses cruautés, abhorré de ses sujets qui
                      proposèrent la couronne à Jean d'Anjou, né en 1422, mort en 1494</p>
@@ -2420,7 +2423,7 @@
                 </item>
                 <item n="155" xml:id="CAT_000110_e155">
                     <num type="lot">155</num>
-                    <name type="author">Ferdinand</name>
+                    <name type="author" ref="wd:Q559041">Ferdinand</name>
                     <trait>
                         <p>dit le Catholique, roi de Castille et d'Aragon, né en 1432, mort en 1516</p>
                     </trait>
@@ -2434,7 +2437,7 @@
                 </item>
                 <item n="156" xml:id="CAT_000110_e156">
                     <num type="lot">156</num>
-                    <name type="author">Ferdinand Ier</name>
+                    <name type="author" ref="wd:Q150611">Ferdinand Ier</name>
                     <trait>
                         <p>roi des Deux-Siciles, père de la reine des Français, Marie-Amélie, né en 1751,
                      mort en 1825</p>
@@ -2455,7 +2458,7 @@
                 </item>
                 <item n="157" xml:id="CAT_000110_e157">
                     <num type="lot">157</num>
-                    <name type="author">Feuquières (l'abbé de)</name>
+                    <name type="author" ref="wd:Q748919">Feuquières (l'abbé de)</name>
                     <desc xml:id="CAT_000110_e157_d1">Lettre à lui adressée; <date when="1679-08-25">25 août 1679</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Cachet.</desc>
                     <measure commodity="currency" unit="FRF" quantity="10">10</measure>
@@ -2466,7 +2469,7 @@
                 </item>
                 <item n="158" xml:id="CAT_000110_e158">
                     <num type="lot">158</num>
-                    <name type="author">Féval (Paul)</name>
+                    <name type="author" ref="wd:Q472568">Féval (Paul)</name>
                     <trait>
                         <p>un de nos plus célèbres romanciers contemporains, né à Rennes</p>
                     </trait>
@@ -2478,7 +2481,7 @@
                 </item>
                 <item n="159" xml:id="CAT_000110_e159">
                     <num type="lot">159</num>
-                    <name type="author">Fieschi (Joseph)</name>
+                    <name type="author" ref="wd:Q3367402">Fieschi (Joseph)</name>
                     <trait>
                         <p>le fameux régicide</p>
                     </trait>
@@ -2496,7 +2499,7 @@
                 </item>
                 <item n="160" xml:id="CAT_000110_e160">
                     <num type="lot">160</num>
-                    <name type="author">Flameng (Léopold)</name>
+                    <name type="author" ref="wd:Q3271802">Flameng (Léopold)</name>
                     <trait>
                         <p>célèbre graveur et portraitiste français, élève de Calamatta, né en 1831</p>
                     </trait>
@@ -2520,7 +2523,7 @@
                 </item>
                 <item n="162" xml:id="CAT_000110_e162">
                     <num type="lot">162</num>
-                    <name type="author">Fleury (J.-A. Bénard, dit)</name>
+                    <name type="author" ref="wd:Q3073644">Fleury (J.-A. Bénard, dit)</name>
                     <trait>
                         <p>célèbre acteur de la Comédie-Française, né à Chartres en 1751, mort en 1822</p>
                     </trait>
@@ -2536,7 +2539,7 @@
                 </item>
                 <item n="163" xml:id="CAT_000110_e163">
                     <num type="lot">163</num>
-                    <name type="author">Florian (J.-P. Claris de)</name>
+                    <name type="author" ref="wd:Q551740">Florian (J.-P. Claris de)</name>
                     <trait>
                         <p>un de nos meilleurs fabulistes, membre de l'A« cadémie française, né dans le
                      Gard en 1755, mort en 1794</p>
@@ -2566,7 +2569,7 @@
                 </item>
                 <item n="166" xml:id="CAT_000110_e166">
                     <num type="lot">166</num>
-                    <name type="author">Foscari (Francesco)</name>
+                    <name type="author" ref="wd:Q503874">Foscari (Francesco)</name>
                     <trait>
                         <p>célèbre doge de Venise, vainqueur des Milanais, des Florentins et des troupes
                      pontificales, le héros de la fameuse tragédie de lord Byron : « Thetwo Foscari
@@ -2583,7 +2586,7 @@
                 </item>
                 <item n="167" xml:id="CAT_000110_e167">
                     <num type="lot">167</num>
-                    <name type="author">Foscolo (Ugo)</name>
+                    <name type="author" ref="wd:Q166234">Foscolo (Ugo)</name>
                     <trait>
                         <p>célèbre poète et patriote italien, auteur des Lettres de Jacopo Ortis</p>
                     </trait>
@@ -2595,7 +2598,7 @@
                 </item>
                 <item n="168" xml:id="CAT_000110_e168">
                     <num type="lot">168</num>
-                    <name type="author">Fourier (Ch.)</name>
+                    <name type="author" ref="wd:Q50413798">Fourier (Ch.)</name>
                     <trait>
                         <p>célèbre socialiste, créateur de la doctrine phalanstérienne, né à Besançon en
                      1772. mort en 1837</p>
@@ -2612,7 +2615,7 @@
                 </item>
                 <item n="169" xml:id="CAT_000110_e169">
                     <num type="lot">169</num>
-                    <name type="author">Fournier (E.)</name>
+                    <name type="author" ref="wd:Q5796224">Fournier (E.)</name>
                     <trait>
                         <p>capitaine de vaisseau, célèbre par sa conduite énergique au Tonkin</p>
                     </trait>
@@ -2629,7 +2632,7 @@
                 </item>
                 <item n="170" xml:id="CAT_000110_e170">
                     <num type="lot">170</num>
-                    <name type="author">Frédéric II</name>
+                    <name type="author" ref="wd:Q33550">Frédéric II</name>
                     <trait>
                         <p>dit le Grand, roi de Prusse</p>
                     </trait>
@@ -2640,7 +2643,7 @@
                 </item>
                 <item n="171" xml:id="CAT_000110_e171">
                     <num type="lot">171</num>
-                    <name type="author">Frédéric</name>
+                    <name type="author" ref="wd:Q21480758">Frédéric</name>
                     <trait>
                         <p>prince des Pays-Bas, oncle du roi actuel, mort récemment</p>
                     </trait>
@@ -2652,7 +2655,7 @@
                 </item>
                 <item n="172" xml:id="CAT_000110_e172">
                     <num type="lot">172</num>
-                    <name type="author">Frémicourt (Guérin de)</name>
+                    <name type="author" ref="wd:Q469910">Frémicourt (Guérin de)</name>
                     <trait>
                         <p>auteur dramatique du XVIIIe siècle, collaborateur de Mme Favart pour les
                      Ensorcelés</p>
@@ -2666,7 +2669,7 @@
                 </item>
                 <item n="173" xml:id="CAT_000110_e173">
                     <num type="lot">173</num>
-                    <name type="author">Frère (Ed.)</name>
+                    <name type="author" ref="wd:Q707878">Frère (Ed.)</name>
                     <trait>
                         <p>célèbre peintre de genre, né en 1819</p>
                     </trait>
@@ -2681,7 +2684,7 @@
                 </item>
                 <item n="174" xml:id="CAT_000110_e174">
                     <num type="lot">174</num>
-                    <name type="author">Fumagalli (Adolphe)</name>
+                    <name type="author" ref="wd:Q37004313">Fumagalli (Adolphe)</name>
                     <trait>
                         <p>célèbre pianiste et compositeur italien, né en 1828, mort en 1856</p>
                     </trait>
@@ -2695,7 +2698,7 @@
                 </item>
                 <item n="175" xml:id="CAT_000110_e175">
                     <num type="lot">175</num>
-                    <name type="author">Furstemberg (Guillaume Egon, cardinal de)</name>
+                    <name type="author" ref="wd:Q3450738">Furstemberg (Guillaume Egon, cardinal de)</name>
                     <trait>
                         <p>l'âme damnée de Louis XIV, qui lui donna l'abbaye de Saint-Germain-des-</p>
                     </trait>
@@ -2705,7 +2708,7 @@
                 </item>
                 <item n="176" xml:id="CAT_000110_e176">
                     <num type="lot">176</num>
-                    <name type="author">Garnier (Francis)</name>
+                    <name type="author" ref="wd:Q19933665">Garnier (Francis)</name>
                     <trait>
                         <p>lieutenant de vaisseau et célèbre voyageur dans l'Indo-Chine, né à
                      Saint-Etienne en 1839, tué au Tonkin le 21 décembre 1873</p>
@@ -2735,7 +2738,7 @@
                 </item>
                 <item n="178" xml:id="CAT_000110_e178">
                     <num type="lot">178</num>
-                    <name type="author">George IV</name>
+                    <name type="author" ref="wd:Q130586">George IV</name>
                     <trait>
                         <p>roi d'Angleterre</p>
                     </trait>
@@ -2746,7 +2749,7 @@
                 </item>
                 <item n="179" xml:id="CAT_000110_e179">
                     <num type="lot">179</num>
-                    <name type="author">George Weimer (Mlle)</name>
+                    <name type="author" ref="wd:Q2420050">George Weimer (Mlle)</name>
                     <trait>
                         <p>la grande tragédienne, née à Bayeux en 1787, morte en 1867</p>
                     </trait>
@@ -2757,7 +2760,7 @@
                 </item>
                 <item n="180" xml:id="CAT_000110_e180">
                     <num type="lot">180</num>
-                    <name type="author">Gill (André)</name>
+                    <name type="author" ref="wd:Q70404896">Gill (André)</name>
                     <trait>
                         <p>le célèbre caricaturiste, né en 1840, mort en 1885</p>
                     </trait>
@@ -2769,7 +2772,7 @@
                 </item>
                 <item n="181" xml:id="CAT_000110_e181">
                     <num type="lot">181</num>
-                    <name type="author">Girardin (Emile de)</name>
+                    <name type="author" ref="wd:Q8078282">Girardin (Emile de)</name>
                     <trait>
                         <p>le célèbre publiciste, né en 1806, mort en 1881</p>
                     </trait>
@@ -2783,7 +2786,7 @@
                 </item>
                 <item n="182" xml:id="CAT_000110_e182">
                     <num type="lot">182</num>
-                    <name type="author"> Giraud (Eugène)</name>
+                    <name type="author" ref="wd:Q26932622"> Giraud (Eugène)</name>
                     <trait>
                         <p>peintre et graveur, distingué, élève de Hersent, né en 1806, mort en 1881.</p>
                     </trait>
@@ -2810,7 +2813,7 @@
                 </item>
                 <item n="184" xml:id="CAT_000110_e184">
                     <num type="lot">184</num>
-                    <name type="author">Gonzague (Hercule de)</name>
+                    <name type="author" ref="wd:Q16027550">Gonzague (Hercule de)</name>
                     <trait>
                         <p>évêque de Mantoue, puis archevêque de Tarragone, ambassadeur auprès de Charles-
                      Quint, président du Concile de Trente, protecteur des lettres et des arts, né
@@ -2822,7 +2825,7 @@
                 </item>
                 <item n="185" xml:id="CAT_000110_e185">
                     <num type="lot">185</num>
-                    <name type="author">Gossec (F.-J.)</name>
+                    <name type="author" ref="wd:Q313667">Gossec (F.-J.)</name>
                     <trait>
                         <p>le célèbre compositeur, né à Vergnies (Belgique) en 1733, mort en 1829</p>
                     </trait>
@@ -2833,7 +2836,7 @@
                 </item>
                 <item n="186" xml:id="CAT_000110_e186">
                     <num type="lot">186</num>
-                    <name type="author">Gounod (Ch.)</name>
+                    <name type="author" ref="wd:Q180278">Gounod (Ch.)</name>
                     <trait>
                         <p>le célèbre compositeur de musique, né en 1818</p>
                     </trait>
@@ -2845,7 +2848,7 @@
                 </item>
                 <item n="187" xml:id="CAT_000110_e187">
                     <num type="lot">187</num>
-                    <name type="author">Gozlan (Léon)</name>
+                    <name type="author" ref="wd:Q332457">Gozlan (Léon)</name>
                     <trait>
                         <p>spirituel littérateur, né à Marseille</p>
                     </trait>
@@ -2857,7 +2860,7 @@
                 </item>
                 <item n="188" xml:id="CAT_000110_e188">
                     <num type="lot">188</num>
-                    <name type="author">Granier de Cassagnac (A.)</name>
+                    <name type="author" ref="wd:Q3419451">Granier de Cassagnac (A.)</name>
                     <trait>
                         <p>publiciste et historien</p>
                     </trait>
@@ -2869,7 +2872,7 @@
                 </item>
                 <item n="189" xml:id="CAT_000110_e189">
                     <num type="lot">189</num>
-                    <name type="author">Gresset (J.-B.-)</name>
+                    <name type="author" ref="wd:Q98210196">Gresset (J.-B.-)</name>
                     <desc xml:id="CAT_000110_e189_d1">L.), célèbre écrivain, auteur de Vert-Vert, de l'Acad. fr., né à Amiens en 1700, mort en juin 1777.-<term ana="#document_type_7">L. a. s.</term>, Amiens, <date when="1777-03-24">24 mars 1777</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Une partie de la marge blanche supérieure a été enlevée.</desc>
                     <measure commodity="currency" unit="FRF" quantity="40">40</measure>
@@ -2878,7 +2881,7 @@
                 </item>
                 <item n="190" xml:id="CAT_000110_e190">
                     <num type="lot">190</num>
-                    <name type="author">Grévy (Jules)</name>
+                    <name type="author" ref="wd:Q296083">Grévy (Jules)</name>
                     <trait>
                         <p>président de la République française, né à Mont-sous-Vaudrey (Jura) en 1813</p>
                     </trait>
@@ -2889,7 +2892,7 @@
                 </item>
                 <item n="191" xml:id="CAT_000110_e191">
                     <num type="lot">191</num>
-                    <name type="author">Guiard (Théod.)</name>
+                    <name type="author" ref="wd:Q2844658">Guiard (Théod.)</name>
                     <trait>
                         <p>littérateur, auteur d'une traduction en vers du théâtre de Sophocle, né à
                      Avallon en 1814, mort en 1855</p>
@@ -2904,7 +2907,7 @@
                 </item>
                 <item n="192" xml:id="CAT_000110_e192">
                     <num type="lot">192</num>
-                    <name type="author">Guillaume V</name>
+                    <name type="author" ref="wd:Q17334920">Guillaume V</name>
                     <trait>
                         <p>prince d'Orange, stathouder de Hollande, dépossédé par les Français en 1795, né
                      en 1748, mort à Brunswick en 1806. C'est contre lui qu'éclata l'insurrection de
@@ -2920,7 +2923,7 @@
                 </item>
                 <item n="193" xml:id="CAT_000110_e193">
                     <num type="lot">193</num>
-                    <name type="author">Guillaume Ier</name>
+                    <name type="author" ref="wd:Q150652">Guillaume Ier</name>
                     <trait>
                         <p>roi des Pays Bas, qui abdiqua en 1840, fils du stathouder Guillaume V, neveu du
                      roi de Prusse Guillaume II, né en 1772, mort en 1843</p>
@@ -2950,7 +2953,7 @@
                 </item>
                 <item n="195" xml:id="CAT_000110_e195">
                     <num type="lot">195</num>
-                    <name type="author">Hennequin (A.-N.)</name>
+                    <name type="author" ref="wd:Q3588560">Hennequin (A.-N.)</name>
                     <trait>
                         <p>auteur dramatique contemporain, auteur du Proces Veauradieux, des Dominos
                      roses, Bébé, etc</p>
@@ -2963,7 +2966,7 @@
                 </item>
                 <item n="196" xml:id="CAT_000110_e196">
                     <num type="lot">196</num>
-                    <name type="author">Henner (J.-J.)</name>
+                    <name type="author" ref="wd:Q665818">Henner (J.-J.)</name>
                     <trait>
                         <p>célèbre peintre de genre, élève de Drolling, né à Bernwiller (Alsace) en
                      1829</p>
@@ -2976,7 +2979,7 @@
                 </item>
                 <item n="197" xml:id="CAT_000110_e197">
                     <num type="lot">197</num>
-                    <name type="author">Henri IV</name>
+                    <name type="author" ref="wd:Q936976">Henri IV</name>
                     <trait>
                         <p>roi de France</p>
                     </trait>
@@ -2990,7 +2993,7 @@
                 </item>
                 <item n="198" xml:id="CAT_000110_e198">
                     <num type="lot">198</num>
-                    <name type="author">Hérault (René)</name>
+                    <name type="author" ref="wd:Q8102624">Hérault (René)</name>
                     <trait>
                         <p>célèbre lieutenant de police, surnommé le grand inquisiteur de France, ennemi
                      des jansénistes qu'il poursuivit avec rigueur, intendant de Paris, né à Rouen
@@ -3006,7 +3009,7 @@
                 </item>
                 <item n="199" xml:id="CAT_000110_e199">
                     <num type="lot">199</num>
-                    <name type="author">Houdetot (Mme d')</name>
+                    <name type="author" ref="wd:Q533324">Houdetot (Mme d')</name>
                     <trait>
                         <p>femme célèbre du XVIIIe siècle, l'amie de J.-J. Rousseau, née vers 1730, morte
                      en 1813</p>
@@ -3018,7 +3021,7 @@
                 </item>
                 <item n="200" xml:id="CAT_000110_e200">
                     <num type="lot">200</num>
-                    <name type="author">Houdon (Marie-Ange-Cécile Langlois, Mme)</name>
+                    <name type="author" ref="wd:Q106608528">Houdon (Marie-Ange-Cécile Langlois, Mme)</name>
                     <trait>
                         <p>femme de lettres distinguée, traducteur de plusieurs ouvrages, épouse du
                      célèbre sculpteur, né en 1748, moite en 1828</p>
@@ -3031,7 +3034,7 @@
                 </item>
                 <item n="201" xml:id="CAT_000110_e201">
                     <num type="lot">201</num>
-                    <name type="author">Hugo (J.-L.-S., comte)</name>
+                    <name type="author" ref="wd:Q2299673">Hugo (J.-L.-S., comte)</name>
                     <trait>
                         <p>célèbre général des guerres de la République et de l'Empire, père de Victor
                      Hugo, né à Nancy en 1774, mort en 1828</p>
@@ -3053,7 +3056,7 @@
                 </item>
                 <item n="202" xml:id="CAT_000110_e202">
                     <num type="lot">202</num>
-                    <name type="author">Hugo (Victor)</name>
+                    <name type="author" ref="wd:Q535">Hugo (Victor)</name>
                     <trait>
                         <p>l'illustre poète</p>
                     </trait>
@@ -3066,7 +3069,7 @@
                 </item>
                 <item n="203" xml:id="CAT_000110_e203">
                     <num type="lot">203</num>
-                    <name type="author">Humann (J.-G.)</name>
+                    <name type="author" ref="wd:Q1684870">Humann (J.-G.)</name>
                     <trait>
                         <p>homme politique français, ministre des finances, né à Strasbourg en 1780, mort
                      en 1842</p>
@@ -3079,7 +3082,7 @@
                 </item>
                 <item n="204" xml:id="CAT_000110_e204">
                     <num type="lot">204</num>
-                    <name type="author">Hummel (J.-N.)</name>
+                    <name type="author" ref="wd:Q151953">Hummel (J.-N.)</name>
                     <trait>
                         <p>célèbre pianiste et compositeur, né à Presbourg en 1778, mort en 1837</p>
                     </trait>
@@ -3090,7 +3093,7 @@
                 </item>
                 <item n="205" xml:id="CAT_000110_e205">
                     <num type="lot">205</num>
-                    <name type="author">Huth (Louis)</name>
+                    <name type="author" ref="wd:Q28099801">Huth (Louis)</name>
                     <trait>
                         <p>compositeur populaire allemand contemporain, né en 1810</p>
                     </trait>
@@ -3100,7 +3103,7 @@
                 </item>
                 <item n="206" xml:id="CAT_000110_e206">
                     <num type="lot">206</num>
-                    <name type="author">Hyacinthe (Ch. Loyson, dit le Père)</name>
+                    <name type="author" ref="wd:Q3143595">Hyacinthe (Ch. Loyson, dit le Père)</name>
                     <trait>
                         <p>célèbre prédicateur, le chef des vieux catholiques, né à Orléans en 1827</p>
                     </trait>
@@ -3115,7 +3118,7 @@
                 </item>
                 <item n="207" xml:id="CAT_000110_e207">
                     <num type="lot">207</num>
-                    <name type="author">Isabey (J.-B.)</name>
+                    <name type="author" ref="wd:Q551132">Isabey (J.-B.)</name>
                     <trait>
                         <p>célèbre peintre miniaturiste, né à Nancy en 1767, mort en 1855</p>
                     </trait>
@@ -3130,7 +3133,7 @@
                 </item>
                 <item n="208" xml:id="CAT_000110_e208">
                     <num type="lot">208</num>
-                    <name type="author">Israels (Joseph)</name>
+                    <name type="author" ref="wd:Q528460">Israels (Joseph)</name>
                     <trait>
                         <p>peintre hollandais très distingué, né à Groningue en 1824</p>
                     </trait>
@@ -3141,7 +3144,7 @@
                 </item>
                 <item n="209" xml:id="CAT_000110_e209">
                     <num type="lot">209</num>
-                    <name type="author">Jacquemont (Victor)</name>
+                    <name type="author" ref="wd:Q63739">Jacquemont (Victor)</name>
                     <trait>
                         <p>célèbre naturaliste et voyageur, né en 1801, mort en 1832</p>
                     </trait>
@@ -3151,7 +3154,7 @@
                 </item>
                 <item n="210" xml:id="CAT_000110_e210">
                     <num type="lot">210</num>
-                    <name type="author">Jonas (Emile)</name>
+                    <name type="author" ref="wd:Q286011">Jonas (Emile)</name>
                     <trait>
                         <p>compositeur distingué, né en 1827</p>
                     </trait>
@@ -3165,7 +3168,7 @@
                 </item>
                 <item n="211" xml:id="CAT_000110_e211">
                     <num type="lot">211</num>
-                    <name type="author">Jonas (Emile)</name>
+                    <name type="author" ref="wd:Q286011">Jonas (Emile)</name>
                     <desc xml:id="CAT_000110_e211_d1">Les deux Arlequins, romance, morceau de musique avec paroles <term ana="#document_type_15">aut. sig.</term>, <date when="1870">1870</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_108">in-8 obl.</measure> Jolie pièce d'amateur.</desc>
                     <measure commodity="currency" unit="FRF" quantity="15">15</measure>
@@ -3174,7 +3177,7 @@
                 </item>
                 <item n="212" xml:id="CAT_000110_e212">
                     <num type="lot">212</num>
-                    <name type="author">Judic (Anna)</name>
+                    <name type="author" ref="wd:Q449228">Judic (Anna)</name>
                     <trait>
                         <p>la célèbre actrice, née à Semur en 1850</p>
                     </trait>
@@ -3185,7 +3188,7 @@
                 </item>
                 <item n="213" xml:id="CAT_000110_e213">
                     <num type="lot">213</num>
-                    <name type="author">Kalkbrenner (Frédéric)</name>
+                    <name type="author" ref="wd:Q170270">Kalkbrenner (Frédéric)</name>
                     <trait>
                         <p>célèbre pianiste et compositeur allemand, né à Cassel en 1784, mort en 1849</p>
                     </trait>
@@ -3197,7 +3200,7 @@
                 </item>
                 <item n="214" xml:id="CAT_000110_e214">
                     <num type="lot">214</num>
-                    <name type="author">Kean (Ch.)</name>
+                    <name type="author" ref="wd:Q725355">Kean (Ch.)</name>
                     <trait>
                         <p>célèbre tragédien anglais</p>
                     </trait>
@@ -3208,7 +3211,7 @@
                 </item>
                 <item n="215" xml:id="CAT_000110_e215">
                     <num type="lot">215</num>
-                    <name type="author">Kock (Paul de)</name>
+                    <name type="author" ref="wd:Q4227230">Kock (Paul de)</name>
                     <trait>
                         <p>le célèbre romancier populaire, né en 1794, mort en 1871</p>
                     </trait>
@@ -3221,7 +3224,7 @@
                 </item>
                 <item n="216" xml:id="CAT_000110_e216">
                     <num type="lot">216</num>
-                    <name type="author">Koerner (Théodore)</name>
+                    <name type="author" ref="wd:Q62344">Koerner (Théodore)</name>
                     <trait>
                         <p>poète populaire allemand, qui s'est fait remarquer par son patriotisme, né en
                      1791, tue à vingt-deux ans au combat de Rosenberg, le 26 août 1813</p>
@@ -3251,7 +3254,7 @@
                 </item>
                 <item n="218" xml:id="CAT_000110_e218">
                     <num type="lot">218</num>
-                    <name type="author">La Barde (Jean de)</name>
+                    <name type="author" ref="wd:Q96322436">La Barde (Jean de)</name>
                     <trait>
                         <p>célèbre diplomate et historien du XVIIe siècle, qui assista comme ministre aux
                      conférences d'Osnabrûck et fut ensuite ambassadeur en Suisse, né à Marolles
@@ -3267,7 +3270,7 @@
                 </item>
                 <item n="219" xml:id="CAT_000110_e219">
                     <num type="lot">219</num>
-                    <name type="author">La Boulaye (Maximilien Eschalard, marquis de)</name>
+                    <name type="author" ref="wd:Q94940119">La Boulaye (Maximilien Eschalard, marquis de)</name>
                     <trait>
                         <p>un des principaux frondeurs, qui se rendit célèbre par une émeute qu'il excita
                      contre le cardinal de Mazarin</p>
@@ -3280,7 +3283,7 @@
                 </item>
                 <item n="220" xml:id="CAT_000110_e220">
                     <num type="lot">220</num>
-                    <name type="author">Labrousse (Nicolas-Henri)</name>
+                    <name type="author" ref="wd:Q33275854">Labrousse (Nicolas-Henri)</name>
                     <trait>
                         <p>contreamiral, savant marin, connu pour avoir fait les premiers travaux
                      théoriques sur les propulseurs sousmarins et pour avoir appliqué l'hélice aux
@@ -3294,7 +3297,7 @@
                 </item>
                 <item n="221" xml:id="CAT_000110_e221">
                     <num type="lot">221</num>
-                    <name type="author">Lachambeaudie (Pierre)</name>
+                    <name type="author" ref="wd:Q1346280">Lachambeaudie (Pierre)</name>
                     <trait>
                         <p>le fabuliste populaire</p>
                     </trait>
@@ -3307,7 +3310,7 @@
                 </item>
                 <item n="222" xml:id="CAT_000110_e222">
                     <num type="lot">222</num>
-                    <name type="author">La Fare (Ch.-Aug., marquis de)</name>
+                    <name type="author" ref="wd:Q1063609">La Fare (Ch.-Aug., marquis de)</name>
                     <trait>
                         <p>écrivain et poète célèbre du XVIIe siècle, auteur de Mémoires, né dans
                      l'Ardèche en 1614, mort en 1712</p>
@@ -3319,7 +3322,7 @@
                 </item>
                 <item n="223" xml:id="CAT_000110_e223">
                     <num type="lot">223</num>
-                    <name type="author">La Grange (Anne-Caroline)</name>
+                    <name type="author" ref="wd:Q4767645">La Grange (Anne-Caroline)</name>
                     <trait>
                         <p>une des plus célèbres cantatrices de notre époque, née à Paris en 1825</p>
                     </trait>
@@ -3347,7 +3350,7 @@
                 </item>
                 <item n="225" xml:id="CAT_000110_e225">
                     <num type="lot">225</num>
-                    <name type="author">Lambert (Gustave)</name>
+                    <name type="author" ref="wd:Q3121227">Lambert (Gustave)</name>
                     <trait>
                         <p>célèbre marin et voyageur français, promoteur d'une expédition au pôle nord,
                      tué au combat de Buzenval le 19 janvier 1871</p>
@@ -3363,7 +3366,7 @@
                 </item>
                 <item n="226" xml:id="CAT_000110_e226">
                     <num type="lot">226</num>
-                    <name type="author">Langlois (le colonel C.)</name>
+                    <name type="author" ref="wd:Q3164668">Langlois (le colonel C.)</name>
                     <trait>
                         <p>peintre de batailles, auteur du panorama des Champs-Elysées, né en 1789</p>
                     </trait>
@@ -3376,7 +3379,7 @@
                 </item>
                 <item n="227" xml:id="CAT_000110_e227">
                     <num type="lot">227</num>
-                    <name type="author">Larcy (Ch.-P., baron de)</name>
+                    <name type="author" ref="wd:Q2960623">Larcy (Ch.-P., baron de)</name>
                     <trait>
                         <p>homme politique contemporain, ministre sous M. Thiers en 1871, né dans le Gard
                      en 1805</p>
@@ -3426,7 +3429,7 @@
                 </item>
                 <item n="230" xml:id="CAT_000110_e230">
                     <num type="lot">230</num>
-                    <name type="author">La Trémoille (Henri de)</name>
+                    <name type="author" ref="wd:Q661770">La Trémoille (Henri de)</name>
                     <trait>
                         <p>duc de Thouars, grand-maître de France, l'un des plus braves généraux de son
                      temps, et qui abjura le protestantisme sous Louis XIII, auteur de Mémoires</p>
@@ -3444,7 +3447,7 @@
                 </item>
                 <item n="231" xml:id="CAT_000110_e231">
                     <num type="lot">231</num>
-                    <name type="author">Leveaux (Et.)</name>
+                    <name type="author" ref="wd:Q48914618">Leveaux (Et.)</name>
                     <trait>
                         <p>général de la République, gouverneur de Saint-Domingue, membre du Conseil des
                      Anciens</p>
@@ -3469,7 +3472,7 @@
                 </item>
                 <item n="233" xml:id="CAT_000110_e233">
                     <num type="lot">233</num>
-                    <name type="author">Lazerges (J.-R.-H.)</name>
+                    <name type="author" ref="wd:Q7151975">Lazerges (J.-R.-H.)</name>
                     <trait>
                         <p>célèbre peintre d'histoire, élève de David d'Angers, né à Narbonne</p>
                     </trait>
@@ -3479,7 +3482,7 @@
                 </item>
                 <item n="234" xml:id="CAT_000110_e234">
                     <num type="lot">234</num>
-                    <name type="author">Le Blanc (Claude)</name>
+                    <name type="author" ref="wd:Q2977667">Le Blanc (Claude)</name>
                     <trait>
                         <p>célèbre homme d'Etat français, ministre sous la Régence, mais qui ne se mêla à
                      aucune des intrigues de cette époque, né en 1669, mort en 1728</p>
@@ -3515,7 +3518,7 @@
                 </item>
                 <item n="236" xml:id="CAT_000110_e236">
                     <num type="lot">236</num>
-                    <name type="author">Legault (Maria)</name>
+                    <name type="author" ref="wd:Q3290976">Legault (Maria)</name>
                     <trait>
                         <p>actrice contemporaine</p>
                     </trait>
@@ -3527,7 +3530,7 @@
                 </item>
                 <item n="237" xml:id="CAT_000110_e237">
                     <num type="lot">237</num>
-                    <name type="author">Lekain (H.-L.)</name>
+                    <name type="author" ref="wd:Q1372557">Lekain (H.-L.)</name>
                     <trait>
                         <p>l'illustre tragédien français, né en 1728, mort en 1778</p>
                     </trait>
@@ -3559,7 +3562,7 @@
                 </item>
                 <item n="239" xml:id="CAT_000110_e239">
                     <num type="lot">239</num>
-                    <name type="author">Lenormand (Marianne)</name>
+                    <name type="author" ref="wd:Q94525435">Lenormand (Marianne)</name>
                     <trait>
                         <p>fameuse nécromancienne, auteur de Mémoires, née à Alençon (Orne)</p>
                     </trait>
@@ -3581,7 +3584,7 @@
                 </item>
                 <item n="240" xml:id="CAT_000110_e240">
                     <num type="lot">240</num>
-                    <name type="author">Lenormant de Tournehem</name>
+                    <name type="author" ref="wd:Q103949580">Lenormant de Tournehem</name>
                     <trait>
                         <p>directeur général des bâtiments du roi, protecteur de Mme de Pompadour</p>
                     </trait>
@@ -3597,7 +3600,7 @@
                 </item>
                 <item n="241" xml:id="CAT_000110_e241">
                     <num type="lot">241</num>
-                    <name type="author">Le Peletier des Forts (M.-R.)</name>
+                    <name type="author" ref="wd:Q3310730">Le Peletier des Forts (M.-R.)</name>
                     <trait>
                         <p>contrôleur général des finances sous Louis XV, de l'Académie des sciences</p>
                     </trait>
@@ -3626,7 +3629,7 @@
                 </item>
                 <item n="243" xml:id="CAT_000110_e243">
                     <num type="lot">243</num>
-                    <name type="author">Létizia Bonaparte</name>
+                    <name type="author" ref="wd:Q79151170">Létizia Bonaparte</name>
                     <trait>
                         <p>mère de Napoléon Ier, née à Ajaccio en 1750, morte à Rome en 1836</p>
                     </trait>
@@ -3637,7 +3640,7 @@
                 </item>
                 <item n="244" xml:id="CAT_000110_e244">
                     <num type="lot">244</num>
-                    <name type="author">Liszt (F.)</name>
+                    <name type="author" ref="wd:Q41309">Liszt (F.)</name>
                     <trait>
                         <p>le célèbre pianiste et compositeur, né en 1809, mort en 1886</p>
                     </trait>
@@ -3647,7 +3650,7 @@
                 </item>
                 <item n="245" xml:id="CAT_000110_e245">
                     <num type="lot">245</num>
-                    <name type="author">Liszt (F.)</name>
+                    <name type="author" ref="wd:Q41309">Liszt (F.)</name>
                     <trait>
                         <p>morceau de musique aut</p>
                     </trait>
@@ -3658,7 +3661,7 @@
                 </item>
                 <item n="246" xml:id="CAT_000110_e246">
                     <num type="lot">246</num>
-                    <name type="author">Litolff (Henri)</name>
+                    <name type="author" ref="wd:Q96597038">Litolff (Henri)</name>
                     <trait>
                         <p>célèbre compositeur, né à Londres en 1818</p>
                     </trait>
@@ -3690,7 +3693,7 @@
                 </item>
                 <item n="248" xml:id="CAT_000110_e248">
                     <num type="lot">248</num>
-                    <name type="author">Loménie (L. de)</name>
+                    <name type="author" ref="wd:Q104803091">Loménie (L. de)</name>
                     <trait>
                         <p>spirinel écrivain, de l'Acad. fr., né à Saint-Yrieix (Haute-Vienne) en 1815,
                      mort en 1878</p>
@@ -3702,7 +3705,7 @@
                 </item>
                 <item n="249" xml:id="CAT_000110_e249">
                     <num type="lot">249</num>
-                    <name type="author">Louise</name>
+                    <name type="author" ref="wd:Q62285603">Louise</name>
                     <trait>
                         <p>reine de Prusse, épouse de Frédéric-Guillaume, III, l'héroïne d'Iéna, née en
                      1776, morte en 1810</p>
@@ -3714,7 +3717,7 @@
                 </item>
                 <item n="250" xml:id="CAT_000110_e250">
                     <num type="lot">250</num>
-                    <name type="author">Lowe (Hudson)</name>
+                    <name type="author" ref="wd:Q922208">Lowe (Hudson)</name>
                     <trait>
                         <p>célèbre général anglais, le gardien de Napoléon Ier à Sainte-Hélène, né en
                      1769, mort en 1844</p>
@@ -3726,7 +3729,7 @@
                 </item>
                 <item n="251" xml:id="CAT_000110_e251">
                     <num type="lot">251</num>
-                    <name type="author">Lucas (Hipp.)</name>
+                    <name type="author" ref="wd:Q3136086">Lucas (Hipp.)</name>
                     <trait>
                         <p>romancier et auteur dramatique, connu pour ses savantes études sur la
                      littérature espagnole, né à Rennes en 1807, mort en 1878</p>
@@ -3741,7 +3744,7 @@
                 </item>
                 <item n="252" xml:id="CAT_000110_e252">
                     <num type="lot">252</num>
-                    <name type="author">Machault (Louis de)</name>
+                    <name type="author" ref="wd:Q3260434">Machault (Louis de)</name>
                     <trait>
                         <p>célèbre magistrat du XVIIe siècle, président du Grand-Conseil, né en 1592, mort
                      en 1667</p>
@@ -3757,7 +3760,7 @@
                 </item>
                 <item n="253" xml:id="CAT_000110_e253">
                     <num type="lot">253</num>
-                    <name type="author">Maillebois (J.-B. François des Marets, marquis de)</name>
+                    <name type="author" ref="wd:Q464463">Maillebois (J.-B. François des Marets, marquis de)</name>
                     <trait>
                         <p>célèbre maréchal de France du règne de Louis XV, petit-neveu de Colbert, né en
                      1682, mort en 1762</p>
@@ -3776,7 +3779,7 @@
                 </item>
                 <item n="254" xml:id="CAT_000110_e254">
                     <num type="lot">254</num>
-                    <name type="author">Marbeuf (Claude de)</name>
+                    <name type="author" ref="wd:Q2959694">Marbeuf (Claude de)</name>
                     <trait>
                         <p>baron de Blaison, premier président au Parlement de Bretagne, chef et
                      surintendant général de la navigation et commerce de France</p>
@@ -3789,7 +3792,7 @@
                 </item>
                 <item n="255" xml:id="CAT_000110_e255">
                     <num type="lot">255</num>
-                    <name type="author">Marmontel (J.-)</name>
+                    <name type="author" ref="wd:Q47495585">Marmontel (J.-)</name>
                     <desc xml:id="CAT_000110_e255_d1">Fr.), littérateur célèbre du XVIIIe siècle, auteur des Contes moraux, membre de l'Acad. fr., né dans le Limousin-<term ana="#document_type_7">L. a. s.</term> au chevalier de Dampmartin, 15 juin, <date when="1790">1790</date>, <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_4">in-4.</measure> Cachet.</desc>
                     <measure commodity="currency" unit="FRF" quantity="30">30</measure>
@@ -3803,7 +3806,7 @@
                 </item>
                 <item n="256" xml:id="CAT_000110_e256">
                     <num type="lot">256</num>
-                    <name type="author">Martin (Henri)</name>
+                    <name type="author" ref="wd:Q954657">Martin (Henri)</name>
                     <trait>
                         <p>le célèbre historien et homme politique, né à Saint-Quentin, mort récemment</p>
                     </trait>
@@ -3818,7 +3821,7 @@
                 </item>
                 <item n="257" xml:id="CAT_000110_e257">
                     <num type="lot">257</num>
-                    <name type="author">Martinez de La Rosa (Fr.)</name>
+                    <name type="author" ref="wd:Q22676705">Martinez de La Rosa (Fr.)</name>
                     <trait>
                         <p>célèbre homme d'Etat, un des meilleurs écrivains de l'Espagne</p>
                     </trait>
@@ -3837,7 +3840,7 @@
                 </item>
                 <item n="258" xml:id="CAT_000110_e258">
                     <num type="lot">258</num>
-                    <name type="author">Massac (Ange de)</name>
+                    <name type="author" ref="wd:Q1084424">Massac (Ange de)</name>
                     <trait>
                         <p>célèbre avocat au Parlement de Paris sous Louis XIV, ami de l'abbé de Marolles,
                      conseiller d'Etat, chef du Conseil du cardinal Mazarin, mort en 1676</p>
@@ -3863,7 +3866,7 @@
                 </item>
                 <item n="260" xml:id="CAT_000110_e260">
                     <num type="lot">260</num>
-                    <name type="author">Mazères (Edouard)</name>
+                    <name type="author" ref="wd:Q5980791">Mazères (Edouard)</name>
                     <trait>
                         <p>spirituel auteur dramatique, le collaborateur de Scribe et d'Empis, né en 1796,
                      mort en 1866</p>
@@ -3891,7 +3894,7 @@
                 </item>
                 <item n="262" xml:id="CAT_000110_e262">
                     <num type="lot">262</num>
-                    <name type="author">Mendelssohn Bartholdy (Félix)</name>
+                    <name type="author" ref="wd:Q46096">Mendelssohn Bartholdy (Félix)</name>
                     <trait>
                         <p>célèbre compositeur allemand, né en 1809, mort le 4 novembre 1847</p>
                     </trait>
@@ -3902,14 +3905,14 @@
                 </item>
                 <item n="263" xml:id="CAT_000110_e263">
                     <num type="lot">263</num>
-                    <name type="author">Mendelssohn Bartholdy (Félix)</name>
+                    <name type="author" ref="wd:Q46096">Mendelssohn Bartholdy (Félix)</name>
                     <desc xml:id="CAT_000110_e263_d1">Morceau de musique aut., <measure type="length" unit="p" n="2">2 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_104">in-4 obl.</measure> Jolie pièce. Fragment d'un de ses ouvrages.</desc>
                     <measure commodity="currency" unit="FRF" quantity="50">50</measure>
                 </item>
                 <item n="264" xml:id="CAT_000110_e264">
                     <num type="lot">264</num>
-                    <name type="author">Mendès (Catulle)</name>
+                    <name type="author" ref="wd:Q971215">Mendès (Catulle)</name>
                     <trait>
                         <p>romancier contemporain</p>
                     </trait>
@@ -3921,7 +3924,7 @@
                 </item>
                 <item n="265" xml:id="CAT_000110_e265">
                     <num type="lot">265</num>
-                    <name type="author">Mérard de Saint-Just (J.-P.)</name>
+                    <name type="author" ref="wd:Q28949675">Mérard de Saint-Just (J.-P.)</name>
                     <trait>
                         <p>littérateur et poète érotique du XVIIIe siècle, né en 1749, mort en 1812</p>
                     </trait>
@@ -3936,7 +3939,7 @@
                 </item>
                 <item n="266" xml:id="CAT_000110_e266">
                     <num type="lot">266</num>
-                    <name type="author">Mérimée (Prosper)</name>
+                    <name type="author" ref="wd:Q160333">Mérimée (Prosper)</name>
                     <trait>
                         <p>célèbre écrivain romantique, auteur de Clara Gazul, membre de l'Acad. fr.</p>
                     </trait>
@@ -3952,7 +3955,7 @@
                 </item>
                 <item n="267" xml:id="CAT_000110_e267">
                     <num type="lot">267</num>
-                    <name type="author">Mézières (A.)</name>
+                    <name type="author" ref="wd:Q2835365">Mézières (A.)</name>
                     <trait>
                         <p>littérateur, célèbre par ses travaux sur Shakespeare, de l'Acad. fr., né à
                      Rehon (Moselle) en 1826</p>
@@ -3964,7 +3967,7 @@
                 </item>
                 <item n="268" xml:id="CAT_000110_e268">
                     <num type="lot">268</num>
-                    <name type="author">Millevoye (Ch.-H.)</name>
+                    <name type="author" ref="wd:Q966425">Millevoye (Ch.-H.)</name>
                     <trait>
                         <p>célèbre poète élégiaque</p>
                     </trait>
@@ -3977,7 +3980,7 @@
                 </item>
                 <item n="269" xml:id="CAT_000110_e269">
                     <num type="lot">269</num>
-                    <name type="author">Monrose (L.)</name>
+                    <name type="author" ref="wd:Q3262731">Monrose (L.)</name>
                     <trait>
                         <p>célèbre acteur contemporain, sociétaire de la Comédie-Française</p>
                     </trait>
@@ -4003,7 +4006,7 @@
                 </item>
                 <item n="271" xml:id="CAT_000110_e271">
                     <num type="lot">271</num>
-                    <name type="author">Monty</name>
+                    <name type="author" ref="wd:Q33100530">Monty</name>
                     <trait>
                         <p>intendant de la maison de Gaston d'Orléans</p>
                     </trait>
@@ -4013,7 +4016,7 @@
                 </item>
                 <item n="272" xml:id="CAT_000110_e272">
                     <num type="lot">272</num>
-                    <name type="author">Mouchy (Louis-Philippe)</name>
+                    <name type="author" ref="wd:Q3260808">Mouchy (Louis-Philippe)</name>
                     <trait>
                         <p>célèbre scupteur français du XVIIIe siècle, gendre de Pigale, ne en 1734, mort
                      en 1804</p>
@@ -4026,7 +4029,7 @@
                 </item>
                 <item n="273" xml:id="CAT_000110_e273">
                     <num type="lot">273</num>
-                    <name type="author">Moyse (Ed.)</name>
+                    <name type="author" ref="wd:Q3579971">Moyse (Ed.)</name>
                     <trait>
                         <p>peintre contemporain très-distingué</p>
                     </trait>
@@ -4038,7 +4041,7 @@
                 </item>
                 <item n="274" xml:id="CAT_000110_e274">
                     <num type="lot">274</num>
-                    <name type="author">Mozart (Marie-Anne)</name>
+                    <name type="author" ref="wd:Q157928">Mozart (Marie-Anne)</name>
                     <trait>
                         <p>pianiste distinguée, soeur aînée de l'illustre compositeur, née en 1751, mort
                      en 1829</p>
@@ -4054,7 +4057,7 @@
                 </item>
                 <item n="275" xml:id="CAT_000110_e275">
                     <num type="lot">275</num>
-                    <name type="author">Mozart (Constance)</name>
+                    <name type="author" ref="wd:Q84464">Mozart (Constance)</name>
                     <trait>
                         <p>épouse de l'illustre compositeur, mariée en sccondes noces au conseiller de
                      Nissen, née en 18 67, morte en 1842</p>
@@ -4068,7 +4071,7 @@
                 </item>
                 <item n="276" xml:id="CAT_000110_e276">
                     <num type="lot">276</num>
-                    <name type="author">Mozart (Wolfgang-Amédée)</name>
+                    <name type="author" ref="wd:Q254">Mozart (Wolfgang-Amédée)</name>
                     <trait>
                         <p>compositeur distingué, élève d'Albrecthsberger et de Neukomm, deuxième fils du
                      grand Mozart, né en 1791, mort en 1844</p>
@@ -4084,7 +4087,7 @@
                 </item>
                 <item n="277" xml:id="CAT_000110_e277">
                     <num type="lot">277</num>
-                    <name type="author">Musurus (Constantin)</name>
+                    <name type="author" ref="wd:Q21556736">Musurus (Constantin)</name>
                     <trait>
                         <p>célèbre diplomate ottoman contemporain, ambassadeur à Londres, né en 1807</p>
                     </trait>
@@ -4102,7 +4105,7 @@
                 </item>
                 <item n="278" xml:id="CAT_000110_e278">
                     <num type="lot">278</num>
-                    <name type="author">Naples (Claude de)</name>
+                    <name type="author" ref="wd:Q20019700">Naples (Claude de)</name>
                     <trait>
                         <p>dame d'honneur de la Reine d'Espagne Elisabeth, fille de Marie de Médicis</p>
                     </trait>
@@ -4116,7 +4119,7 @@
                 </item>
                 <item n="279" xml:id="CAT_000110_e279">
                     <num type="lot">279</num>
-                    <name type="author">Napoléon Ier</name>
+                    <name type="author" ref="wd:Q42433148">Napoléon Ier</name>
                     <trait>
                         <p>empereur des Français</p>
                     </trait>
@@ -4134,7 +4137,7 @@
                 </item>
                 <item n="280" xml:id="CAT_000110_e280">
                     <num type="lot">280</num>
-                    <name type="author">Napoléon II</name>
+                    <name type="author" ref="wd:Q7723">Napoléon II</name>
                     <trait>
                         <p>duc de Reichstad, fils unique de Napoléon Ier, né en 1811. mort en 1832</p>
                     </trait>
@@ -4149,14 +4152,14 @@
                 </item>
                 <item n="281" xml:id="CAT_000110_e281">
                     <num type="lot">281</num>
-                    <name type="author">Neuville (Alph. de)</name>
+                    <name type="author" ref="wd:Q1494309">Neuville (Alph. de)</name>
                     <desc xml:id="CAT_000110_e281_d1">le plus popalaire de nos peintres militaires, élève d'Eug. Delacroix, né à Saint-Omer <term ana="#document_type_15">a. s.</term>; Paris, <date when="1873-11-10">10 novembre 1873</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_18">in-18.</measure> Jolie lettre</desc>
                     <measure commodity="currency" unit="FRF" quantity="20">20</measure>
                 </item>
                 <item n="282" xml:id="CAT_000110_e282">
                     <num type="lot">282</num>
-                    <name type="author">Nihus (Barthold)</name>
+                    <name type="author" ref="wd:Q4865201">Nihus (Barthold)</name>
                     <trait>
                         <p>savant controvers'ste allemand ; d'abord protestant, il se fit catholique, fut
                      nommé abbé d'Ilfelo en 1629, et se retira en Hollande à l'approche des Suédois,
@@ -4174,7 +4177,7 @@
                 </item>
                 <item n="283" xml:id="CAT_000110_e283">
                     <num type="lot">283</num>
-                    <name type="author">Orléans (Charles d')</name>
+                    <name type="author" ref="wd:Q310146">Orléans (Charles d')</name>
                     <trait>
                         <p>un des premiers bons poètes français, père de Louis XII</p>
                     </trait>
@@ -4188,7 +4191,7 @@
                 </item>
                 <item n="284" xml:id="CAT_000110_e284">
                     <num type="lot">284</num>
-                    <name type="author">Orléans (Henri VI d')</name>
+                    <name type="author" ref="wd:Q6548">Orléans (Henri VI d')</name>
                     <trait>
                         <p>comte de Saint-Paul, neveu de François III, comte de Saint-Paul, mort en
                      1663</p>
@@ -4204,7 +4207,7 @@
                 </item>
                 <item n="285" xml:id="CAT_000110_e285">
                     <num type="lot">285</num>
-                    <name type="author">Pasca (N.)</name>
+                    <name type="author" ref="wd:Q2241175">Pasca (N.)</name>
                     <trait>
                         <p>actrice distinguée du Gymnase</p>
                     </trait>
@@ -4215,7 +4218,7 @@
                 </item>
                 <item n="286" xml:id="CAT_000110_e286">
                     <num type="lot">286</num>
-                    <name type="author">Paulin (le Père)</name>
+                    <name type="author" ref="wd:Q28042985">Paulin (le Père)</name>
                     <trait>
                         <p>jésuite et confesseur du roi</p>
                     </trait>
@@ -4229,7 +4232,7 @@
                 </item>
                 <item n="287" xml:id="CAT_000110_e287">
                     <num type="lot">287</num>
-                    <name type="author">Pellegrini (Jules)</name>
+                    <name type="author" ref="wd:Q18402652">Pellegrini (Jules)</name>
                     <trait>
                         <p>célèbre chanteur italien, fixé en Bavière, puis en Angleterre, né en 1806, mort
                      en 1858</p>
@@ -4241,7 +4244,7 @@
                 </item>
                 <item n="288" xml:id="CAT_000110_e288">
                     <num type="lot">288</num>
-                    <name type="author">Périer (Arthur)</name>
+                    <name type="author" ref="wd:Q3375577">Périer (Arthur)</name>
                     <trait>
                         <p>acteur distingué du Théâtre-Français, né à Lyon en 1786, mort en 1863</p>
                     </trait>
@@ -4256,7 +4259,7 @@
                 </item>
                 <item n="289" xml:id="CAT_000110_e289">
                     <num type="lot">289</num>
-                    <name type="author">Piccinni (Louis-Alex.)</name>
+                    <name type="author" ref="wd:Q1871466">Piccinni (Louis-Alex.)</name>
                     <trait>
                         <p>pianiste et compositeur distingué, né en 1779, mort en 1850</p>
                     </trait>
@@ -4266,7 +4269,7 @@
                 </item>
                 <item n="290" xml:id="CAT_000110_e290">
                     <num type="lot">290</num>
-                    <name type="author">Pigault-Lebrun (Ch.-Ant.-Guillaume)</name>
+                    <name type="author" ref="wd:Q3388279">Pigault-Lebrun (Ch.-Ant.-Guillaume)</name>
                     <trait>
                         <p>le romancier populaire, né à Calais en 1753, mort en 1835</p>
                     </trait>
@@ -4277,7 +4280,7 @@
                 </item>
                 <item n="291" xml:id="CAT_000110_e291">
                     <num type="lot">291</num>
-                    <name type="author">Plumridge (sir James Hanway)</name>
+                    <name type="author" ref="wd:Q6135515">Plumridge (sir James Hanway)</name>
                     <trait>
                         <p>célèbre amiral anglais de ce siècle, qui prit part à la bataille de Trafalgar,
                      fit les deux campagnes de 1854-1853 contre la Russie et contribua à la
@@ -4311,7 +4314,7 @@
                 </item>
                 <item n="293" xml:id="CAT_000110_e293">
                     <num type="lot">293</num>
-                    <name type="author">Pontchartrain (Jérôme de Phélypeaux de)</name>
+                    <name type="author" ref="wd:Q3191024">Pontchartrain (Jérôme de Phélypeaux de)</name>
                     <trait>
                         <p>célèbre magistrat, conseiller au Parlement et secrétaire d'Etat, père de
                      Maurepas, né en 1674, mort en 1747</p>
@@ -4338,7 +4341,7 @@
                 </item>
                 <item n="295" xml:id="CAT_000110_e295">
                     <num type="lot">295</num>
-                    <name type="author">Préville (P.-L.)</name>
+                    <name type="author" ref="wd:Q3409292">Préville (P.-L.)</name>
                     <trait>
                         <p>le plus célèbre comédien français du XVIIIe siècle, de l'Institut, né en 1724,
                      mort en 1799</p>
@@ -4353,7 +4356,7 @@
                 </item>
                 <item n="296" xml:id="CAT_000110_e296">
                     <num type="lot">296</num>
-                    <name type="author">Pure (Michel de)</name>
+                    <name type="author" ref="wd:Q15428633">Pure (Michel de)</name>
                     <trait>
                         <p>célèbre prédicateur et écrivain du XVIIe siècle, l'une des victimes de Boileau,
                      né à Lyon en 1634, mort en 1680</p>
@@ -4367,7 +4370,7 @@
                 </item>
                 <item n="297" xml:id="CAT_000110_e297">
                     <num type="lot">297</num>
-                    <name type="author">Puységur (P.-L. de Chastenet, comte de)</name>
+                    <name type="author" ref="wd:Q3262918">Puységur (P.-L. de Chastenet, comte de)</name>
                     <trait>
                         <p>général, célèbre ministre de la guerre sous Louis XVI, né en 1726, mort en
                      1807</p>
@@ -4379,7 +4382,7 @@
                 </item>
                 <item n="298" xml:id="CAT_000110_e298">
                     <num type="lot">298</num>
-                    <name type="author">Quinault (Jeanne-Françoise)</name>
+                    <name type="author" ref="wd:Q3175927">Quinault (Jeanne-Françoise)</name>
                     <trait>
                         <p>une des plus spirituelles actrices de la Comédie-Française au XVIIIe siècle,
                      née vers 1700, morte en 1783</p>
@@ -4394,7 +4397,7 @@
                 </item>
                 <item n="299" xml:id="CAT_000110_e299">
                     <num type="lot">299</num>
-                    <name type="author">Quinet (Edgar)</name>
+                    <name type="author" ref="wd:Q551735">Quinet (Edgar)</name>
                     <trait>
                         <p>éminent philosophe, historien et homme politique, né à Bourg en 1803, mort en
                      1875</p>
@@ -4410,7 +4413,7 @@
                 </item>
                 <item n="300" xml:id="CAT_000110_e300">
                     <num type="lot">300</num>
-                    <name type="author">Radet (Jean-Baptiste)</name>
+                    <name type="author" ref="wd:Q3164390">Radet (Jean-Baptiste)</name>
                     <trait>
                         <p>célèbre vaudevilliste, né à Dijon en 1752, mort en 1830</p>
                     </trait>
@@ -4425,7 +4428,7 @@
                 </item>
                 <item n="301" xml:id="CAT_000110_e301">
                     <num type="lot">301</num>
-                    <name type="author">Retz (Catherine de Gondy, duchesse de)</name>
+                    <name type="author" ref="wd:Q104720629">Retz (Catherine de Gondy, duchesse de)</name>
                     <trait>
                         <p>fille du duc Henri de Retz et de Jeanne de Scépeaux, femme de Pierre de Gondy,
                      cousine et belle-soeur du coadjuteur, amie de saint Vincent de Paul, fondatrice
@@ -4450,7 +4453,7 @@
                 </item>
                 <item n="303" xml:id="CAT_000110_e303">
                     <num type="lot">303</num>
-                    <name type="author">Roquette (Gabriel de)</name>
+                    <name type="author" ref="wd:Q3094026">Roquette (Gabriel de)</name>
                     <trait>
                         <p>prélat aussi célèbre par son esprit d'intrigue que par son ambition, créature
                      de Mazarin, et qui fournit à Molière le type de Tartufe, évêque d'Autun, né en
@@ -4465,7 +4468,7 @@
                 </item>
                 <item n="304" xml:id="CAT_000110_e304">
                     <num type="lot">304</num>
-                    <name type="author">Rouget de l'Isle (Claude-Joseph)</name>
+                    <name type="author" ref="wd:Q207660">Rouget de l'Isle (Claude-Joseph)</name>
                     <trait>
                         <p>l'auteur de la Marseillaise, né à Lousle-Saulnier en 1760, mort en 1836</p>
                     </trait>
@@ -4479,7 +4482,7 @@
                 </item>
                 <item n="305" xml:id="CAT_000110_e305">
                     <num type="lot">305</num>
-                    <name type="author">Rousseau (Philippe)</name>
+                    <name type="author" ref="wd:Q321484">Rousseau (Philippe)</name>
                     <trait>
                         <p>célèbre peintre de paysages et d'animaux</p>
                     </trait>
@@ -4506,7 +4509,7 @@
                 </item>
                 <item n="307" xml:id="CAT_000110_e307">
                     <num type="lot">307</num>
-                    <name type="author">Ruskin (John)</name>
+                    <name type="author" ref="wd:Q106859878">Ruskin (John)</name>
                     <trait>
                         <p>critique d'art anglais, défenseur du paraphaélitisme de Millais et de Hunt en
                      peinture, né à Londres en 1819</p>
@@ -4522,7 +4525,7 @@
                 </item>
                 <item n="308" xml:id="CAT_000110_e308">
                     <num type="lot">308</num>
-                    <name type="author">Sade (D.-A.-Fr., marquis de)</name>
+                    <name type="author" ref="wd:Q123867">Sade (D.-A.-Fr., marquis de)</name>
                     <trait>
                         <p>le trop fameux écrivain, né en 1740, mort à Charenton le 2 décembre 1814</p>
                     </trait>
@@ -4546,7 +4549,7 @@
                 </item>
                 <item n="310" xml:id="CAT_000110_e310">
                     <num type="lot">310</num>
-                    <name type="author">Saint-Maurice (le comte de)</name>
+                    <name type="author" ref="wd:Q274327">Saint-Maurice (le comte de)</name>
                     <trait>
                         <p>ambassadeur du duc de Savoie en France pendant le ministère de Richelieu; il
                      était fort connu à Paris; cité par Vaugelas dans une lettre à d'Hozier et par
@@ -4560,7 +4563,7 @@
                 </item>
                 <item n="311" xml:id="CAT_000110_e311">
                     <num type="lot">311</num>
-                    <name type="author">Saint-Pierre (Ch.-I. Castel, abbé de)</name>
+                    <name type="author" ref="wd:Q28550357">Saint-Pierre (Ch.-I. Castel, abbé de)</name>
                     <trait>
                         <p>l'auteur du projet de Paix perpétuelte, de l'Acad. fr., né dans la Manche en
                      1638, mort en 1843</p>
@@ -4572,7 +4575,7 @@
                 </item>
                 <item n="312" xml:id="CAT_000110_e312">
                     <num type="lot">312</num>
-                    <name type="author">Saint-Saens (C.)</name>
+                    <name type="author" ref="wd:Q150445">Saint-Saens (C.)</name>
                     <trait>
                         <p>célèbre pianiste, organiste et compositeur, né en 1835</p>
                     </trait>
@@ -4587,7 +4590,7 @@
                 </item>
                 <item n="313" xml:id="CAT_000110_e313">
                     <num type="lot">313</num>
-                    <name type="author">8and (George)</name>
+                    <name type="author" ref="wd:Q48438">8and (George)</name>
                     <trait>
                         <p>la grande romancière</p>
                     </trait>
@@ -4599,7 +4602,7 @@
                 </item>
                 <item n="314" xml:id="CAT_000110_e314">
                     <num type="lot">314</num>
-                    <name type="author">Sandeau (Jules)</name>
+                    <name type="author" ref="wd:Q609039">Sandeau (Jules)</name>
                     <trait>
                         <p>célèbre romancier et auteur dramatique, de l'Acad. fr., né à Aubusson en
                      1811</p>
@@ -4632,7 +4635,7 @@
                 </item>
                 <item n="316" xml:id="CAT_000110_e316">
                     <num type="lot">316</num>
-                    <name type="author">Scudéry (Madeleine de)</name>
+                    <name type="author" ref="wd:Q18575066">Scudéry (Madeleine de)</name>
                     <trait>
                         <p>célèbre romancière du XVIIe siècle, créatrice du genre précieux, surnommée la
                      Sapho moderne, née au Havre</p>
@@ -4652,7 +4655,7 @@
                 </item>
                 <item n="317" xml:id="CAT_000110_e317">
                     <num type="lot">317</num>
-                    <name type="author">Sénancour (Et. Pivert de)</name>
+                    <name type="author" ref="wd:Q290070">Sénancour (Et. Pivert de)</name>
                     <trait>
                         <p>éloquent prosateur, auteur d'Obermann</p>
                     </trait>
@@ -4663,7 +4666,7 @@
                 </item>
                 <item n="318" xml:id="CAT_000110_e318">
                     <num type="lot">318</num>
-                    <name type="author">Sidney-Smith (W.)</name>
+                    <name type="author" ref="wd:Q1389040">Sidney-Smith (W.)</name>
                     <trait>
                         <p>intrépide marin anglais et célèbre philanthrope</p>
                     </trait>
@@ -4675,7 +4678,7 @@
                 </item>
                 <item n="319" xml:id="CAT_000110_e319">
                     <num type="lot">319</num>
-                    <name type="author">Sontag (Henriette)</name>
+                    <name type="author" ref="wd:Q64098">Sontag (Henriette)</name>
                     <trait>
                         <p>comtesse de Rossi, la grande cantatrice, née en 1805, morte en 1854</p>
                     </trait>
@@ -4706,7 +4709,7 @@
                 </item>
                 <item n="321" xml:id="CAT_000110_e321">
                     <num type="lot">321</num>
-                    <name type="author">Sowinski (Albert)</name>
+                    <name type="author" ref="wd:Q9376869">Sowinski (Albert)</name>
                     <trait>
                         <p>célèbre compositeur et musicographe polonais, né vers 1803, mort en 1880</p>
                     </trait>
@@ -4722,7 +4725,7 @@
                 </item>
                 <item n="322" xml:id="CAT_000110_e322">
                     <num type="lot">322</num>
-                    <name type="author">Spohr (Louis)</name>
+                    <name type="author" ref="wd:Q57226">Spohr (Louis)</name>
                     <trait>
                         <p>violoniste et compsiteur allemand, premier maître de chapelle de l'Electeur de
                      Hesse-Cassel, né en 1784, mort en 1859</p>
@@ -4737,7 +4740,7 @@
                 </item>
                 <item n="323" xml:id="CAT_000110_e323">
                     <num type="lot">323</num>
-                    <name type="author">Stadler (l'abbé Maximilien)</name>
+                    <name type="author" ref="wd:Q327926">Stadler (l'abbé Maximilien)</name>
                     <trait>
                         <p>célèbre organiste et compositeur autrichien né en 1748, mort en 1833</p>
                     </trait>
@@ -4747,7 +4750,7 @@
                 </item>
                 <item n="324" xml:id="CAT_000110_e324">
                     <num type="lot">324</num>
-                    <name type="author">Talma (Fr.-Jos.)</name>
+                    <name type="author" ref="wd:Q393983">Talma (Fr.-Jos.)</name>
                     <trait>
                         <p>le grand acteur tragique, né en 1763, mort en 1826</p>
                     </trait>
@@ -4772,7 +4775,7 @@
                 </item>
                 <item n="325" xml:id="CAT_000110_e325">
                     <num type="lot">325</num>
-                    <name type="author">Tamburini (Antoine)</name>
+                    <name type="author" ref="wd:Q605376">Tamburini (Antoine)</name>
                     <trait>
                         <p>legrand chanteur italien, né en 1800, mort à Nice en 1876</p>
                     </trait>
@@ -4796,7 +4799,7 @@
                 </item>
                 <item n="327" xml:id="CAT_000110_e327">
                     <num type="lot">327</num>
-                    <name type="author">Terlon (Hugues, chevalier de)</name>
+                    <name type="author" ref="wd:Q27863075">Terlon (Hugues, chevalier de)</name>
                     <trait>
                         <p>célèbre diplomate français du XVIe siècle, ambassadeur de France à
                      Copenhague</p>
@@ -4826,7 +4829,7 @@
                 </item>
                 <item n="329" xml:id="CAT_000110_e329">
                     <num type="lot">329</num>
-                    <name type="author">Thalberg (S.)</name>
+                    <name type="author" ref="wd:Q106599188">Thalberg (S.)</name>
                     <trait>
                         <p>le célèbre pianiste et compositeur, né à Genève en 1812, mort en 1871</p>
                     </trait>
@@ -4836,7 +4839,7 @@
                 </item>
                 <item n="330" xml:id="CAT_000110_e330">
                     <num type="lot">330</num>
-                    <name type="author">Théo (Louise)</name>
+                    <name type="author" ref="wd:Q3263835">Théo (Louise)</name>
                     <trait>
                         <p>une des reines de l'opéra-bouffe</p>
                     </trait>
@@ -4848,7 +4851,7 @@
                 </item>
                 <item n="331" xml:id="CAT_000110_e331">
                     <num type="lot">331</num>
-                    <name type="author">Thérésa (Emma Valadon, dite)</name>
+                    <name type="author" ref="wd:Q2276139">Thérésa (Emma Valadon, dite)</name>
                     <trait>
                         <p>la célèbre chanteuse, née à la BazocheGonet (Eure-et-Loir) en 1837</p>
                     </trait>
@@ -4860,7 +4863,7 @@
                 </item>
                 <item n="332" xml:id="CAT_000110_e332">
                     <num type="lot">332</num>
-                    <name type="author">Thiébault (P.-L.-A.-D.)</name>
+                    <name type="author" ref="wd:Q57785965">Thiébault (P.-L.-A.-D.)</name>
                     <trait>
                         <p> général de division, qui lit les campagnes de Portugal et d'Espagne, et prit
                      une part active aux journées de 1830, né à Berlin en 1769, mort en 1846.</p>
@@ -4874,7 +4877,7 @@
                 </item>
                 <item n="333" xml:id="CAT_000110_e333">
                     <num type="lot">333</num>
-                    <name type="author">Thiers (Ad.)</name>
+                    <name type="author" ref="wd:Q80130136">Thiers (Ad.)</name>
                     <trait>
                         <p>premier président de la République française</p>
                     </trait>
@@ -4904,7 +4907,7 @@
                 </item>
                 <item n="335" xml:id="CAT_000110_e335">
                     <num type="lot">335</num>
-                    <name type="author">Turenne (le vicomte de)</name>
+                    <name type="author" ref="wd:Q303216">Turenne (le vicomte de)</name>
                     <trait>
                         <p>l'illustre guerrier</p>
                     </trait>
@@ -4922,7 +4925,7 @@
                 </item>
                 <item n="336" xml:id="CAT_000110_e336">
                     <num type="lot">336</num>
-                    <name type="author">Vallès (Jules)</name>
+                    <name type="author" ref="wd:Q551597">Vallès (Jules)</name>
                     <trait>
                         <p>journaliste révolutionnaire, membre de la Commune de Paris, né au Puy
                      (Haute-Loire) en 1838, mort en 1885</p>
@@ -4935,7 +4938,7 @@
                 </item>
                 <item n="337" xml:id="CAT_000110_e337">
                     <num type="lot">337</num>
-                    <name type="author">Vanloo (Albert)</name>
+                    <name type="author" ref="wd:Q2831622">Vanloo (Albert)</name>
                     <trait>
                         <p>auteur dramatique contemporain distingué</p>
                     </trait>
@@ -4964,7 +4967,7 @@
                 </item>
                 <item n="339" xml:id="CAT_000110_e339">
                     <num type="lot">339</num>
-                    <name type="author">Vasseur (Léon)</name>
+                    <name type="author" ref="wd:Q6711115">Vasseur (Léon)</name>
                     <trait>
                         <p>compositeur, auteur de la Timbale d'argent, né à Bapaume (Pas-de-Calais) en
                      1844</p>
@@ -4977,7 +4980,7 @@
                 </item>
                 <item n="340" xml:id="CAT_000110_e340">
                     <num type="lot">340</num>
-                    <name type="author">Verdi (G.)</name>
+                    <name type="author" ref="wd:Q7317">Verdi (G.)</name>
                     <trait>
                         <p>le célèbre compositeur, né à Roncole en 1813</p>
                     </trait>
@@ -4992,7 +4995,7 @@
                 </item>
                 <item n="341" xml:id="CAT_000110_e341">
                     <num type="lot">341</num>
-                    <name type="author">Verdi (G.)</name>
+                    <name type="author" ref="wd:Q7317">Verdi (G.)</name>
                     <desc xml:id="CAT_000110_e341_d1">
                         <term ana="#document_type_7">L. a. s.</term> ; Gènes, <date when="1878">1878</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_8">in-8.</measure>
@@ -5001,7 +5004,7 @@
                 </item>
                 <item n="342" xml:id="CAT_000110_e342">
                     <num type="lot">342</num>
-                    <name type="author">Vermorel (A.)</name>
+                    <name type="author" ref="wd:Q63761133">Vermorel (A.)</name>
                     <trait>
                         <p>journaliste républicain, membre de la Commune de Paris, né à Denicé (Rhône) en
                      1841, mort en 1871 des suite de ses blessures reçues aux barricades</p>
@@ -5022,7 +5025,7 @@
                 </item>
                 <item n="343" xml:id="CAT_000110_e343">
                     <num type="lot">343</num>
-                    <name type="author">Vermorel (A.)</name>
+                    <name type="author" ref="wd:Q63761133">Vermorel (A.)</name>
                     <desc xml:id="CAT_000110_e343_d1">De la décadence du goût en littérature, <date when="1859">
                             <term ana="#document_type_13">manuscrit aut.</term> sig. 15 février 1859</date>, <measure type="length" unit="p" n="12">12 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_8">in-8.</measure>
@@ -5037,7 +5040,7 @@
                 </item>
                 <item n="344" xml:id="CAT_000110_e344">
                     <num type="lot">344</num>
-                    <name type="author">Victor-Emmanuel II</name>
+                    <name type="author" ref="wd:Q19138518">Victor-Emmanuel II</name>
                     <trait>
                         <p>roi d'Italie</p>
                     </trait>
@@ -5048,7 +5051,7 @@
                 </item>
                 <item n="345" xml:id="CAT_000110_e345">
                     <num type="lot">345</num>
-                    <name type="author">Vieuxtemps (H.)</name>
+                    <name type="author" ref="wd:Q312790">Vieuxtemps (H.)</name>
                     <trait>
                         <p>le célèbre violoniste belge, né à Verviers en 1820</p>
                     </trait>
@@ -5060,7 +5063,7 @@
                 </item>
                 <item n="346" xml:id="CAT_000110_e346">
                     <num type="lot">346</num>
-                    <name type="author">Vigny (Alfred de)</name>
+                    <name type="author" ref="wd:Q309702">Vigny (Alfred de)</name>
                     <trait>
                         <p>célèbre poète dramatique, auteur de Cinq-Mars, membre de l'Académie française,
                      né à Loches</p>
@@ -5077,7 +5080,7 @@
                 </item>
                 <item n="347" xml:id="CAT_000110_e347">
                     <num type="lot">347</num>
-                    <name type="author">Viotti (J.-B.)</name>
+                    <name type="author" ref="wd:Q313188">Viotti (J.-B.)</name>
                     <trait>
                         <p>l'illustre chef de l'école des violonistes modernes, né à Fontanetto en 1753,
                      mort en 1824</p>
@@ -5089,7 +5092,7 @@
                 </item>
                 <item n="348" xml:id="CAT_000110_e348">
                     <num type="lot">348</num>
-                    <name type="author">Voltaire</name>
+                    <name type="author" ref="wd:Q9068">Voltaire</name>
                     <trait>
                         <p> l'illustre écrivain</p>
                     </trait>
@@ -5103,7 +5106,7 @@
                 </item>
                 <item n="349" xml:id="CAT_000110_e349">
                     <num type="lot">349</num>
-                    <name type="author">Weber (Carl-Marie von)</name>
+                    <name type="author" ref="wd:Q154812">Weber (Carl-Marie von)</name>
                     <trait>
                         <p>l'illustre compositeur allemand, auteur du Freyschütz et d'Obéron, né en 1786,
                      mort le 5 juin 1826</p>
@@ -5115,7 +5118,7 @@
                 </item>
                 <item n="350" xml:id="CAT_000110_e350">
                     <num type="lot">350</num>
-                    <name type="author">Wessenberg (J.-Philippe, biron de)</name>
+                    <name type="author" ref="wd:Q697262">Wessenberg (J.-Philippe, biron de)</name>
                     <trait>
                         <p>célèbre diplomate autrichien, ambassadeur à Londres, qui prit une part active
                      au traité de Paris et au congrès de Vienne, ami de Metternich, né en 1773, mort
@@ -5131,7 +5134,7 @@
                 </item>
                 <item n="351" xml:id="CAT_000110_e351">
                     <num type="lot">351</num>
-                    <name type="author">Wied (M.-A.-P., prince de)</name>
+                    <name type="author" ref="wd:Q61282">Wied (M.-A.-P., prince de)</name>
                     <trait>
                         <p>savant botaniste et naturaliste, connu par ses voyages au Brésil et dans
                      l'intérieur de l'Amérique du Nord, fils de J.-A.-Ch. de Wied-Neuwied et de
@@ -5147,7 +5150,7 @@
                 </item>
                 <item n="352" xml:id="CAT_000110_e352">
                     <num type="lot">352</num>
-                    <name type="author">Wieniawski (Joseph)</name>
+                    <name type="author" ref="wd:Q4107298">Wieniawski (Joseph)</name>
                     <trait>
                         <p>pianiste et compositeur polonais contemporain très distingué, né en 1837</p>
                     </trait>
@@ -5157,7 +5160,7 @@
                 </item>
                 <item n="353" xml:id="CAT_000110_e353">
                     <num type="lot">353</num>
-                    <name type="author">Yriarte (C.)</name>
+                    <name type="author" ref="wd:Q37484257">Yriarte (C.)</name>
                     <trait>
                         <p>un des plus élégants littérateurs de notre époque, né à Paris en 1833</p>
                     </trait>

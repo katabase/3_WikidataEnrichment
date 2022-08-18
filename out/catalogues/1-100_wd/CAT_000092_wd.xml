@@ -72,15 +72,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces selected entries</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -214,7 +217,7 @@
                 <gap/>
                 <item n="303" xml:id="CAT_000092_e303">
                     <num type="lot">303</num>
-                    <name>Assolini</name>
+                    <name ref="wd:Q10327622">Assolini</name>
                     <trait>
                         <p>physician to Nepoleon;</p>
                     </trait>
@@ -233,13 +236,13 @@
                 </item>
                 <item n="306" xml:id="CAT_000092_e306">
                     <num type="lot">306</num>
-                    <name>D’EON (LA CHEVALIERE);</name>
+                    <name ref="wd:Q76354641">D’EON (LA CHEVALIERE);</name>
                     <desc xml:id="CAT_000092_e306_d1">a letter of six pages, addressed to the minister, Count of Maurepas, stating her reasons for her having alternatively worn breeches and petticoats. She was at one time ambassador from France resident in London, and had been captain in the dragoons, as well as “Avocat au Parlement,” and Censeur Royal. This very curious Letter is written throughout at the time she wore petticoats, being in the feminine gender, she says, “le plus sot des Roles' a jouer, est celui de Pucelle à la Cour. It is dated Versailles, <date when="1779-02-08">8th of Feb. 1779</date>. One other from her also.</desc>
                     <num type="price">2</num>
                 </item>
                 <item n="307" xml:id="CAT_000092_e307">
                     <num type="lot">307</num>
-                    <name>Du Val (Abbe);</name>
+                    <name ref="wd:Q104540166">Du Val (Abbe);</name>
                     <desc xml:id="CAT_000092_e307_d1">Daunou;Aubert,author of the "Revolution Françoise;"Feburier,botanist, &amp;c</desc>
                     <num type="price">6</num>
                 </item>
@@ -311,7 +314,7 @@
                 </item>
                 <item n="321" xml:id="CAT_000092_e321">
                     <num type="lot">321</num>
-                    <name>VOLTAIRE</name>
+                    <name ref="wd:Q9068">VOLTAIRE</name>
                     <desc xml:id="CAT_000092_e321_d1">A MANUSCRIPT COPY OF THE "PUCELLE D'ORLEANS," WITH VOLTAIRE'S MARGINAL NOTES, CORRECTIONS, AND INTERLINEATIONS:</desc>
                     <note anchored="true">to the collectors of autographs this MS. is of inestimable value</note>
                 </item>

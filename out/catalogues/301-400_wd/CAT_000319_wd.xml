@@ -69,15 +69,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -232,7 +235,7 @@
                 </item>
                 <item n="2" xml:id="CAT_000319_e2">
                     <num type="lot">2</num>
-                    <name type="author">BUGEAUD (Thomas Robert)</name>
+                    <name type="author" ref="wd:Q349167">BUGEAUD (Thomas Robert)</name>
                     <trait>
                         <p>duc d'Isly, maréchal de France, un des conquérants de l'Algérie.</p>
                     </trait>
@@ -254,7 +257,7 @@
                 </item>
                 <item n="4" xml:id="CAT_000319_e4">
                     <num type="lot">4</num>
-                    <name type="author">DAVOUT (Louis)</name>
+                    <name type="author" ref="wd:Q158778">DAVOUT (Louis)</name>
                     <trait>
                         <p>prince d'Eckmuhl, duc d'Auerstacdt, illustre maréchal d'Empire.</p>
                     </trait>
@@ -272,7 +275,7 @@
                 </item>
                 <item n="6" xml:id="CAT_000319_e6">
                     <num type="lot">6</num>
-                    <name type="author">DUMAS (Alexandre)</name>
+                    <name type="author" ref="wd:Q38337">DUMAS (Alexandre)</name>
                     <trait>
                         <p>célèbre général, surnommé par Napoléon Ier, l'Horatius Coclès du Tyrol, père du romancier.</p>
                     </trait>
@@ -283,45 +286,45 @@
                 </item>
                 <item n="7" xml:id="CAT_000319_e7">
                     <num type="lot">7</num>
-                    <name type="author">FAMILLE BONAPARTE.</name>
+                    <name type="author" ref="wd:Q112581">FAMILLE BONAPARTE.</name>
                     <desc xml:id="CAT_000319_e7_d1">7 pièces</desc>
                     <note>Marie-Louise, Louis, Eugène, Caroline, Joseph et Lucien.</note>
                 </item>
                 <item n="8" xml:id="CAT_000319_e8">
                     <num type="lot">8</num>
-                    <name type="author">GÉNÉRAUX.</name>
+                    <name type="author" ref="wd:Q431534">GÉNÉRAUX.</name>
                     <desc xml:id="CAT_000319_e8_d1">300 pièces</desc>
                     <note>Duroc, Andréossy, Bessières, Vandamne, Royer Valliuhert, Souham, Sainf-C.yr, Nnghes, Radet, Pichegru, Petit, Marbot, Mermet, Montholon, Miollis, Lejeune, Lemarois, etc....</note>
                 </item>
                 <item n="9" xml:id="CAT_000319_e9">
                     <num type="lot">9</num>
-                    <name type="author">GÉNÉRAUX.</name>
+                    <name type="author" ref="wd:Q431534">GÉNÉRAUX.</name>
                     <desc xml:id="CAT_000319_e9_d1">167 <term ana="#document_type_4">pièces.</term>
                     </desc>
                     <note>Leveneur, A. et Th. Dillon, Drouot, Duhesme, Mathieu Dumas, Dumourien, Damas, Debelle, Dejean, Deprez-Crassier, Duroc, Dupont, etc.</note>
                 </item>
                 <item n="10" xml:id="CAT_000319_e10">
                     <num type="lot">10</num>
-                    <name type="author">GÉNÉRAUX</name>
+                    <name type="author" ref="wd:Q431534">GÉNÉRAUX</name>
                     <desc xml:id="CAT_000319_e10_d1">216 pièces</desc>
                     <note>A. Caulaincourt, Championnet, Euy. Cavaiynac, Changarnier, Chanzy, Chevert, Kellermann, Carnot, Friant, Biron, Galliffet, Bertrand, etc.</note>
                 </item>
                 <item n="11" xml:id="CAT_000319_e11">
                     <num type="lot">11</num>
-                    <name type="author">GÉNÉRAUX.</name>
+                    <name type="author" ref="wd:Q431534">GÉNÉRAUX.</name>
                     <desc xml:id="CAT_000319_e11_d1">143 <term ana="#document_type_4">pièces.</term>
                     </desc>
                     <note>Caudaux, Carteaux, Cervoni, Canuel, Ed. Colbert, Bouille, Belliard, Bedeau, Gassendi, Haxo, Hulin, Kirgener, etc.</note>
                 </item>
                 <item n="12" xml:id="CAT_000319_e12">
                     <num type="lot">12</num>
-                    <name type="author">MARÉCHAUX DE FRANCE.</name>
+                    <name type="author" ref="wd:Q3538900">MARÉCHAUX DE FRANCE.</name>
                     <desc xml:id="CAT_000319_e12_d1">100 pièces environ</desc>
                     <note>Clarke, Berthier, Beurnonville, Grouchy, d'Artagnan, Augereau, Bourmont, Lobau, Reille, Belleisle, Castries, Ney, Soull, Victor,Lefevbre, Gouvion Sainl-Cyr, Brune, Bugeaud, Canrobert, Moncey, Marmont, Macdonald, Jourdan, etc.</note>
                 </item>
                 <item n="13" xml:id="CAT_000319_e13">
                     <num type="lot">13</num>
-                    <name type="other">IMPRIMÉS.</name>
+                    <name type="other" ref="wd:Q107425611">IMPRIMÉS.</name>
                     <desc xml:id="CAT_000319_e13_d1">40 pièces environ.</desc>
                     <note>Collections de bulletin de la grande armée et d'extraits du Moniteur, du 20 juin 1812 à 1815</note>
                 </item>

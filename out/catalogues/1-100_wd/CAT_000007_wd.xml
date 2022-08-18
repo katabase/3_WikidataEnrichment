@@ -90,15 +90,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces selected entries</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -237,7 +240,7 @@
                 <gap/>
                 <item n="279" xml:id="CAT_000007_e279" corresp="#MS_000008" rend="facs">
                     <num type="lot">279</num>
-                    <name type="author">SEVIGNE (Marie de Rabutin-Chantal Marquise de)</name>
+                    <name type="author" ref="wd:Q237103">SEVIGNE (Marie de Rabutin-Chantal Marquise de)</name>
                     <trait>
                         <p>l'illustre épistolière
                      (1626-1696). Lettre autographe à du Plessis. Aux Rochers, 20 août (1690).</p>

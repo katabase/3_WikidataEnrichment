@@ -78,15 +78,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces selected entries</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -225,7 +228,7 @@
                 <gap/>
                 <item n="108" xml:id="CAT_000007_e108" corresp="#MS_000008">
                     <num type="lot">108</num>
-                    <name type="author">SEVIGNE (MARIE DE RABUTIN-CHANTAL, MARQUISE DE)</name>
+                    <name type="author" ref="wd:Q237103">SEVIGNE (MARIE DE RABUTIN-CHANTAL, MARQUISE DE)</name>
                     <desc xml:id="CAT_000007_e108_d1">Full A. L., unsigned as usual, 4 pp., <date when="1691">4zo. Au Rochers dimanche 20 aout [about 1691</date>]. Autograph cover addressed to Monsieur du Plessis.</desc>
                     <note>
                         <p>A charming characteristic composition, in which she sympathizes with his

@@ -69,15 +69,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -221,13 +224,13 @@
             <list>
                 <item n="8" xml:id="CAT_000206_e8">
                     <num type="lot">8</num>
-                    <name type="author">Artistes dramatiques.</name>
+                    <name type="author" ref="wd:Q78099469">Artistes dramatiques.</name>
                     <desc xml:id="CAT_000206_e8_d1">32 lettres</desc>
                     <note>Bocage, Coquelin, Nourrit, Volnais (Mlle), Saint-Prix, etc.</note>
                 </item>
                 <item n="9" xml:id="CAT_000206_e9">
                     <num type="lot">9</num>
-                    <name type="author">Auber (D.-E)</name>
+                    <name type="author" ref="wd:Q157672">Auber (D.-E)</name>
                     <trait>
                         <p>célèbre compositeur de musique.</p>
                     </trait>
@@ -237,21 +240,21 @@
                 </item>
                 <item n="10" xml:id="CAT_000206_e10">
                     <num type="lot">10</num>
-                    <name type="author">Auteurs dramatiques</name>
+                    <name type="author" ref="wd:Q2945525">Auteurs dramatiques</name>
                     <desc xml:id="CAT_000206_e10_d1">23 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Ducange, Saint-Georges, Halevy (Ludovic), Gondinet, Meilhac, Gille (Philippe), Goubaux, etc.</note>
                 </item>
                 <item n="11" xml:id="CAT_000206_e11">
                     <num type="lot">11</num>
-                    <name type="author">Bonaparte (famille).</name>
+                    <name type="author" ref="wd:Q112581">Bonaparte (famille).</name>
                     <desc xml:id="CAT_000206_e11_d1">22 <term ana="#document_type_9">l. s.</term>
                     </desc>
                     <note>Beauharnais (Eugène), Joseph, Lucien, Pauline, Élisa, Julie, Murat, Jérôme, etc.</note>
                 </item>
                 <item n="12" xml:id="CAT_000206_e12">
                     <num type="lot">12</num>
-                    <name type="author">Buffon (le comte de)</name>
+                    <name type="author" ref="wd:Q229264">Buffon (le comte de)</name>
                     <trait>
                         <p>illustre naturaliste et écrivain.</p>
                     </trait>
@@ -261,37 +264,37 @@
                 </item>
                 <item n="13" xml:id="CAT_000206_e13">
                     <num type="lot">13</num>
-                    <name type="author">Clergé</name>
+                    <name type="author" ref="wd:Q2978943">Clergé</name>
                     <desc xml:id="CAT_000206_e13_d1">Intéressante réunion de 82 lettres émanant de prélats du XVIe au XIXe siècle.</desc>
                 </item>
                 <item n="14" xml:id="CAT_000206_e14">
                     <num type="lot">14</num>
-                    <name type="author">Compositeurs de musique</name>
+                    <name type="author" ref="wd:Q101110863">Compositeurs de musique</name>
                     <desc xml:id="CAT_000206_e14_d1">31 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>David (Félicien), Le Sueur, Spontini, Cherubini, Halevy, Paër, Meyerbeer, Offenbach, Massé, Fétis, etc.</note>
                 </item>
                 <item n="15" xml:id="CAT_000206_e15">
                     <num type="lot">15</num>
-                    <name type="author">Femmes</name>
+                    <name type="author" ref="wd:Q2016301">Femmes</name>
                     <desc xml:id="CAT_000206_e15_d1">16 lettres ou pièces</desc>
                     <note>Geoffrin (Mme), Campan, Abrantès, Salm, Gay (Delphine), etc.</note>
                 </item>
                 <item n="16" xml:id="CAT_000206_e16">
                     <num type="lot">16</num>
-                    <name type="author">Généraux</name>
+                    <name type="author" ref="wd:Q431534">Généraux</name>
                     <desc xml:id="CAT_000206_e16_d1">44 lettres</desc>
                     <note>Ernouf, Debelle, Gouvion, Grigny, Lamoricière, Foy, Rochambeau, Cervoni, etc.</note>
                 </item>
                 <item n="17" xml:id="CAT_000206_e17">
                     <num type="lot">17</num>
-                    <name type="author">Graveurs</name>
+                    <name type="author" ref="wd:Q3488167">Graveurs</name>
                     <desc xml:id="CAT_000206_e17_d1">7 lettres</desc>
                     <note>Gatteaux, Poilly, Henriquet-Dupont, Longhi, Girardet, etc.</note>
                 </item>
                 <item n="18" xml:id="CAT_000206_e18">
                     <num type="lot">18</num>
-                    <name type="author">Guillotin (Ignace)</name>
+                    <name type="author" ref="wd:Q220650">Guillotin (Ignace)</name>
                     <trait>
                         <p>le célèbre médecin.</p>
                     </trait>
@@ -301,7 +304,7 @@
                 </item>
                 <item n="19" xml:id="CAT_000206_e19">
                     <num type="lot">19</num>
-                    <name type="author">Henri II</name>
+                    <name type="author" ref="wd:Q64686217">Henri II</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -311,7 +314,7 @@
                 </item>
                 <item n="20" xml:id="CAT_000206_e20">
                     <num type="lot">20</num>
-                    <name type="author">Henri III</name>
+                    <name type="author" ref="wd:Q82820890">Henri III</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -320,7 +323,7 @@
                 </item>
                 <item n="21" xml:id="CAT_000206_e21">
                     <num type="lot">21</num>
-                    <name type="author">Henri IV</name>
+                    <name type="author" ref="wd:Q936976">Henri IV</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -330,44 +333,44 @@
                 </item>
                 <item n="22" xml:id="CAT_000206_e22">
                     <num type="lot">22</num>
-                    <name type="author">Hommes politiques.</name>
+                    <name type="author" ref="wd:Q60719460">Hommes politiques.</name>
                     <desc xml:id="CAT_000206_e22_d1">39 lettres.</desc>
                     <note>Montalivet, La Luzerne, Brienne, Gaudin, Fleurieu, Mollien, Regnier, Trudaine, Calonne, etc.</note>
                 </item>
                 <item n="23" xml:id="CAT_000206_e23">
                     <num type="lot">23</num>
-                    <name type="author">Hommes politiques</name>
+                    <name type="author" ref="wd:Q60719460">Hommes politiques</name>
                     <desc xml:id="CAT_000206_e23_d1">43 lettres</desc>
                     <note>Decazes, Fain, Garnier-Pagès, Baroche, Laffitte, Montalivet, etc.</note>
                 </item>
                 <item n="24" xml:id="CAT_000206_e24">
                     <num type="lot">24</num>
-                    <name type="author">Hommes politiques</name>
+                    <name type="author" ref="wd:Q60719460">Hommes politiques</name>
                     <desc xml:id="CAT_000206_e24_d1">65 l. s</desc>
                     <note>Mango, Le Tellier, Louvois, Chamillart, Barbezieux, Fleury (le cardinal de), Tencin (le cardinal de), Turgot, Sartine, Vergennes, Lamoignon, Maurepas, Antin (le duc d'), Talleyrand, Casimir Périer, Thiers, etc.</note>
                 </item>
                 <item n="25" xml:id="CAT_000206_e25">
                     <num type="lot">25</num>
-                    <name type="author">Inscriptions et Belles lettres (Académie des).</name>
+                    <name type="author" ref="wd:Q337526">Inscriptions et Belles lettres (Académie des).</name>
                     <desc xml:id="CAT_000206_e25_d1">35 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Boissonade, Rossignol, Hase, Leclerc, Raoul Rochette, Daunou, Sacy, Egger, Gail, etc.</note>
                 </item>
                 <item n="26" xml:id="CAT_000206_e26">
                     <num type="lot">26</num>
-                    <name type="author">Littérateurs</name>
+                    <name type="author" ref="wd:Q28806948">Littérateurs</name>
                     <desc xml:id="CAT_000206_e26_d1">33 lettres</desc>
                     <note>Changeux, Colnet, Raynal (l'abbé). Ximénès, Montolieu, Sismondi, Palissot, Monteil, Néron, Lelewell, Selis, Dupont de Nemours, Lieble, etc.</note>
                 </item>
                 <item n="27" xml:id="CAT_000206_e27">
                     <num type="lot">27</num>
-                    <name type="author">Littérateurs</name>
+                    <name type="author" ref="wd:Q28806948">Littérateurs</name>
                     <desc xml:id="CAT_000206_e27_d1">79 lettres</desc>
                     <note>Bourrienne, Considérant, Pougens, Deschamps (Emile), Latouche, Pontmartin, Letronne, etc.</note>
                 </item>
                 <item n="28" xml:id="CAT_000206_e28">
                     <num type="lot">28</num>
-                    <name type="author">Louis XIII</name>
+                    <name type="author" ref="wd:Q737533">Louis XIII</name>
                     <trait>
                         <p>roi de France.</p>
                     </trait>
@@ -377,32 +380,32 @@
                 </item>
                 <item n="29" xml:id="CAT_000206_e29">
                     <num type="lot">29</num>
-                    <name type="author">Maréchaux</name>
+                    <name type="author" ref="wd:Q65643464">Maréchaux</name>
                     <desc xml:id="CAT_000206_e29_d1">7 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Gérard, Lauriston, Duras, Vaillant, Niel, Saint-Arnaud.</note>
                 </item>
                 <item n="30" xml:id="CAT_000206_e30">
                     <num type="lot">30</num>
-                    <name type="author">Maréchaux de l'Empire.</name>
+                    <name type="author" ref="wd:Q437767">Maréchaux de l'Empire.</name>
                     <desc xml:id="CAT_000206_e30_d1">13 lettres.</desc>
                     <note>Berthier, Augereau, Kellermann, Mortier, Bernadotte, Macdonald, Soult, Davout, etc.</note>
                 </item>
                 <item n="31" xml:id="CAT_000206_e31">
                     <num type="lot">31</num>
-                    <name type="author">Maréchaux</name>
+                    <name type="author" ref="wd:Q65643464">Maréchaux</name>
                     <desc xml:id="CAT_000206_e31_d1">15 l. s</desc>
                     <note>Berwick, Soubise, Estrées, Vivonne, Schonberg (Henri de), Boufflers, Duras, etc.</note>
                 </item>
                 <item n="32" xml:id="CAT_000206_e32">
                     <num type="lot">32</num>
-                    <name type="author">Marins</name>
+                    <name type="author" ref="wd:Q56292522">Marins</name>
                     <desc xml:id="CAT_000206_e32_d1">12 lettres.</desc>
                     <note>Kerguelen, Baudin, Duperré, Desnos, etc.</note>
                 </item>
                 <item n="33" xml:id="CAT_000206_e33">
                     <num type="lot">33</num>
-                    <name type="author">Michelet (Jules)</name>
+                    <name type="author" ref="wd:Q310791">Michelet (Jules)</name>
                     <trait>
                         <p>le célèbre écrivain.</p>
                     </trait>
@@ -412,14 +415,14 @@
                 </item>
                 <item n="34" xml:id="CAT_000206_e34">
                     <num type="lot">34</num>
-                    <name type="author">Municipalité de Paris</name>
+                    <name type="author" ref="wd:Q1142326">Municipalité de Paris</name>
                     <desc xml:id="CAT_000206_e34_d1">
                         <date when="1789">20 pièces de 1789 à 1794</date>
                     </desc>
                 </item>
                 <item n="35" xml:id="CAT_000206_e35">
                     <num type="lot">35</num>
-                    <name type="author">Napoléon Ier</name>
+                    <name type="author" ref="wd:Q42433148">Napoléon Ier</name>
                     <trait>
                         <p>empereur des Français.</p>
                     </trait>
@@ -429,69 +432,69 @@
                 </item>
                 <item n="36" xml:id="CAT_000206_e36">
                     <num type="lot">36</num>
-                    <name type="author">Noblesse</name>
+                    <name type="author" ref="wd:Q493375">Noblesse</name>
                     <desc xml:id="CAT_000206_e36_d1">Dossier de 120 pièces originales du XVII au XIXe siècle</desc>
                 </item>
                 <item n="37" xml:id="CAT_000206_e37">
                     <num type="lot">37</num>
-                    <name type="author">Peintres</name>
+                    <name type="author" ref="wd:Q30025379">Peintres</name>
                     <desc xml:id="CAT_000206_e37_d1">
                         <measure type="length" unit="p" n="16">16 p.</measure> s</desc>
                     <note>Garnier (Antoine), De Marne, Vien, Lagrenée, De Lutel (Jérôme), Anguier (Guillaume), etc.</note>
                 </item>
                 <item n="38" xml:id="CAT_000206_e38">
                     <num type="lot">38</num>
-                    <name type="author">Peintres</name>
+                    <name type="author" ref="wd:Q30025379">Peintres</name>
                     <desc xml:id="CAT_000206_e38_d1">20 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Julien de Parme, Orsel, Gigoux, Marchat, Guérin (Pierre), Boulanger (Louis), Jacques (Charles), Delaroche (Paul), etc.</note>
                 </item>
                 <item n="39" xml:id="CAT_000206_e39">
                     <num type="lot">39</num>
-                    <name type="author">Révolution française</name>
+                    <name type="author" ref="wd:Q6534">Révolution française</name>
                     <desc xml:id="CAT_000206_e39_d1">47 pièces</desc>
                     <note>Dossier intéressant de documents sur la Révolution française.</note>
                 </item>
                 <item n="40" xml:id="CAT_000206_e40">
                     <num type="lot">40</num>
-                    <name type="author">Rochechouart (maison de)</name>
+                    <name type="author" ref="wd:Q383152">Rochechouart (maison de)</name>
                     <desc xml:id="CAT_000206_e40_d1">6 pièces des XVIIe et XVIIIe siècles</desc>
                 </item>
                 <item n="41" xml:id="CAT_000206_e41">
                     <num type="lot">41</num>
-                    <name type="author">Rohan (maison de)</name>
+                    <name type="author" ref="wd:Q220110">Rohan (maison de)</name>
                     <desc xml:id="CAT_000206_e41_d1">9 pièces du XVIIe au XIXe siècle.</desc>
                 </item>
                 <item n="42" xml:id="CAT_000206_e42">
                     <num type="lot">42</num>
-                    <name type="author">Rois de France. </name>
+                    <name type="author" ref="wd:Q111221837">Rois de France. </name>
                     <desc xml:id="CAT_000206_e42_d1">
                         <measure type="length" unit="p" n="8">8 p.</measure> s.</desc>
                     <note>Charles IX, Henri III, Louis XIII, Louis XV, Louis XVIII, 2 pièces, Charles X et Louis-Philippe.</note>
                 </item>
                 <item n="43" xml:id="CAT_000206_e43">
                     <num type="lot">43</num>
-                    <name type="author">Romanciers</name>
+                    <name type="author" ref="wd:Q19230710">Romanciers</name>
                     <desc xml:id="CAT_000206_e43_d1">20 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Roger de Beauvoir, Dumas (Alexandre), Méry, About, Claretie (Jules), Champfleury, Gozlan, etc.</note>
                 </item>
                 <item n="44" xml:id="CAT_000206_e44">
                     <num type="lot">44</num>
-                    <name type="author">Savants</name>
+                    <name type="author" ref="wd:Q104535352">Savants</name>
                     <desc xml:id="CAT_000206_e44_d1">71 lettres.</desc>
                     <note>Humboldt, Pelouze, Régnault, Candolle, Chaptal, Sonnini, Sage, Guyton de Morveau, Brongniard, Fourcroy, Thenard, Becquerel, Bossut, Vauquslin, etc.</note>
                 </item>
                 <item n="45" xml:id="CAT_000206_e45">
                     <num type="lot">45</num>
-                    <name type="author">Sciences morales et politiques (Académie des).</name>
+                    <name type="author" ref="wd:Q337543">Sciences morales et politiques (Académie des).</name>
                     <desc xml:id="CAT_000206_e45_d1">17 <term ana="#document_type_7">l. a. s</term>
                     </desc>
                     <note>Say, Blanqui, Ginguené, Duruy, Chevalier (Michel), Jouffroy, etc.</note>
                 </item>
                 <item n="46" xml:id="CAT_000206_e46">
                     <num type="lot">46</num>
-                    <name type="author">Thiers (Adolphe)</name>
+                    <name type="author" ref="wd:Q5738">Thiers (Adolphe)</name>
                     <trait>
                         <p>premier président de la 3e république française.</p>
                     </trait>
@@ -501,7 +504,7 @@
                 </item>
                 <item n="47" xml:id="CAT_000206_e47">
                     <num type="lot">47</num>
-                    <name type="author">Vernet (Horace)</name>
+                    <name type="author" ref="wd:Q161145">Vernet (Horace)</name>
                     <trait>
                         <p>le célèbre peintre de batailles.</p>
                     </trait>

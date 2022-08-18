@@ -33,24 +33,31 @@ def build_mapper():
 def wd_2_tei(tree: etree._ElementTree, mapper: dict):
     """
     - link a wikidata identifier to a catalogue entry's tei:name
-      in a @key attribute.
-    - append a tei:refsDecl at the beginning of the tei:encodingDesc
-      to describe the role of the @key attribute in the tei:names.
+      in a @ref attribute, prefixed by `wd:`.
+    - append a tei:listPrefixDef at the beginning of the tei:encodingDesc.
+      it describes the role of the @ref attribute in the tei:names
+      and declares how to process the `wd:` prefix.
     :param tree: an lxml tree of the catalogue being processed
     :param mapper: a dict mapping to a tei:name a wikidata ID
     :return: the updated catalogue
     """
     # add the tei:refsDecl to the encodingDesc
     refsdecl = etree.fromstring("""
-        <refsDecl>
-             <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-        </refsDecl>
+        <listPrefixDef>
+            <prefixDef 
+                ident="wd" 
+                matchPattern="(Q[0-9]+)" 
+                replacementPattern="https://www.wikidata.org/wiki/$1">
+                <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+            </prefixDef>
+        </listPrefixDef>
     """)
     tree.xpath(".//tei:encodingDesc//tei:samplingDecl[1]", namespaces=ns)[0].addnext(
         refsdecl
@@ -58,8 +65,8 @@ def wd_2_tei(tree: etree._ElementTree, mapper: dict):
 
     # add the @key attribute to tei:names only if there's an id
     for tei_name in tree.xpath(".//tei:body//tei:name", namespaces=ns):
-        if tei_name in mapper.keys() and mapper[tei_name.text] != "":
-            tei_name.set("key", mapper[tei_name.text])
+        if tei_name.text in mapper.keys() and mapper[tei_name.text] != "":
+            tei_name.set("ref", f"wd:{mapper[tei_name.text]}")
     return tree
 
 

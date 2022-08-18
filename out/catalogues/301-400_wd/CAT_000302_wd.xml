@@ -69,15 +69,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -221,12 +224,12 @@
             <list>
                 <item n="1" xml:id="CAT_000302_e1">
                     <num type="lot">1</num>
-                    <name type="author">ACADÉMIE FRANÇAISE.</name>
+                    <name type="author" ref="wd:Q161806">ACADÉMIE FRANÇAISE.</name>
                     <desc xml:id="CAT_000302_e1_d1">BALLANCHE, PONSARD, LAMARTINE, AUGIER, GUIZOT, DE BROGLIE, SALVANDY, A. DUMAS, GUILLAUME. J.-J AMPÈRE, etc.</desc>
                 </item>
                 <item n="2" xml:id="CAT_000302_e2">
                     <num type="lot">2</num>
-                    <name type="author">AMPÈRE (J.-J.)</name>
+                    <name type="author" ref="wd:Q380824">AMPÈRE (J.-J.)</name>
                     <trait>
                         <p>célèbre écrivain, membre de l'Académie française.</p>
                     </trait>
@@ -235,7 +238,7 @@
                 </item>
                 <item n="3" xml:id="CAT_000302_e3">
                     <num type="lot">3</num>
-                    <name type="author">ARTISTES.</name>
+                    <name type="author" ref="wd:Q111435382">ARTISTES.</name>
                     <desc xml:id="CAT_000302_e3_d1">DETAILLE, BARTHOLDI, A. MILLET, Eug. GUILLAUME, DAVID d'ANGERS, C. DURAN, etc.</desc>
                 </item>
                 <item n="4" xml:id="CAT_000302_e4">
@@ -255,22 +258,22 @@
                 </item>
                 <item n="7" xml:id="CAT_000302_e7">
                     <num type="lot">7</num>
-                    <name type="author">GIRARD (Philippe de)</name>
+                    <name type="author" ref="wd:Q3379916">GIRARD (Philippe de)</name>
                     <desc xml:id="CAT_000302_e7_d1">Nombreuses lettres <term ana="#document_type_15">autographes</term> à sa famille. Important dossier pour l'histoire des travaux de l'illustre inventeur.</desc>
                 </item>
                 <item n="8" xml:id="CAT_000302_e8">
                     <num type="lot">8</num>
-                    <name type="author">GIRARD (Philippe de).</name>
+                    <name type="author" ref="wd:Q94016">GIRARD (Philippe de).</name>
                     <desc xml:id="CAT_000302_e8_d1">Dossier considérable de lettres et de pièces mss, concernant les travaux de Ph. de Girard.</desc>
                 </item>
                 <item n="9" xml:id="CAT_000302_e9">
                     <num type="lot">9</num>
-                    <name type="author">FAMILLE de GIRARD.</name>
+                    <name type="author" ref="wd:Q109024525">FAMILLE de GIRARD.</name>
                     <desc xml:id="CAT_000302_e9_d1">Une liasse très considérable de papiers de famille du XVIe au XIXe siècles.</desc>
                 </item>
                 <item n="10" xml:id="CAT_000302_e10">
                     <num type="lot">10</num>
-                    <name type="author">JASMIN (Jacques)</name>
+                    <name type="author" ref="wd:Q960754">JASMIN (Jacques)</name>
                     <trait>
                         <p>le célèbre poète gascon.</p>
                     </trait>
@@ -278,12 +281,12 @@
                 </item>
                 <item n="11" xml:id="CAT_000302_e11">
                     <num type="lot">11</num>
-                    <name type="author">LITTÉRATEURS.</name>
+                    <name type="author" ref="wd:Q28806948">LITTÉRATEURS.</name>
                     <desc xml:id="CAT_000302_e11_d1">CHAMPFLEURY, SARCEY, TH. BARRIÈRE, A. SÉGALAS, MADAME TASTU, L. COLET, MONSELET, A. DAUDET, etc.</desc>
                 </item>
                 <item n="12" xml:id="CAT_000302_e12">
                     <num type="lot">12</num>
-                    <name type="author">MAC-MAHON (Maréchal de).</name>
+                    <name type="author" ref="wd:Q158838">MAC-MAHON (Maréchal de).</name>
                     <trait>
                         <p>Président de la République française.</p>
                     </trait>
@@ -294,13 +297,13 @@
                 </item>
                 <item n="13" xml:id="CAT_000302_e13">
                     <num type="lot">13</num>
-                    <name type="author">MISTRAL (Frédéric).</name>
+                    <name type="author" ref="wd:Q193742">MISTRAL (Frédéric).</name>
                     <desc xml:id="CAT_000302_e13_d1">7 <term ana="#document_type_7">l. a. s.</term>, en français et en provençal, à Mesdames de Vernède et de Pages, <measure type="length" unit="p" n="15">15 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_8">in-8.</measure> Intéressant dossier.</desc>
                 </item>
                 <item n="14" xml:id="CAT_000302_e14">
                     <num type="lot">14</num>
-                    <name type="author">MURAT (Caroline)</name>
+                    <name type="author" ref="wd:Q2940039">MURAT (Caroline)</name>
                     <trait>
                         <p>reine de Naples, soeur de Napoléon Ier,</p>
                     </trait>
@@ -309,7 +312,7 @@
                 </item>
                 <item n="15" xml:id="CAT_000302_e15">
                     <num type="lot">15</num>
-                    <name type="author">MURAT (Achille)</name>
+                    <name type="author" ref="wd:Q601374">MURAT (Achille)</name>
                     <trait>
                         <p>fils de Murat.</p>
                     </trait>
@@ -318,7 +321,7 @@
                 </item>
                 <item n="16" xml:id="CAT_000302_e16">
                     <num type="lot">16</num>
-                    <name type="author">ROUMANILLE (J.)</name>
+                    <name type="author" ref="wd:Q774507">ROUMANILLE (J.)</name>
                     <trait>
                         <p>célèbre poète provençal.</p>
                     </trait>
@@ -327,7 +330,7 @@
                 </item>
                 <item n="17" xml:id="CAT_000302_e17">
                     <num type="lot">17</num>
-                    <name type="author">SAND (George)</name>
+                    <name type="author" ref="wd:Q106604034">SAND (George)</name>
                     <trait>
                         <p>la grande romancière.</p>
                     </trait>

@@ -71,15 +71,18 @@
                documents for sale. All text preceding or succeeding the list of documents for sale
                is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -249,7 +252,7 @@
             <list>
                 <item n="1" xml:id="CAT_000060_e1">
                     <num type="lot">1</num>
-                    <name type="author">Couture (Thomas)</name>
+                    <name type="author" ref="wd:Q326434">Couture (Thomas)</name>
                     <trait>
                         <p>peintre célèbre, auteur des Romains de la décadence</p>
                     </trait>
@@ -262,7 +265,7 @@
                 </item>
                 <item n="2" xml:id="CAT_000060_e2">
                     <num type="lot">2</num>
-                    <name type="author">Couturier (Jean-Pierre)</name>
+                    <name type="author" ref="wd:Q3169158">Couturier (Jean-Pierre)</name>
                     <trait>
                         <p>homme politique, membre de la Convention, où il défendit Carrier, députe de la
                      Moselle</p>
@@ -282,7 +285,7 @@
                 </item>
                 <item n="3" xml:id="CAT_000060_e3">
                     <num type="lot">3</num>
-                    <name type="author">Debay (J.-B.-J.)</name>
+                    <name type="author" ref="wd:Q3164185">Debay (J.-B.-J.)</name>
                     <trait>
                         <p>célèbre statuaire, né à Nantes</p>
                     </trait>
@@ -297,7 +300,7 @@
                 </item>
                 <item n="4" xml:id="CAT_000060_e4">
                     <num type="lot">4</num>
-                    <name type="author">Eugénie</name>
+                    <name type="author" ref="wd:Q19589874">Eugénie</name>
                     <trait>
                         <p>impératrice des Français</p>
                     </trait>
@@ -308,7 +311,7 @@
                 </item>
                 <item n="5" xml:id="CAT_000060_e5">
                     <num type="lot">5</num>
-                    <name type="author">Florian (J.-P. Claris de)</name>
+                    <name type="author" ref="wd:Q551740">Florian (J.-P. Claris de)</name>
                     <trait>
                         <p>le célèbre fabuliste</p>
                     </trait>
@@ -325,7 +328,7 @@
                 </item>
                 <item n="6" xml:id="CAT_000060_e6">
                     <num type="lot">6</num>
-                    <name type="author">Gaillard (Gabriel-Henri)</name>
+                    <name type="author" ref="wd:Q3093558">Gaillard (Gabriel-Henri)</name>
                     <trait>
                         <p>célèbre publiciste et historien, membre de l'Acad. fr., né en 1726, mort en
                      1806</p>
@@ -337,7 +340,7 @@
                 </item>
                 <item n="7" xml:id="CAT_000060_e7">
                     <num type="lot">7</num>
-                    <name type="author">Garnerin (J.-B.)</name>
+                    <name type="author" ref="wd:Q60836422">Garnerin (J.-B.)</name>
                     <trait>
                         <p>célèbre aéronaute, témoin à charge dans le procès de Marie-Antoinette</p>
                     </trait>
@@ -354,7 +357,7 @@
                 </item>
                 <item n="8" xml:id="CAT_000060_e8">
                     <num type="lot">8</num>
-                    <name type="author">Gladstone (W.-E.)</name>
+                    <name type="author" ref="wd:Q160852">Gladstone (W.-E.)</name>
                     <trait>
                         <p>illustre homme d'Etat anglais</p>
                     </trait>
@@ -385,7 +388,7 @@
                 </item>
                 <item n="10" xml:id="CAT_000060_e10">
                     <num type="lot">10</num>
-                    <name type="author">Heine (Henri)</name>
+                    <name type="author" ref="wd:Q3448290">Heine (Henri)</name>
                     <trait>
                         <p>illustre poète allemand</p>
                     </trait>
@@ -396,7 +399,7 @@
                 </item>
                 <item n="11" xml:id="CAT_000060_e11">
                     <num type="lot">11</num>
-                    <name type="author">Janvier (Antide)</name>
+                    <name type="author" ref="wd:Q575034">Janvier (Antide)</name>
                     <trait>
                         <p>habile mécanicien, horloger du roi, célèbre par ses inventions ingénieuses, né
                      dans le Jura</p>
@@ -411,7 +414,7 @@
                 </item>
                 <item n="12" xml:id="CAT_000060_e12">
                     <num type="lot">12</num>
-                    <name type="author">Jongkind (J.-B.)</name>
+                    <name type="author" ref="wd:Q704585">Jongkind (J.-B.)</name>
                     <trait>
                         <p>célèbre peintre hollandais contemporain, élève de E. Isabey</p>
                     </trait>
@@ -423,7 +426,7 @@
                 </item>
                 <item n="13" xml:id="CAT_000060_e13">
                     <num type="lot">13</num>
-                    <name type="author">Krauss (Gabrielle)</name>
+                    <name type="author" ref="wd:Q5767461">Krauss (Gabrielle)</name>
                     <trait>
                         <p>une des plus célèbres cantatrices de l'Opéra, née à Vienne en 1842</p>
                     </trait>
@@ -434,7 +437,7 @@
                 </item>
                 <item n="14" xml:id="CAT_000060_e14">
                     <num type="lot">14</num>
-                    <name type="author">Lawrence (Thomas)</name>
+                    <name type="author" ref="wd:Q312096">Lawrence (Thomas)</name>
                     <trait>
                         <p>célèbre peintre anglais, à qui l'on doit un grand nombre de portraits
                      historiques</p>
@@ -447,7 +450,7 @@
                 </item>
                 <item n="15" xml:id="CAT_000060_e15">
                     <num type="lot">15</num>
-                    <name type="author">Longfellow (H.-W.)</name>
+                    <name type="author" ref="wd:Q6403615">Longfellow (H.-W.)</name>
                     <trait>
                         <p>poète et romancier américain</p>
                     </trait>
@@ -458,7 +461,7 @@
                 </item>
                 <item n="16" xml:id="CAT_000060_e16">
                     <num type="lot">16</num>
-                    <name type="author">Louis XVIII</name>
+                    <name type="author" ref="wd:Q52206740">Louis XVIII</name>
                     <trait>
                         <p>roi de France</p>
                     </trait>
@@ -473,7 +476,7 @@
                 </item>
                 <item n="17" xml:id="CAT_000060_e17">
                     <num type="lot">17</num>
-                    <name type="author">Maistre (le comte Joseph de)</name>
+                    <name type="author" ref="wd:Q309854">Maistre (le comte Joseph de)</name>
                     <trait>
                         <p>célèbre publiciste ultramontain, auteur du livre du Pape</p>
                     </trait>
@@ -485,7 +488,7 @@
                 </item>
                 <item n="18" xml:id="CAT_000060_e18">
                     <num type="lot">18</num>
-                    <name type="author">Maistre (Xavier de)</name>
+                    <name type="author" ref="wd:Q2737006">Maistre (Xavier de)</name>
                     <trait>
                         <p>un de nos meilleurs écrivains, auteur du Voyage autour de ma Chambre, né à
                      Chambéry</p>
@@ -497,7 +500,7 @@
                 </item>
                 <item n="19" xml:id="CAT_000060_e19">
                     <num type="lot">19</num>
-                    <name type="author">Malherbe (François de)</name>
+                    <name type="author" ref="wd:Q358574">Malherbe (François de)</name>
                     <trait>
                         <p>l'illustre restaurateur de la poésie française</p>
                     </trait>
@@ -509,7 +512,7 @@
                 </item>
                 <item n="20" xml:id="CAT_000060_e20">
                     <num type="lot">20</num>
-                    <name type="author">Manet (Edouard)</name>
+                    <name type="author" ref="wd:Q40599">Manet (Edouard)</name>
                     <trait>
                         <p>peintre et aquafortiste distingué, le chef des Impressionnistes, ne en 1833</p>
                     </trait>
@@ -521,7 +524,7 @@
                 </item>
                 <item n="21" xml:id="CAT_000060_e21">
                     <num type="lot">21</num>
-                    <name type="author">Manteuffel (E.-R.-C., baron de)</name>
+                    <name type="author" ref="wd:Q5532016">Manteuffel (E.-R.-C., baron de)</name>
                     <trait>
                         <p>célèbre général prussien, qui prit une part active à la guerre de 1870,
                      gouverneur de l'Alsace-Lorraine</p>
@@ -534,7 +537,7 @@
                 </item>
                 <item n="22" xml:id="CAT_000060_e22">
                     <num type="lot">22</num>
-                    <name type="author">Millière (J.-B.)</name>
+                    <name type="author" ref="wd:Q3164291">Millière (J.-B.)</name>
                     <trait>
                         <p>célèbre révolutionnaire, fusillé lors de l'entrée des troupes de Versailles à
                      Paris</p>
@@ -547,7 +550,7 @@
                 </item>
                 <item n="23" xml:id="CAT_000060_e23">
                     <num type="lot">23</num>
-                    <name type="author">Montpensier (Louis II de Bourbon, duc de)</name>
+                    <name type="author" ref="wd:Q506466">Montpensier (Louis II de Bourbon, duc de)</name>
                     <trait>
                         <p>gouverneur de Bretagne à l'époque de la Saint-Barthélemy, et général en chef de
                      l'armée du Poitou, connu par ses cruautés</p>
@@ -560,7 +563,7 @@
                 </item>
                 <item n="24" xml:id="CAT_000060_e24">
                     <num type="lot">24</num>
-                    <name type="author">Moore (Thomas)</name>
+                    <name type="author" ref="wd:Q77950159">Moore (Thomas)</name>
                     <trait>
                         <p>illustre poète anglais, ami de lord Byron, dont il publia les Mémoires</p>
                     </trait>
@@ -571,7 +574,7 @@
                 </item>
                 <item n="25" xml:id="CAT_000060_e25">
                     <num type="lot">25</num>
-                    <name type="author">Napoléon III</name>
+                    <name type="author" ref="wd:Q106242431">Napoléon III</name>
                     <trait>
                         <p>empereur des Français</p>
                     </trait>
@@ -582,7 +585,7 @@
                 </item>
                 <item n="26" xml:id="CAT_000060_e26">
                     <num type="lot">26</num>
-                    <name type="author">Nesmond (Henri de)</name>
+                    <name type="author" ref="wd:Q3132347">Nesmond (Henri de)</name>
                     <trait>
                         <p>évêque de Montauban, puis archevêque de Toulouse, prélat célèbre par sa
                      modération envers les protestants, membre de l'Acad. fr.</p>
@@ -596,7 +599,7 @@
                 </item>
                 <item n="27" xml:id="CAT_000060_e27">
                     <num type="lot">27</num>
-                    <name type="author">Patterson (Elisabeth)</name>
+                    <name type="author" ref="wd:Q21996359">Patterson (Elisabeth)</name>
                     <trait>
                         <p>première femme de Jérôme Bonaparte, roi de Westphalie, dont il fut séparé par
                      ordre de Napoléon Ier</p>
@@ -609,7 +612,7 @@
                 </item>
                 <item n="28" xml:id="CAT_000060_e28">
                     <num type="lot">28</num>
-                    <name type="author">Pie IX, pape</name>
+                    <name type="author" ref="wd:Q43720">Pie IX, pape</name>
                     <desc xml:id="CAT_000060_e28_d1">
                         <term ana="#document_type_4">Pièce sig</term>. avec une ligne aut. sur vélin; Rome, <date when="1863-09-09">9 septembre 1863</date>, <measure type="length" unit="p" n="1">1 p.</measure>
                         <measure type="format" unit="f" ana="#document_format_1">in-f.</measure> à mi-marges.</desc>
@@ -617,7 +620,7 @@
                 </item>
                 <item n="30" xml:id="CAT_000060_e30">
                     <num type="lot">30</num>
-                    <name type="author">Préault (Aug.)</name>
+                    <name type="author" ref="wd:Q2074586">Préault (Aug.)</name>
                     <trait>
                         <p>célèbre sculpteur</p>
                     </trait>
@@ -627,7 +630,7 @@
                 </item>
                 <item n="31" xml:id="CAT_000060_e31">
                     <num type="lot">31</num>
-                    <name type="author">Revoil (P.)</name>
+                    <name type="author" ref="wd:Q2340421">Revoil (P.)</name>
                     <trait>
                         <p>célèbre peintre d'histoire et de genre, élève de David, né à Lyon</p>
                     </trait>
@@ -641,7 +644,7 @@
                 </item>
                 <item n="32" xml:id="CAT_000060_e32">
                     <num type="lot">32</num>
-                    <name type="author">Robert Ier (C.-L.-M. de Bourbon)</name>
+                    <name type="author" ref="wd:Q314577">Robert Ier (C.-L.-M. de Bourbon)</name>
                     <trait>
                         <p>infant d'Espagne, successeur de son père Charles III, né en 1848</p>
                     </trait>
@@ -655,7 +658,7 @@
                 </item>
                 <item n="33" xml:id="CAT_000060_e33">
                     <num type="lot">33</num>
-                    <name type="author">Robert (Hubert)</name>
+                    <name type="author" ref="wd:Q548205">Robert (Hubert)</name>
                     <trait>
                         <p>célèbre peintre et graveur, né en 1733, mort en 1808</p>
                     </trait>
@@ -669,7 +672,7 @@
                 </item>
                 <item n="34" xml:id="CAT_000060_e34">
                     <num type="lot">34</num>
-                    <name type="author">Rousseau (J.-J.)</name>
+                    <name type="author" ref="wd:Q6527">Rousseau (J.-J.)</name>
                     <trait>
                         <p>le grand écrivain</p>
                     </trait>
@@ -684,7 +687,7 @@
                 </item>
                 <item n="35" xml:id="CAT_000060_e35">
                     <num type="lot">35</num>
-                    <name type="author">Samson (J.-I)</name>
+                    <name type="author" ref="wd:Q3185612">Samson (J.-I)</name>
                     <trait>
                         <p>célèbre acteur du Théâtre-Français, auteur dramatique, né en 1793, mort en
                      1871</p>
@@ -698,7 +701,7 @@
                 </item>
                 <item n="36" xml:id="CAT_000060_e36">
                     <num type="lot">36</num>
-                    <name type="author">Sauvage (P.-L.-F.)</name>
+                    <name type="author" ref="wd:Q34248526">Sauvage (P.-L.-F.)</name>
                     <trait>
                         <p>mécanicien, le célèbre inventeur de l'hélice, à qui on vient d'élever une
                      statue à Boulogne-sur-Mer, sa ville natale</p>
@@ -709,7 +712,7 @@
                 </item>
                 <item n="37" xml:id="CAT_000060_e37">
                     <num type="lot">37</num>
-                    <name type="author">Saxe (Maurice, comte de)</name>
+                    <name type="author" ref="wd:Q76723">Saxe (Maurice, comte de)</name>
                     <trait>
                         <p>illustre maréchal de France le vainqueur de Fontenoy</p>
                     </trait>
@@ -730,7 +733,7 @@
                 </item>
                 <item n="38" xml:id="CAT_000060_e38">
                     <num type="lot">38</num>
-                    <name type="author">Tennyson (Alfred)</name>
+                    <name type="author" ref="wd:Q173869">Tennyson (Alfred)</name>
                     <trait>
                         <p>célèbre poète contemporain, surnommé « le plus classique des romantiques
                      anglais, » né en 1809</p>
@@ -742,7 +745,7 @@
                 </item>
                 <item n="39" xml:id="CAT_000060_e39">
                     <num type="lot">39</num>
-                    <name type="author">Victor-Emmanuel II</name>
+                    <name type="author" ref="wd:Q19138518">Victor-Emmanuel II</name>
                     <trait>
                         <p>roi d'Italie</p>
                     </trait>

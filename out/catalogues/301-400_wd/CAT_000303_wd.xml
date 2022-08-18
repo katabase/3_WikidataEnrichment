@@ -69,15 +69,18 @@
             <samplingDecl>
                 <p>This electronic version of the catalog only reproduces the entries that correspond to documents for sale. All text preceding or succeeding the list of documents for sale is not reproduced below.</p>
             </samplingDecl>
-            <refsDecl>
-                <p>In the <gi>body</gi>, the <att>key</att> attributes 
-                containted in <gi>name</gi> elements are pointing to to a
-                <ref xml:base="https://www.wikidata.org/wiki/">Wikidata</ref> 
-                identifier. The URL to the Wikidata pages of the manuscript
-                authors can be rebuilt by adding the <att>xml:base</att> 
-                specified above before those identifiers.
-             </p>
-            </refsDecl>
+            <listPrefixDef>
+                <prefixDef ident="wd" matchPattern="(Q[0-9]+)" replacementPattern="https://www.wikidata.org/wiki/$1">
+                    <p>In the <gi>body</gi>, the <att>ref</att> attributes 
+                    containted in <gi>name</gi> elements are pointing to to a
+                    <ref target="https://www.wikidata.org/wiki/">Wikidata</ref> 
+                    identifier by using the <code>wd:</code> prefix. This <gi>prefixDef</gi>
+                    allows to rebuilt the complete URL from a wikidata identifier by 
+                    replacing the <code>wd:</code> prefix with:
+                    <code>https://www.wikidata.org/wiki/</code>.
+                </p>
+                </prefixDef>
+            </listPrefixDef>
             <classDecl>
                 <taxonomy xml:id="format">
                     <desc>Document format</desc>
@@ -226,7 +229,7 @@
                 </item>
                 <item n="2" xml:id="CAT_000303_e2">
                     <num type="lot">2</num>
-                    <name type="author">ACADÉMIE FRANÇAISE.</name>
+                    <name type="author" ref="wd:Q161806">ACADÉMIE FRANÇAISE.</name>
                     <desc xml:id="CAT_000303_e2_d1">PRÉVOST-PARADOL, AUTRAN, DUMAS Fils, CUVILLIER-FLEURY, E. AUGIER. PONSARD, J. JANIN, LEGOUVÉ, etc.</desc>
                 </item>
                 <item n="3" xml:id="CAT_000303_e3">
@@ -238,7 +241,7 @@
                 </item>
                 <item n="4" xml:id="CAT_000303_e4">
                     <num type="lot">4</num>
-                    <name type="author">DUMAS Fils (ALEXANDRE)</name>
+                    <name type="author" ref="wd:Q112110634">DUMAS Fils (ALEXANDRE)</name>
                     <trait>
                         <p>le célèbre auteur dramatique, membre de l'Académie française.</p>
                     </trait>
@@ -250,7 +253,7 @@
                 </item>
                 <item n="5" xml:id="CAT_000303_e5">
                     <num type="lot">5</num>
-                    <name type="author">MEISSONIER (Ernest)</name>
+                    <name type="author" ref="wd:Q111645537">MEISSONIER (Ernest)</name>
                     <trait>
                         <p>le grand peintre.</p>
                     </trait>
