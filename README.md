@@ -247,3 +247,12 @@ python main.py -t
 ## Credits
 
 Scripts developped by Paul Kervegan in spring-summer 2022 and available under GNU-GPL 3.0 license.
+
+---
+
+## License
+
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Licence Creativ>
+The catalogues are licensed under <a rel="license" href="http://creativecommons.org/licenses/>
+and the code is licensed under [GNU GPL-3.0](./LICENSE).
+
